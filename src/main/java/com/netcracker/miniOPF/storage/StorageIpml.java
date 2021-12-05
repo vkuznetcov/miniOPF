@@ -18,62 +18,62 @@ public class StorageIpml implements Storage{
     private Map<Integer, Template> templateMap;
 
     @Override
-    public void addCustomer(int key, Customer customer) {
-         customerMap.put(key,customer);
+    public void addCustomer(int id, Customer customer) {
+         customerMap.put(id,customer);
     }
 
     @Override
-    public void deleteCustomer(int key) {
-        customerMap.remove(key);
+    public void deleteCustomer(int id) {
+        customerMap.remove(id);
     }
 
     @Override
-    public void addOrder(int key, Order order) {
-         orderMap.put(key,order);
+    public void addOrder(int id, Order order) {
+         orderMap.put(id,order);
     }
 
     @Override
-    public void deleteOrder(int key) {
-         orderMap.remove(key);
+    public void deleteOrder(int id) {
+         orderMap.remove(id);
     }
 
     @Override
-    public void addService(int key, Service service) {
-          serviceMap.put(key,service);
+    public void addService(int id, Service service) {
+          serviceMap.put(id,service);
     }
 
     @Override
-    public void deleteService(int key) {
-          serviceMap.remove(key);
+    public void deleteService(int id) {
+          serviceMap.remove(id);
     }
 
     @Override
-    public void addAdmin(int key, Admin admin) {
-            adminMap.put(key,admin);
+    public void addAdmin(int id, Admin admin) {
+            adminMap.put(id,admin);
     }
 
     @Override
-    public void deleteAdmin(int key) {
-           adminMap.remove(key);
+    public void deleteAdmin(int id) {
+           adminMap.remove(id);
     }
 
     @Override
-    public void addArea(int key, Area area) {
-             areaMap.put(key,area);
+    public void addArea(int id, Area area) {
+             areaMap.put(id,area);
     }
 
     @Override
-    public void deleteArea(int key) {
-             areaMap.remove(key);
+    public void deleteArea(int id) {
+             areaMap.remove(id);
     }
 
     @Override
-    public void addTemplate(int key, Template template) {
-             templateMap.put(key,template);
+    public void addTemplate(int id, Template template) {
+             templateMap.put(id,template);
     }
 
     @Override
-    public void deleteTemplate(int key) {
-              templateMap.remove(key);
+    public void deleteTemplate(int id) {
+              templateMap.remove(id);
     }
 }
