@@ -1,12 +1,12 @@
 package com.netcracker.miniOPF.order;
 
 import com.netcracker.miniOPF.admin.Admin;
-import com.netcracker.miniOPF.service.Service;
+import com.netcracker.miniOPF.service.ServiceInt;
 
-public class OrderIpml implements Order{
+public class OrderImpl implements Order{
    private int id;
    private Admin admin;
-   private Service service;
+   private ServiceInt serviceInt;
    private OrderStatus status;
    private OrderAction action;
 
@@ -23,10 +23,10 @@ public class OrderIpml implements Order{
     public void setAdmin(Admin admin) {this.admin = admin;}
 
     @Override
-    public Service getService() {return service;}
+    public ServiceInt getService() {return serviceInt;}
 
     @Override
-    public void setService(Service service) {this.service = service;}
+    public void setService(ServiceInt serviceInt) {this.serviceInt = serviceInt;}
 
     @Override
     public OrderAction getAction() {return action;}

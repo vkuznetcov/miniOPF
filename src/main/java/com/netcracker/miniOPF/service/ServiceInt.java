@@ -3,7 +3,7 @@ package com.netcracker.miniOPF.service;
 import com.netcracker.miniOPF.customer.Customer;
 import com.netcracker.miniOPF.template.Template;
 
-public interface Service {
+public interface ServiceInt {
      int getID();
      void setID(int id);
 

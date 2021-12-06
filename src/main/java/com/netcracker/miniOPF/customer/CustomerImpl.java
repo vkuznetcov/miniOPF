@@ -1,15 +1,15 @@
 package com.netcracker.miniOPF.customer;
 
 
-import com.netcracker.miniOPF.service.Service;
+import com.netcracker.miniOPF.service.ServiceInt;
 
 import java.util.List;
 
-public class CustomerIpml implements Customer{
+public class CustomerImpl implements Customer{
     private String login;
     private String password;
     private double balance;
-    private List<Service> services;
+    private List<ServiceInt> serviceInts;
     private String name;
     private int id;
 
@@ -44,8 +44,10 @@ public class CustomerIpml implements Customer{
     public void setName(String name) {this.name = name;}
 
     @Override
-    public void addService(Service service) {services.add(service);}
+    public void addService(ServiceInt serviceInt) {
+        serviceInts.add(serviceInt);}
 
     @Override
-    public void removeService(String name) {services.remove(name);}
+    public void removeService(String name) {
+        serviceInts.remove(name);}
 }
