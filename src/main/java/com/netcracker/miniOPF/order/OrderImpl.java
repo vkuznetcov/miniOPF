@@ -32,15 +32,15 @@ public class OrderImpl implements Order{
     public OrderAction getAction() {return action;}
 
     @Override
-    public void setAction(int key) {
-        OrderAction[] action = OrderAction.values();
-        this.action = action[key];}
+    public void setAction(OrderAction action) {
+        this.action = action;
+    }
 
     @Override
     public OrderStatus getStatus() {return status;}
 
     @Override
-    public void setStatus(int key) {
-        OrderStatus[] statuses = OrderStatus.values();
-        this.status = statuses[key];}
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
 }

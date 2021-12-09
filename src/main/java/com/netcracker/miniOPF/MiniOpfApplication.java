@@ -19,7 +19,7 @@ public class MiniOpfApplication {
 
         Service service = new ServiceImpl();
 
-        service.setStatus(2);
+//        service.setStatus(2);
 
 		SpringApplication.run(MiniOpfApplication.class, args);
 	}

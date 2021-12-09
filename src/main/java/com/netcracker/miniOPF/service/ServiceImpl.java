@@ -52,7 +52,7 @@ public class ServiceImpl implements Service {
     public ServiceStatus getStatus() {return status;}
 
     @Override
-    public void setStatus(int key) {
-        ServiceStatus[] statuses = ServiceStatus.values();
-        this.status = statuses[key];}
+    public void setStatus(ServiceStatus status) {
+        this.status = status;
+    }
 }

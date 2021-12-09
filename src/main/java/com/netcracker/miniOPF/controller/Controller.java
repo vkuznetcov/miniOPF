@@ -1,7 +1,9 @@
 package com.netcracker.miniOPF.controller;
 
+import com.netcracker.miniOPF.order.OrderAction;
 import com.netcracker.miniOPF.service.Service;
 import com.netcracker.miniOPF.service.ServiceImpl;
+import com.netcracker.miniOPF.service.ServiceStatus;
 import com.netcracker.miniOPF.storage.Storage;
 
 @org.springframework.stereotype.Service
@@ -13,23 +15,23 @@ public class Controller{
     }
 
     public void suspendService(int id){
-        storage.getService(id).setStatus(2);
+        storage.getService(id).setStatus(ServiceStatus.suspended);
     }
 
     public void suspendOrder(int id){
-        storage.getOrder(id).setAction(3);
+        storage.getOrder(id).setAction(OrderAction.suspend);
     }
 
     public void resumeService(int id){
-        storage.getService(id).setStatus(1);
+        storage.getService(id).setStatus(ServiceStatus.active);
     }
 
     public void resumeOrder(int id){
-        storage.getOrder(id).setAction(2);
+        storage.getOrder(id).setAction(OrderAction.resume);
     }
 
     public void disconnectService(int id){
-        storage.getService(id).setStatus(3);
+        storage.getService(id).setStatus(ServiceStatus.disconnected);
         storage.deleteService(id);
     }
 

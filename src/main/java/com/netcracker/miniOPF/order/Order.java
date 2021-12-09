@@ -14,8 +14,8 @@ public interface Order {
  void  setService(Service service);
 
  OrderAction getAction();
- void  setAction(int key);
+ void  setAction(OrderAction action);
 
  OrderStatus getStatus();
- void setStatus(int key);
+ void setStatus(OrderStatus status);
 }

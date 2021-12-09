@@ -23,5 +23,5 @@ public interface Service {
      void setCustomer(Customer customer);
 
      ServiceStatus getStatus();
-     void setStatus(int key);
+     void setStatus(ServiceStatus status);
 }
