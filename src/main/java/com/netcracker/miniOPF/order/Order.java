@@ -1,7 +1,7 @@
 package com.netcracker.miniOPF.order;
 
 import com.netcracker.miniOPF.admin.Admin;
-import com.netcracker.miniOPF.service.ServiceInt;
+import com.netcracker.miniOPF.service.Service;
 
 public interface Order {
  int getID();
@@ -10,8 +10,8 @@ public interface Order {
  Admin getAdmin();
  void setAdmin(Admin admin);
 
- ServiceInt getService();
- void  setService(ServiceInt serviceInt);
+ Service getService();
+ void  setService(Service service);
 
  OrderAction getAction();
  void  setAction(int key);

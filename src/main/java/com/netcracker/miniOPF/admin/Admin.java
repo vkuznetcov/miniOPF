@@ -1,7 +1,7 @@
 package com.netcracker.miniOPF.admin;
 
 public interface Admin {
-    String getLogin();
+   String getLogin();
     void setLogin(String login);
 
     String getPassword();

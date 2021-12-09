@@ -1,6 +1,6 @@
 package com.netcracker.miniOPF.customer;
 
-import com.netcracker.miniOPF.service.ServiceInt;
+import com.netcracker.miniOPF.service.Service;
 
 public interface Customer {
     String getLogin();
@@ -18,6 +18,6 @@ public interface Customer {
     String getName();
     void setName(String name);
 
-    void addService(ServiceInt serviceInt);
+    void addService(Service service);
     void removeService(String name);
 }

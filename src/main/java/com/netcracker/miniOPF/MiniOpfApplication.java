@@ -1,6 +1,6 @@
 package com.netcracker.miniOPF;
 
-import com.netcracker.miniOPF.service.ServiceInt;
+import com.netcracker.miniOPF.service.Service;
 import com.netcracker.miniOPF.service.ServiceImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,9 +17,9 @@ public class MiniOpfApplication {
 //
 //        context.close();
 
-        ServiceInt serviceInt = new ServiceImpl();
+        Service service = new ServiceImpl();
 
-        serviceInt.setStatus(2);
+        service.setStatus(2);
 
 		SpringApplication.run(MiniOpfApplication.class, args);
 	}

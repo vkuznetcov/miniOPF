@@ -1,11 +1,10 @@
 package com.netcracker.miniOPF.controller;
 
+import com.netcracker.miniOPF.service.Service;
 import com.netcracker.miniOPF.service.ServiceImpl;
-import com.netcracker.miniOPF.service.ServiceInt;
 import com.netcracker.miniOPF.storage.Storage;
-import org.springframework.stereotype.Service;
 
-@Service
+@org.springframework.stereotype.Service
 public class Controller{
     Storage storage;
 
@@ -35,9 +34,7 @@ public class Controller{
     }
 
     public void connectService(int templateID, int customerID){
-        ServiceInt service = new ServiceImpl();
-        service.setCustomer(storage.getCustomer(customerID));
-        service.setTemplate(storage.getTemplate(templateID));
-        storage.addService(1, service);
+
+        storage.addService(storage.createService(templateID, customerID));
     }
 }

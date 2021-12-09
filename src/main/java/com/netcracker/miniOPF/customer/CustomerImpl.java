@@ -1,7 +1,7 @@
 package com.netcracker.miniOPF.customer;
 
 
-import com.netcracker.miniOPF.service.ServiceInt;
+import com.netcracker.miniOPF.service.Service;
 
 import java.util.List;
 
@@ -9,9 +9,13 @@ public class CustomerImpl implements Customer{
     private String login;
     private String password;
     private double balance;
-    private List<ServiceInt> serviceInts;
+    private List<Service> services;
     private String name;
     private int id;
+
+    public CustomerImpl(List<Service> services) {
+        this.services = services;
+    }
 
     @Override
     public String getLogin() {return login;}
@@ -44,10 +48,10 @@ public class CustomerImpl implements Customer{
     public void setName(String name) {this.name = name;}
 
     @Override
-    public void addService(ServiceInt serviceInt) {
-        serviceInts.add(serviceInt);}
+    public void addService(Service service) {
+        services.add(service);}
 
     @Override
     public void removeService(String name) {
-        serviceInts.remove(name);}
+        services.remove(name);}
 }

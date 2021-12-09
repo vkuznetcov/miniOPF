@@ -4,7 +4,8 @@ import com.netcracker.miniOPF.admin.Admin;
 import com.netcracker.miniOPF.area.Area;
 import com.netcracker.miniOPF.customer.Customer;
 import com.netcracker.miniOPF.order.Order;
-import com.netcracker.miniOPF.service.ServiceInt;
+import com.netcracker.miniOPF.service.Service;
+import com.netcracker.miniOPF.service.ServiceImpl;
 import com.netcracker.miniOPF.template.Template;
 
 import java.util.HashMap;
@@ -13,10 +14,11 @@ import java.util.Map;
 public class StorageImpl implements Storage{
     private Map<Integer, Customer> customerMap;
     private Map<Integer, Order> orderMap;
-    private Map<Integer, ServiceInt> serviceMap;
+    private Map<Integer, Service> serviceMap;
     private Map<Integer, Admin> adminMap;
     private Map<Integer, Area> areaMap;
     private Map<Integer, Template> templateMap;
+    private int id;
 
     public StorageImpl(){
         customerMap = new HashMap<>();
@@ -28,8 +30,9 @@ public class StorageImpl implements Storage{
     }
 
     @Override
-    public void addCustomer(int id, Customer customer) {
-         customerMap.put(id,customer);
+    public void addCustomer(Customer customer) {
+        customer.setID(id++);
+        customerMap.put(customer.getID(),customer);
     }
 
     @Override
@@ -39,12 +42,14 @@ public class StorageImpl implements Storage{
 
     @Override
     public void deleteCustomer(int id) {
+        this.id--;
         customerMap.remove(id);
     }
 
     @Override
-    public void addOrder(int id, Order order) {
-         orderMap.put(id,order);
+    public void addOrder(Order order) {
+        order.setID(id++);
+         orderMap.put(order.getID(),order);
     }
 
     @Override
@@ -54,27 +59,31 @@ public class StorageImpl implements Storage{
 
     @Override
     public void deleteOrder(int id) {
+        this.id--;
          orderMap.remove(id);
     }
 
     @Override
-    public void addService(int id, ServiceInt serviceInt) {
-        serviceMap.put(id, serviceInt);
+    public void addService(Service service) {
+        service.setID(id++);
+        serviceMap.put(service.getID(), service);
     }
 
     @Override
-    public ServiceInt getService(int id) {
+    public Service getService(int id) {
         return serviceMap.get(id);
     }
 
     @Override
     public void deleteService(int id) {
-          serviceMap.remove(id);
+        this.id--;
+        serviceMap.remove(id);
     }
 
     @Override
-    public void addAdmin(int id, Admin admin) {
-            adminMap.put(id,admin);
+    public void addAdmin(Admin admin) {
+        admin.setID(id++);
+        adminMap.put(admin.getID(),admin);
     }
 
     @Override
@@ -84,12 +93,14 @@ public class StorageImpl implements Storage{
 
     @Override
     public void deleteAdmin(int id) {
-           adminMap.remove(id);
+        this.id--;
+        adminMap.remove(id);
     }
 
     @Override
-    public void addArea(int id, Area area) {
-             areaMap.put(id,area);
+    public void addArea(Area area) {
+        area.setID(id++);
+        areaMap.put(area.getID(),area);
     }
 
     @Override
@@ -99,12 +110,14 @@ public class StorageImpl implements Storage{
 
     @Override
     public void deleteArea(int id) {
-             areaMap.remove(id);
+        this.id--;
+        areaMap.remove(id);
     }
 
     @Override
-    public void addTemplate(int id, Template template) {
-             templateMap.put(id,template);
+    public void addTemplate(Template template) {
+        template.setID(id++);
+        templateMap.put(template.getID(),template);
     }
 
     @Override
@@ -114,6 +127,14 @@ public class StorageImpl implements Storage{
 
     @Override
     public void deleteTemplate(int id) {
+        this.id--;
         templateMap.remove(id);
+    }
+
+    public Service createService(int templateID, int customerID){
+        Service newService = new ServiceImpl();
+        newService.setCustomer(customerMap.get(customerID));
+        newService.setTemplate(templateMap.get(templateID));
+        return newService;
     }
 }
