@@ -1,8 +1,6 @@
 package com.netcracker.miniOPF.controller;
 
 import com.netcracker.miniOPF.order.OrderAction;
-import com.netcracker.miniOPF.service.Service;
-import com.netcracker.miniOPF.service.ServiceImpl;
 import com.netcracker.miniOPF.service.ServiceStatus;
 import com.netcracker.miniOPF.storage.Storage;
 
@@ -15,28 +13,28 @@ public class Controller{
     }
 
     public void suspendService(int id){
-        storage.getService(id).setStatus(ServiceStatus.suspended);
+        storage.getService(id).setStatus(ServiceStatus.SUSPENDED);
     }
 
     public void suspendOrder(int id){
-        storage.getOrder(id).setAction(OrderAction.suspend);
+        storage.getOrder(id).setAction(OrderAction.SUSPEND);
     }
 
     public void resumeService(int id){
-        storage.getService(id).setStatus(ServiceStatus.active);
+        storage.getService(id).setStatus(ServiceStatus.ACTIVE);
     }
 
     public void resumeOrder(int id){
-        storage.getOrder(id).setAction(OrderAction.resume);
+        storage.getOrder(id).setAction(OrderAction.RESUME);
     }
 
     public void disconnectService(int id){
-        storage.getService(id).setStatus(ServiceStatus.disconnected);
+        storage.getService(id).setStatus(ServiceStatus.DISCONNECCTED);
         storage.deleteService(id);
     }
 
     public void connectService(int templateID, int customerID){
 
-        storage.addService(storage.createService(templateID, customerID));
+        storage.createService(storage.createService(templateID, customerID));
     }
 }

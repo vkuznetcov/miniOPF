@@ -19,5 +19,5 @@ public interface Customer {
     void setName(String name);
 
     void addService(Service service);
-    void removeService(String name);
+    void removeService(int id);
 }

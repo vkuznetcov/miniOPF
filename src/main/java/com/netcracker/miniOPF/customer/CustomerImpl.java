@@ -52,6 +52,6 @@ public class CustomerImpl implements Customer{
         services.add(service);}
 
     @Override
-    public void removeService(String name) {
-        services.remove(name);}
+    public void removeService(int index) {
+        services.remove(index);}
 }

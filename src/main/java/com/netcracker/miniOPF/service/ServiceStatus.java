@@ -1,8 +1,8 @@
 package com.netcracker.miniOPF.service;
 
 public enum ServiceStatus {
-    entering,
-    active,
-    suspended,
-    disconnected
+    ENTERING,
+    ACTIVE,
+    SUSPENDED,
+    DISCONNECCTED
 }

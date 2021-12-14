@@ -28,10 +28,10 @@ public class StorageImpl implements Storage{
         areaMap = new HashMap<>();
         templateMap = new HashMap<>();
     }
-
+    private int getNextKey(){ return id++;}
     @Override
-    public void addCustomer(Customer customer) {
-        customer.setID(id++);
+    public void createCustomer(Customer customer) {
+        customer.setID(getNextKey());
         customerMap.put(customer.getID(),customer);
     }
 
@@ -42,13 +42,12 @@ public class StorageImpl implements Storage{
 
     @Override
     public void deleteCustomer(int id) {
-        this.id--;
         customerMap.remove(id);
     }
 
     @Override
-    public void addOrder(Order order) {
-        order.setID(id++);
+    public void createOrder(Order order) {
+        order.setID(getNextKey());
          orderMap.put(order.getID(),order);
     }
 
@@ -59,13 +58,12 @@ public class StorageImpl implements Storage{
 
     @Override
     public void deleteOrder(int id) {
-        this.id--;
-         orderMap.remove(id);
+        orderMap.remove(id);
     }
 
     @Override
-    public void addService(Service service) {
-        service.setID(id++);
+    public void createService(Service service) {
+        service.setID(getNextKey());
         serviceMap.put(service.getID(), service);
     }
 
@@ -76,13 +74,12 @@ public class StorageImpl implements Storage{
 
     @Override
     public void deleteService(int id) {
-        this.id--;
         serviceMap.remove(id);
     }
 
     @Override
-    public void addAdmin(Admin admin) {
-        admin.setID(id++);
+    public void createAdmin(Admin admin) {
+        admin.setID(getNextKey());
         adminMap.put(admin.getID(),admin);
     }
 
@@ -93,13 +90,12 @@ public class StorageImpl implements Storage{
 
     @Override
     public void deleteAdmin(int id) {
-        this.id--;
         adminMap.remove(id);
     }
 
     @Override
-    public void addArea(Area area) {
-        area.setID(id++);
+    public void createArea(Area area) {
+        area.setID(getNextKey());
         areaMap.put(area.getID(),area);
     }
 
@@ -110,13 +106,12 @@ public class StorageImpl implements Storage{
 
     @Override
     public void deleteArea(int id) {
-        this.id--;
         areaMap.remove(id);
     }
 
     @Override
-    public void addTemplate(Template template) {
-        template.setID(id++);
+    public void createTemplate(Template template) {
+        template.setID(getNextKey());
         templateMap.put(template.getID(),template);
     }
 
@@ -127,7 +122,6 @@ public class StorageImpl implements Storage{
 
     @Override
     public void deleteTemplate(int id) {
-        this.id--;
         templateMap.remove(id);
     }
 
