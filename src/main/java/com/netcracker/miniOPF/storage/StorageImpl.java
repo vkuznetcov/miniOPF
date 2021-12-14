@@ -39,10 +39,11 @@ public class StorageImpl implements Storage{
         idAreaMap = 0;
         idTemplateMap = 0;
     }
-    private int getNextKey(int id){ return id++;}
+    private int getNextKey(int id){ return id+1;}
     @Override
     public void createCustomer(Customer customer) {
-        customer.setID(getNextKey(idCustomerMap));
+        idCustomerMap = getNextKey(idCustomerMap);
+        customer.setID(idCustomerMap);
         customerMap.put(customer.getID(),customer);
     }
 
@@ -58,7 +59,8 @@ public class StorageImpl implements Storage{
 
     @Override
     public void createOrder(Order order) {
-        order.setID(getNextKey(idOrderMap));
+        idOrderMap = getNextKey(idOrderMap);
+        order.setID(idOrderMap);
         orderMap.put(order.getID(),order);
     }
 
@@ -74,7 +76,8 @@ public class StorageImpl implements Storage{
 
     @Override
     public void createService(Service service) {
-        service.setID(getNextKey(idOrderMap));
+        idServiceMap = getNextKey(idServiceMap);
+        service.setID(idServiceMap);
         serviceMap.put(service.getID(), service);
     }
 
@@ -90,7 +93,8 @@ public class StorageImpl implements Storage{
 
     @Override
     public void createAdmin(Admin admin) {
-        admin.setID(getNextKey(idAdminMap));
+        idAdminMap = getNextKey(idAdminMap);
+        admin.setID(idAdminMap);
         adminMap.put(admin.getID(),admin);
     }
 
@@ -106,7 +110,8 @@ public class StorageImpl implements Storage{
 
     @Override
     public void createArea(Area area) {
-        area.setID(getNextKey(idAreaMap));
+        idAreaMap = getNextKey(idAreaMap);
+        area.setID(idAreaMap);
         areaMap.put(area.getID(),area);
     }
 
@@ -122,7 +127,8 @@ public class StorageImpl implements Storage{
 
     @Override
     public void createTemplate(Template template) {
-        template.setID(getNextKey(idTemplateMap));
+        idTemplateMap = getNextKey(idTemplateMap);
+        template.setID(idTemplateMap);
         templateMap.put(template.getID(),template);
     }
 
