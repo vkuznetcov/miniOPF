@@ -18,7 +18,12 @@ public class StorageImpl implements Storage{
     private Map<Integer, Admin> adminMap;
     private Map<Integer, Area> areaMap;
     private Map<Integer, Template> templateMap;
-    private int id;
+    private int idCustomerMap;
+    private int idOrderMap;
+    private int idServiceMap;
+    private int idAdminMap;
+    private int idAreaMap;
+    private int idTemplateMap;
 
     public StorageImpl(){
         customerMap = new HashMap<>();
@@ -27,11 +32,17 @@ public class StorageImpl implements Storage{
         adminMap = new HashMap<>();
         areaMap = new HashMap<>();
         templateMap = new HashMap<>();
+        idCustomerMap = 0;
+        idOrderMap = 0;
+        idServiceMap = 0;
+        idAdminMap = 0;
+        idAreaMap = 0;
+        idTemplateMap = 0;
     }
-    private int getNextKey(){ return id++;}
+    private int getNextKey(int id){ return id++;}
     @Override
     public void createCustomer(Customer customer) {
-        customer.setID(getNextKey());
+        customer.setID(getNextKey(idCustomerMap));
         customerMap.put(customer.getID(),customer);
     }
 
@@ -47,8 +58,8 @@ public class StorageImpl implements Storage{
 
     @Override
     public void createOrder(Order order) {
-        order.setID(getNextKey());
-         orderMap.put(order.getID(),order);
+        order.setID(getNextKey(idOrderMap));
+        orderMap.put(order.getID(),order);
     }
 
     @Override
@@ -63,7 +74,7 @@ public class StorageImpl implements Storage{
 
     @Override
     public void createService(Service service) {
-        service.setID(getNextKey());
+        service.setID(getNextKey(idOrderMap));
         serviceMap.put(service.getID(), service);
     }
 
@@ -79,7 +90,7 @@ public class StorageImpl implements Storage{
 
     @Override
     public void createAdmin(Admin admin) {
-        admin.setID(getNextKey());
+        admin.setID(getNextKey(idAdminMap));
         adminMap.put(admin.getID(),admin);
     }
 
@@ -95,7 +106,7 @@ public class StorageImpl implements Storage{
 
     @Override
     public void createArea(Area area) {
-        area.setID(getNextKey());
+        area.setID(getNextKey(idAreaMap));
         areaMap.put(area.getID(),area);
     }
 
@@ -111,7 +122,7 @@ public class StorageImpl implements Storage{
 
     @Override
     public void createTemplate(Template template) {
-        template.setID(getNextKey());
+        template.setID(getNextKey(idTemplateMap));
         templateMap.put(template.getID(),template);
     }
 
