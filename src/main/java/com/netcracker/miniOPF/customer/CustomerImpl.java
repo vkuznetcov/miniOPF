@@ -52,6 +52,12 @@ public class CustomerImpl implements Customer{
         services.add(service);}
 
     @Override
-    public void removeService(int index) {
-        services.remove(index);}
+    public void removeService(int id) {
+        int len=services.size();
+        for(int index=0; index<len; index++) {
+            if (services.get(index).getID() == id) {
+                services.remove(index);
+            }
+        }
+    }
 }
