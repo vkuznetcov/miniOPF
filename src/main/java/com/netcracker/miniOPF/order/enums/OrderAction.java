@@ -1,4 +1,4 @@
-package com.netcracker.miniOPF.order;
+package com.netcracker.miniOPF.order.enums;
 
 public enum OrderAction {
     CONNECT,

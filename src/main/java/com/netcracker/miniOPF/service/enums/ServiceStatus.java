@@ -1,4 +1,4 @@
-package com.netcracker.miniOPF.service;
+package com.netcracker.miniOPF.service.enums;
 
 public enum ServiceStatus {
     ENTERING,

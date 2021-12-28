@@ -1,4 +1,6 @@
-package com.netcracker.miniOPF.area;
+package com.netcracker.miniOPF.area.impl;
+
+import com.netcracker.miniOPF.area.Area;
 
 public class AreaImpl implements Area {
     int id;

@@ -1,27 +1,35 @@
 package com.netcracker.miniOPF.service;
 
 import com.netcracker.miniOPF.customer.Customer;
+import com.netcracker.miniOPF.service.enums.ServiceStatus;
 import com.netcracker.miniOPF.template.Template;
 
 public interface Service {
-     int getID();
-     void setID(int id);
+    int getID();
 
-     String getName();
-     void setName(String name);
+    void setID(int id);
 
-     String getDiscription();
-     void setDiscription(String discription);
+    String getName();
 
-     double getPrice();
-     void setPrice(double price);
+    void setName(String name);
 
-     Template getTemplate();
-     void setTemplate(Template template);
+    String getDescription();
 
-     Customer getCustomer();
-     void setCustomer(Customer customer);
+    void setDescription(String description);
 
-     ServiceStatus getStatus();
-     void setStatus(ServiceStatus status);
+    double getPrice();
+
+    void setPrice(double price);
+
+    Template getTemplate();
+
+    void setTemplate(Template template);
+
+    Customer getCustomer();
+
+    void setCustomer(Customer customer);
+
+    ServiceStatus getStatus();
+
+    void setStatus(ServiceStatus status);
 }

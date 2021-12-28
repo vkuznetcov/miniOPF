@@ -9,28 +9,40 @@ import com.netcracker.miniOPF.template.Template;
 
 public interface Storage {
     void createCustomer(Customer customer);
+
     Customer getCustomer(int id);
+
     //void updateCustomer(int id, Customer customer);
     void deleteCustomer(int id);
 
     void createOrder(Order order);
+
     Order getOrder(int id);
+
     void deleteOrder(int id);
 
     void createService(Service service);
+
     Service getService(int id);
-    void  deleteService(int id);
+
+    void deleteService(int id);
 
     void createAdmin(Admin admin);
+
     Admin getAdmin(int id);
+
     void deleteAdmin(int id);
 
     void createArea(Area area);
+
     Area getArea(int id);
+
     void deleteArea(int id);
 
     void createTemplate(Template template);
+
     Template getTemplate(int id);
+
     void deleteTemplate(int id);
 
     Service createService(int templateID, int customerID);

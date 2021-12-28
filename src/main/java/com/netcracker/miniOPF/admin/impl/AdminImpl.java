@@ -1,11 +1,18 @@
-package com.netcracker.miniOPF.admin;
+package com.netcracker.miniOPF.admin.impl;
 
-public class AdminImpl implements Admin{
-    private String login;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.netcracker.miniOPF.admin.Admin;
+
+public class AdminImpl implements Admin {
+    @JsonProperty("password")
     public String password;
-    private int id;
+    @JsonProperty("name")
     public String name;
-
+    @JsonProperty("login")
+    private String login;
+    @JsonProperty("id")
+    private int id;
 
     @Override
     public String getLogin() {
@@ -45,5 +52,10 @@ public class AdminImpl implements Admin{
     @Override
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public int compareTo(Admin o) {
+        return this.getLogin().compareTo(o.getLogin());
     }
 }

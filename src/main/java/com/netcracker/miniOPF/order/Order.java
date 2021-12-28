@@ -1,21 +1,28 @@
 package com.netcracker.miniOPF.order;
 
 import com.netcracker.miniOPF.admin.Admin;
+import com.netcracker.miniOPF.order.enums.OrderAction;
+import com.netcracker.miniOPF.order.enums.OrderStatus;
 import com.netcracker.miniOPF.service.Service;
 
 public interface Order {
- int getID();
- void setID(int id);
+    int getID();
 
- Admin getAdmin();
- void setAdmin(Admin admin);
+    void setID(int id);
 
- Service getService();
- void  setService(Service service);
+    Admin getAdmin();
 
- OrderAction getAction();
- void  setAction(OrderAction action);
+    void setAdmin(Admin admin);
 
- OrderStatus getStatus();
- void setStatus(OrderStatus status);
+    Service getService();
+
+    void setService(Service service);
+
+    OrderAction getAction();
+
+    void setAction(OrderAction action);
+
+    OrderStatus getStatus();
+
+    void setStatus(OrderStatus status);
 }

@@ -1,8 +1,9 @@
-package com.netcracker.miniOPF.template;
+package com.netcracker.miniOPF.template.impl;
 
 import com.netcracker.miniOPF.area.Area;
+import com.netcracker.miniOPF.template.Template;
 
-public class TemplateImpl implements Template{
+public class TemplateImpl implements Template {
     private int id;
     private String name;
     private String description;
