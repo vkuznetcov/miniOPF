@@ -1,19 +1,18 @@
 package com.netcracker.miniOPF;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.netcracker.miniOPF.admin.Admin;
 import com.netcracker.miniOPF.admin.impl.AdminImpl;
 import com.netcracker.miniOPF.area.Area;
 import com.netcracker.miniOPF.area.impl.AreaImpl;
 import com.netcracker.miniOPF.controller.Controller;
+import com.netcracker.miniOPF.jsonHanlder.JsonHandler;
 import com.netcracker.miniOPF.storage.Storage;
 import com.netcracker.miniOPF.storage.impl.StorageImpl;
 import com.netcracker.miniOPF.template.Template;
 import com.netcracker.miniOPF.template.impl.TemplateImpl;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.io.IOException;
 import java.util.List;
 
 @SpringBootApplication
@@ -32,7 +31,7 @@ public class MiniOpfApplication {
 		this.storage = storage;
 	}
 
-	public static void main(String[] args) throws JsonProcessingException {
+	public static void main(String[] args) throws IOException {
 
 //        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
 //                "applicationContext.xml");
@@ -80,6 +79,20 @@ public class MiniOpfApplication {
 		admin3.setName("Michael");
 		admin3.setLogin("admin3");
 		admin3.setPassword("bbbbbbbbbbbbb");
+
+		try {
+			JsonHandler.serializeJson(admin2);
+			JsonHandler.serializeJson(admin3);
+
+			List<Admin> admin = JsonHandler.deserializeAdmin();
+			for(Admin cur: admin){
+				System.out.println(cur.getLogin() + cur.getName() + "\n");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+
 
 		storage.createAdmin(admin1);
 		storage.createAdmin(admin3);
