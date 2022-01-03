@@ -3,7 +3,8 @@ package com.netcracker.miniOPF.template.impl;
 import com.netcracker.miniOPF.area.Area;
 import com.netcracker.miniOPF.template.Template;
 
-public class TemplateImpl implements Template {
+public class TemplateImpl implements Template
+{
     private int id;
     private String name;
     private String description;
@@ -12,52 +13,62 @@ public class TemplateImpl implements Template {
 
 
     @Override
-    public int getID() {
+    public int getID()
+    {
         return id;
     }
 
     @Override
-    public void setID(int id) {
+    public void setID(int id)
+    {
         this.id = id;
     }
 
     @Override
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
     @Override
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
     }
 
     @Override
-    public String getDescription() {
+    public String getDescription()
+    {
         return description;
     }
 
     @Override
-    public void setDescription(String description) {
+    public void setDescription(String description)
+    {
         this.description = description;
     }
 
     @Override
-    public double getPrice() {
+    public double getPrice()
+    {
         return price;
     }
 
     @Override
-    public void setPrice(double price) {
+    public void setPrice(double price)
+    {
         this.price = price;
     }
 
     @Override
-    public Area getArea() {
+    public Area getArea()
+    {
         return area;
     }
 
     @Override
-    public void setArea(Area area) {
+    public void setArea(Area area)
+    {
         this.area = area;
     }
 }

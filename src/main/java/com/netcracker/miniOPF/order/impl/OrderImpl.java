@@ -1,15 +1,13 @@
 package com.netcracker.miniOPF.order.impl;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.netcracker.miniOPF.admin.Admin;
-import com.netcracker.miniOPF.admin.impl.AdminImpl;
 import com.netcracker.miniOPF.order.Order;
 import com.netcracker.miniOPF.order.enums.OrderAction;
 import com.netcracker.miniOPF.order.enums.OrderStatus;
 import com.netcracker.miniOPF.service.Service;
 
-public class OrderImpl implements Order {
+public class OrderImpl implements Order
+{
     private int id;
     private Admin admin;
     private Service service;
@@ -18,52 +16,62 @@ public class OrderImpl implements Order {
 
 
     @Override
-    public int getID() {
+    public int getID()
+    {
         return id;
     }
 
     @Override
-    public void setID(int id) {
+    public void setID(int id)
+    {
         this.id = id;
     }
 
     @Override
-    public Admin getAdmin() {
+    public Admin getAdmin()
+    {
         return admin;
     }
 
     @Override
-    public void setAdmin(Admin admin) {
+    public void setAdmin(Admin admin)
+    {
         this.admin = admin;
     }
 
     @Override
-    public Service getService() {
+    public Service getService()
+    {
         return service;
     }
 
     @Override
-    public void setService(Service service) {
+    public void setService(Service service)
+    {
         this.service = service;
     }
 
     @Override
-    public OrderAction getAction() {
+    public OrderAction getAction()
+    {
         return action;
     }
 
     @Override
-    public void setAction(OrderAction action) {
+    public void setAction(OrderAction action)
+    {
         this.action = action;
     }
 
     @Override
-    public OrderStatus getStatus() {
+    public OrderStatus getStatus()
+    {
         return status;
     }
 
     @Override
-    public void setStatus(OrderStatus status) {
+    public void setStatus(OrderStatus status)
+    {
         this.status = status;
     }
 }

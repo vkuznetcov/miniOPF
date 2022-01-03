@@ -5,7 +5,8 @@ import com.netcracker.miniOPF.order.enums.OrderAction;
 import com.netcracker.miniOPF.order.enums.OrderStatus;
 import com.netcracker.miniOPF.service.Service;
 
-public interface Order {
+public interface Order
+{
     int getID();
 
     void setID(int id);

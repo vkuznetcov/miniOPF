@@ -13,29 +13,45 @@ import com.netcracker.miniOPF.service.Service;
 import com.netcracker.miniOPF.service.impl.ServiceImpl;
 import com.netcracker.miniOPF.template.Template;
 import com.netcracker.miniOPF.template.impl.TemplateImpl;
+import com.netcracker.miniOPF.utils.PathConsts;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class JsonHandler {
+public class JsonHandler
+{
 
-    public static <T> void serializeJson(T value) throws IOException {
-        try {
+    public static <T> void serializeJson(T value)
+    {
+        try
+        {
             String path = null;
             if (value instanceof Admin)
-                path = "src/main/java/com/netcracker/miniOPF/jsonHanlder/dataBase/AdminDB.txt";
+            {
+                path = PathConsts.ADMIN_PATH;
+            }
             else if (value instanceof Area)
-                path = "src/main/java/com/netcracker/miniOPF/jsonHanlder/dataBase/AreaDB.txt";
+            {
+                path = PathConsts.AREA_PATH;
+            }
             else if (value instanceof Customer)
-                path = "src/main/java/com/netcracker/miniOPF/jsonHanlder/dataBase/CustomerDB.txt";
+            {
+                path = PathConsts.CUSTOMER_PATH;
+            }
             else if (value instanceof Order)
-                path = "src/main/java/com/netcracker/miniOPF/jsonHanlder/dataBase/OrderDB.txt";
+            {
+                path = PathConsts.ORDER_PATH;
+            }
             else if (value instanceof Service)
-                path = "src/main/java/com/netcracker/miniOPF/jsonHanlder/dataBase/ServiceDB.txt";
+            {
+                path = PathConsts.SERVICE_PATH;
+            }
             else if (value instanceof Template)
-                path = "src/main/java/com/netcracker/miniOPF/jsonHanlder/dataBase/TemplateDB.txt";
+            {
+                path = PathConsts.TEMPLATE_PATH;
+            }
 
             ObjectMapper objectMapper = new ObjectMapper();
 
@@ -47,116 +63,159 @@ public class JsonHandler {
             out.write("\n");
             out.flush();
             out.close();
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
     }
 
-    public static List<Admin> deserializeAdmin() throws IOException {
-        List<Admin> forReturn = new ArrayList<>();
-        try (Reader in = new FileReader("src/main/java/com/netcracker/miniOPF/jsonHanlder/dataBase/AdminDB.txt");
-             Scanner scanner = new Scanner(in)){
+    public static List<?> deserializeJson(EntityType type)
+    {
+        return switch (type)
+                {
+                    case ADMIN -> JsonHandler.deserializeAdmin();
+                    case AREA -> JsonHandler.deserializeArea();
+                    case CUSTOMER -> JsonHandler.deserializeCustomer();
+                    case ORDER -> JsonHandler.deserializeOrder();
+                    case SERVICE -> JsonHandler.deserializeService();
+                    case TEMPLATE -> JsonHandler.deserializeTemplate();
+                };
+    }
 
-            while(scanner.hasNext()) {
+    private static List<Admin> deserializeAdmin()
+    {
+        List<Admin> forReturn = new ArrayList<>();
+        try (Reader in = new FileReader(PathConsts.ADMIN_PATH);
+             Scanner scanner = new Scanner(in))
+        {
+
+            while (scanner.hasNext())
+            {
                 String json = scanner.nextLine();
 
                 forReturn.add(new ObjectMapper().readValue(json, AdminImpl.class));
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
-        finally {
-            return forReturn;
-        }
+        return forReturn;
     }
 
-    public static List<Area> deserializeArea() {
+    private static List<Area> deserializeArea()
+    {
         List<Area> forReturn = new ArrayList<>();
-        try (Reader in = new FileReader("src/main/java/com/netcracker/miniOPF/jsonHanlder/dataBase/AreaDB.txt");
-             Scanner scanner = new Scanner(in)){
+        try (Reader in = new FileReader(PathConsts.AREA_PATH);
+             Scanner scanner = new Scanner(in))
+        {
 
-            while(scanner.hasNext()) {
+            while (scanner.hasNext())
+            {
                 String json = scanner.nextLine();
 
                 forReturn.add(new ObjectMapper().readValue(json, AreaImpl.class));
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
-        finally {
-            return forReturn;
-        }
+        return forReturn;
     }
 
-    public static List<Customer> deserializeCustomer() {
+    private static List<Customer> deserializeCustomer()
+    {
         List<Customer> forReturn = new ArrayList<>();
-        try (Reader in = new FileReader("src/main/java/com/netcracker/miniOPF/jsonHanlder/dataBase/CustomerDB.txt");
-             Scanner scanner = new Scanner(in)){
+        try (Reader in = new FileReader(PathConsts.CUSTOMER_PATH);
+             Scanner scanner = new Scanner(in))
+        {
 
-            while(scanner.hasNext()) {
+            while (scanner.hasNext())
+            {
                 String json = scanner.nextLine();
 
                 forReturn.add(new ObjectMapper().readValue(json, CustomerImpl.class));
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
-        finally {
-            return forReturn;
-        }
+        return forReturn;
     }
 
-    public static List<Order> deserializeOrder() {
+    private static List<Order> deserializeOrder()
+    {
         List<Order> forReturn = new ArrayList<>();
-        try (Reader in = new FileReader("src/main/java/com/netcracker/miniOPF/jsonHanlder/dataBase/OrderDB.txt");
-             Scanner scanner = new Scanner(in)){
+        try (Reader in = new FileReader(PathConsts.ORDER_PATH);
+             Scanner scanner = new Scanner(in))
+        {
 
-            while(scanner.hasNext()) {
+            while (scanner.hasNext())
+            {
                 String json = scanner.nextLine();
 
                 forReturn.add(new ObjectMapper().readValue(json, OrderImpl.class));
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
-        finally {
-            return forReturn;
-        }
+        return forReturn;
     }
 
-    public static List<Service> deserializeService() {
+    private static List<Service> deserializeService()
+    {
         List<Service> forReturn = new ArrayList<>();
-        try (Reader in = new FileReader("src/main/java/com/netcracker/miniOPF/jsonHanlder/dataBase/ServiceDB.txt");
-             Scanner scanner = new Scanner(in)){
+        try (Reader in = new FileReader(PathConsts.SERVICE_PATH);
+             Scanner scanner = new Scanner(in))
+        {
 
-            while(scanner.hasNext()) {
+            while (scanner.hasNext())
+            {
                 String json = scanner.nextLine();
 
                 forReturn.add(new ObjectMapper().readValue(json, ServiceImpl.class));
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
-        finally {
-            return forReturn;
-        }
+        return forReturn;
     }
 
-    public static List<Template> deserializeTemplate() {
+    private static List<Template> deserializeTemplate()
+    {
         List<Template> forReturn = new ArrayList<>();
-        try (Reader in = new FileReader("src/main/java/com/netcracker/miniOPF/jsonHanlder/dataBase/TemplateDB.txt");
-             Scanner scanner = new Scanner(in)){
+        try (Reader in = new FileReader(PathConsts.TEMPLATE_PATH);
+             Scanner scanner = new Scanner(in))
+        {
 
-            while(scanner.hasNext()) {
+            while (scanner.hasNext())
+            {
                 String json = scanner.nextLine();
 
                 forReturn.add(new ObjectMapper().readValue(json, TemplateImpl.class));
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
-        finally {
-            return forReturn;
-        }
+        return forReturn;
+    }
+
+    public enum EntityType
+    {
+        ADMIN,
+        AREA,
+        CUSTOMER,
+        ORDER,
+        SERVICE,
+        TEMPLATE
     }
 }

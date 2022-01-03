@@ -14,7 +14,8 @@ import java.util.List;
 @JsonSubTypes(
         @JsonSubTypes.Type(value = CustomerImpl.class, name = "customer")
 )
-public interface Customer {
+public interface Customer
+{
     String getLogin();
 
     void setLogin(String login);
@@ -35,9 +36,9 @@ public interface Customer {
 
     void setName(String name);
 
-    void setServices(List<Service> services);
-
     List<Service> getServices();
+
+    void setServices(List<Service> services);
 
     void addService(Service service);
 

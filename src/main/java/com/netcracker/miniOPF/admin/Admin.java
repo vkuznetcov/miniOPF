@@ -9,7 +9,8 @@ import com.netcracker.miniOPF.admin.impl.AdminImpl;
 @JsonSubTypes({
         @JsonSubTypes.Type(value = AdminImpl.class, name = "admin")
 })
-public interface Admin extends Comparable<Admin> {
+public interface Admin extends Comparable<Admin>
+{
     String getLogin();
 
     void setLogin(String login);

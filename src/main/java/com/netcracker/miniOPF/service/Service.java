@@ -14,7 +14,8 @@ import com.netcracker.miniOPF.template.Template;
 @JsonSubTypes(
         @JsonSubTypes.Type(value = ServiceImpl.class, name = "service")
 )
-public interface Service {
+public interface Service
+{
     int getID();
 
     void setID(int id);

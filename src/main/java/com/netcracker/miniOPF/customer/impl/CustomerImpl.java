@@ -1,102 +1,119 @@
 package com.netcracker.miniOPF.customer.impl;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.netcracker.miniOPF.customer.Customer;
 import com.netcracker.miniOPF.service.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerImpl implements Customer {
+public class CustomerImpl implements Customer
+{
     private String login;
     private String password;
     private double balance;
 
-    @JsonBackReference(value = "services")
+    //    @JsonBackReference(value = "services")
     private List<Service> services;
     private String name;
     private int id;
 
-    public CustomerImpl(){
+    public CustomerImpl()
+    {
         services = new ArrayList<>();
     }
 
-    public CustomerImpl(List<Service> services) {
+    public CustomerImpl(List<Service> services)
+    {
         this.services = services;
     }
 
     @Override
-    public String getLogin() {
+    public String getLogin()
+    {
         return login;
     }
 
     @Override
-    public void setLogin(String login) {
+    public void setLogin(String login)
+    {
         this.login = login;
     }
 
     @Override
-    public int getID() {
+    public int getID()
+    {
         return id;
     }
 
     @Override
-    public void setID(int id) {
+    public void setID(int id)
+    {
         this.id = id;
     }
 
     @Override
-    public String getPassword() {
+    public String getPassword()
+    {
         return password;
     }
 
     @Override
-    public void setPassword(String password) {
+    public void setPassword(String password)
+    {
         this.password = password;
     }
 
     @Override
-    public double getBalance() {
+    public double getBalance()
+    {
         return balance;
     }
 
     @Override
-    public void setBalance(double balance) {
+    public void setBalance(double balance)
+    {
         this.balance = balance;
     }
 
     @Override
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
     @Override
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
     }
 
     @Override
-    public void setServices(List<Service> services) {
-        this.services = services;
-    }
-
-    @Override
-    public List<Service> getServices() {
+    public List<Service> getServices()
+    {
         return services;
     }
 
     @Override
-    public void addService(Service service) {
+    public void setServices(List<Service> services)
+    {
+        this.services = services;
+    }
+
+    @Override
+    public void addService(Service service)
+    {
         services.add(service);
     }
 
     @Override
-    public void removeService(int id) {
+    public void removeService(int id)
+    {
         int len = services.size();
-        for (int index = 0; index < len; index++) {
-            if (services.get(index).getID() == id) {
+        for (int index = 0; index < len; index++)
+        {
+            if (services.get(index).getID() == id)
+            {
                 services.remove(index);
             }
         }

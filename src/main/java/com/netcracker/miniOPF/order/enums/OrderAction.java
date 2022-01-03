@@ -1,6 +1,7 @@
 package com.netcracker.miniOPF.order.enums;
 
-public enum OrderAction {
+public enum OrderAction
+{
     CONNECT,
     DISCONNECT,
     RESUME,

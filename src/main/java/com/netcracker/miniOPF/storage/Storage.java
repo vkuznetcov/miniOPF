@@ -7,7 +7,8 @@ import com.netcracker.miniOPF.order.Order;
 import com.netcracker.miniOPF.service.Service;
 import com.netcracker.miniOPF.template.Template;
 
-public interface Storage {
+public interface Storage
+{
     void createCustomer(Customer customer);
 
     Customer getCustomer(int id);

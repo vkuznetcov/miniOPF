@@ -11,7 +11,8 @@ import com.netcracker.miniOPF.area.impl.AreaImpl;
 @JsonSubTypes(
         @JsonSubTypes.Type(value = AreaImpl.class, name = "area")
 )
-public interface Area {
+public interface Area
+{
     int getID();
 
     void setID(int id);
