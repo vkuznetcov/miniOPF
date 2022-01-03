@@ -1,6 +1,7 @@
 package com.netcracker.miniOPF.customer.impl;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.netcracker.miniOPF.customer.Customer;
 import com.netcracker.miniOPF.service.Service;
 
@@ -13,7 +14,7 @@ public class CustomerImpl implements Customer
     private String password;
     private double balance;
 
-    //    @JsonBackReference(value = "services")
+    @JsonBackReference(value = "services")
     private List<Service> services;
     private String name;
     private int id;

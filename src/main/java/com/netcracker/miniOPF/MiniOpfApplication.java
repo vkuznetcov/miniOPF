@@ -100,9 +100,8 @@ public class MiniOpfApplication
         service1.setStatus(ServiceStatus.ACTIVE);
         service1.setName("Test Service1");
         service1.setTemplate(template);
-        service1.setCustomer(customer2);
+        service1.setCustomer(customer1);
 
-        customer1.addService(service1);
         customer1.addService(service1);
 
         Order order1 = new OrderImpl();
@@ -133,9 +132,13 @@ public class MiniOpfApplication
         Scanner scanner = new Scanner(new FileReader(
                 "src/main/java/com/netcracker/miniOPF/jsonHanlder/dataBase/OrderDB.txt"));
 
-        String json = scanner.nextLine();
+//        String json = scanner.nextLine();
 
-        Order orderTest = new ObjectMapper().readValue(json, OrderImpl.class);
+        String servJson = new ObjectMapper().writeValueAsString(service1);
+        String custJson = new ObjectMapper().writeValueAsString(customer1);
+        Service service = new ObjectMapper().readValue(servJson, ServiceImpl.class);
+
+//        Order orderTest = new ObjectMapper().readValue(json, OrderImpl.class);
 
         var area2 = JsonHandler.deserializeJson(JsonHandler.EntityType.AREA);
 
