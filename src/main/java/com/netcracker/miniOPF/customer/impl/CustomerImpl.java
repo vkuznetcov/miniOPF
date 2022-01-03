@@ -1,18 +1,27 @@
 package com.netcracker.miniOPF.customer.impl;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.netcracker.miniOPF.customer.Customer;
 import com.netcracker.miniOPF.service.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerImpl implements Customer {
     private String login;
     private String password;
     private double balance;
-    private final List<Service> services;
+
+    @JsonBackReference(value = "services")
+    private List<Service> services;
     private String name;
     private int id;
+
+    public CustomerImpl(){
+        services = new ArrayList<>();
+    }
 
     public CustomerImpl(List<Service> services) {
         this.services = services;
@@ -66,6 +75,16 @@ public class CustomerImpl implements Customer {
     @Override
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public void setServices(List<Service> services) {
+        this.services = services;
+    }
+
+    @Override
+    public List<Service> getServices() {
+        return services;
     }
 
     @Override

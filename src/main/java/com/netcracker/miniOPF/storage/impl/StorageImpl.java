@@ -11,9 +11,11 @@ import com.netcracker.miniOPF.service.impl.ServiceImpl;
 import com.netcracker.miniOPF.service.enums.ServiceStatus;
 import com.netcracker.miniOPF.storage.Storage;
 import com.netcracker.miniOPF.template.Template;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+@Component("storage")
 public class StorageImpl implements Storage {
     private final Map<Integer, Customer> customerMap;
     private final Map<Integer, Order> orderMap;

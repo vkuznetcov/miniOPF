@@ -1,40 +1,56 @@
 package com.netcracker.miniOPF;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.netcracker.miniOPF.admin.Admin;
 import com.netcracker.miniOPF.admin.impl.AdminImpl;
 import com.netcracker.miniOPF.area.Area;
 import com.netcracker.miniOPF.area.impl.AreaImpl;
 import com.netcracker.miniOPF.controller.Controller;
+import com.netcracker.miniOPF.customer.Customer;
+import com.netcracker.miniOPF.customer.impl.CustomerImpl;
 import com.netcracker.miniOPF.jsonHanlder.JsonHandler;
+import com.netcracker.miniOPF.order.Order;
+import com.netcracker.miniOPF.order.enums.OrderAction;
+import com.netcracker.miniOPF.order.enums.OrderStatus;
+import com.netcracker.miniOPF.order.impl.OrderImpl;
+import com.netcracker.miniOPF.service.Service;
+import com.netcracker.miniOPF.service.enums.ServiceStatus;
+import com.netcracker.miniOPF.service.impl.ServiceImpl;
 import com.netcracker.miniOPF.storage.Storage;
 import com.netcracker.miniOPF.storage.impl.StorageImpl;
 import com.netcracker.miniOPF.template.Template;
 import com.netcracker.miniOPF.template.impl.TemplateImpl;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 @SpringBootApplication
 public class MiniOpfApplication {
 
 
-	static Controller controller;
-	static Storage storage;
+//	static Controller controller;
+//	static Storage storage;
 
 //	@Autowired
 //	public MiniOpfApplication(Controller controller) {
 //		this.controller = controller;
 //	}
 
-	public MiniOpfApplication(Storage storage) {
-		this.storage = storage;
-	}
+//	public MiniOpfApplication(Storage storage) {
+//		this.storage = storage;
+//	}
 
 	public static void main(String[] args) throws IOException {
 
-//        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-//                "applicationContext.xml");
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+                "applicationContext.xml");
 //
 //        context.getBean("controller", Controller.class);
 //
@@ -42,70 +58,91 @@ public class MiniOpfApplication {
 
 
 
-		StorageImpl storage = new StorageImpl();
-
-//		storage.adminSorter;
+//		Controller controller = context.getBean("controller", Controller.class);
+//		Storage storage = context.getBean("storage", Storage.class);
+		Storage storage = new StorageImpl();
 
 		Admin admin1 = new AdminImpl();
-		admin1.setLogin("admin1");
-		admin1.setName("Carlos");
 		admin1.setPassword("abcdef");
-
-		Area area = new AreaImpl();
-		area.setName("NY");
-		area.setDescription("State of the USA");
-
-		Template template = new TemplateImpl();
-		template.setName("Test Template");
-		template.setArea(area);
-		template.setPrice(12500);
-		template.setDescription("Test Description");
+		admin1.setLogin("admin1");
+		admin1.setName("James");
+		admin1.setID(0);
 
 		Admin admin2 = new AdminImpl();
-		admin2.setPassword("aaaaa");
+		admin2.setPassword("aaaaaa");
 		admin2.setLogin("admin2");
-		admin2.setName("James");
+		admin2.setName("Nicholas");
+		admin2.setID(0);
 
-//		Controller controller = new Controller(storage);
-//
-//		ObjectMapper mapper = new ObjectMapper();
-//		mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-//		String json = mapper.writeValueAsString(template);
-//		System.out.println(json);
-//
-//		int a = 2;
+		Area area = new AreaImpl();
+		area.setDescription("Test Area Description");
+		area.setName("TestAreaName");
+		area.setID(5);
 
-		Admin admin3 = new AdminImpl();
-		admin3.setName("Michael");
-		admin3.setLogin("admin3");
-		admin3.setPassword("bbbbbbbbbbbbb");
+		Template template = new TemplateImpl();
+		template.setDescription("Test template");
+		template.setPrice(1500);
+		template.setName("TemplateName1");
+		template.setArea(area);
 
-		try {
-			JsonHandler.serializeJson(admin2);
-			JsonHandler.serializeJson(admin3);
+		Customer customer1 = new CustomerImpl();
+		customer1.setBalance(10000);
+		customer1.setLogin("Test");
+		customer1.setName("Ivan");
+		customer1.setPassword("666");
 
-			List<Admin> admin = JsonHandler.deserializeAdmin();
-			for(Admin cur: admin){
-				System.out.println(cur.getLogin() + cur.getName() + "\n");
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Customer customer2 = new CustomerImpl();
+		customer2.setBalance(10000);
+		customer2.setLogin("Test");
+		customer2.setName("Ivan");
+		customer2.setPassword("666");
 
+		Service service1= new ServiceImpl();
+		service1.setPrice(900);
+		service1.setStatus(ServiceStatus.ACTIVE);
+		service1.setName("Test Service1");
+		service1.setTemplate(template);
+		service1.setCustomer(customer2);
 
+		customer1.addService(service1);
+		customer1.addService(service1);
 
-		storage.createAdmin(admin1);
-		storage.createAdmin(admin3);
-		storage.createAdmin(admin2);
+		Order order1 = new OrderImpl();
+		order1.setAction(OrderAction.RESUME);
+		order1.setService(service1);
+		order1.setAdmin(admin1);
+		order1.setStatus(OrderStatus.IN_PROGRESS);
 
-		List<Admin> list = storage.adminSorter.sortAdminsByNameReversed();
+		Service service2= new ServiceImpl();
+		service2.setPrice(700);
+		service2.setStatus(ServiceStatus.ACTIVE);
+		service2.setName("Test Service2");
+		service2.setTemplate(template);
+		service2.setCustomer(customer1);
+
+		Order order2 = new OrderImpl();
+		order2.setAction(OrderAction.RESUME);
+		order2.setService(service2);
+		order2.setAdmin(admin2);
+		order2.setStatus(OrderStatus.IN_PROGRESS);
+		//			JsonHandler.serializeJson(order1);
+//		JsonHandler.serializeJson(order2);
+//		JsonHandler.serializeJson(customer1);
+		List<Service> list = new ArrayList<>();
+		list.add(service1);
+		list.add(service2);
+
+		Scanner scanner = new Scanner(new FileReader("src/main/java/com/netcracker/miniOPF/jsonHanlder/dataBase/OrderDB.txt"));
+
+		String json = scanner.nextLine();
+
+		Order orderTest = new ObjectMapper().readValue(json, OrderImpl.class);
+
 		int a = 2;
-
-//		admin1.setID();
-
-
-
-//        service.setStatus(2);
+		List<Order> order = JsonHandler.deserializeOrder();
+		for(Order cur: order){
+			System.out.println(cur.getService().getName()+cur.getService().getPrice() + cur.getStatus().toString() + "\n");
+		}
 
 //		SpringApplication.run(MiniOpfApplication.class, args);
 	}

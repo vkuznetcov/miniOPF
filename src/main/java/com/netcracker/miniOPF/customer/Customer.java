@@ -1,7 +1,19 @@
 package com.netcracker.miniOPF.customer;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.netcracker.miniOPF.customer.impl.CustomerImpl;
 import com.netcracker.miniOPF.service.Service;
 
+import java.util.List;
+
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        property = "type"
+)
+@JsonSubTypes(
+        @JsonSubTypes.Type(value = CustomerImpl.class, name = "customer")
+)
 public interface Customer {
     String getLogin();
 
@@ -22,6 +34,10 @@ public interface Customer {
     String getName();
 
     void setName(String name);
+
+    void setServices(List<Service> services);
+
+    List<Service> getServices();
 
     void addService(Service service);
 

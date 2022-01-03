@@ -1,5 +1,6 @@
 package com.netcracker.miniOPF.service.impl;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.netcracker.miniOPF.customer.Customer;
 import com.netcracker.miniOPF.service.Service;
 import com.netcracker.miniOPF.service.enums.ServiceStatus;
@@ -11,6 +12,8 @@ public class ServiceImpl implements Service {
     private String description;
     private double price;
     private Template template;
+
+    @JsonManagedReference(value = "services")
     private Customer customer;
     private ServiceStatus status;
 
