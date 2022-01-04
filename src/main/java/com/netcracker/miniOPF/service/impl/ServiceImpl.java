@@ -1,12 +1,17 @@
 package com.netcracker.miniOPF.service.impl;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.netcracker.miniOPF.customer.Customer;
 import com.netcracker.miniOPF.service.Service;
 import com.netcracker.miniOPF.service.enums.ServiceStatus;
 import com.netcracker.miniOPF.template.Template;
 
+
+@JsonTypeName("service")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ServiceImpl implements Service
 {
     private int id;

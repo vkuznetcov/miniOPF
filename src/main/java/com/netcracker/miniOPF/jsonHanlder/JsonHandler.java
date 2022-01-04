@@ -1,5 +1,6 @@
 package com.netcracker.miniOPF.jsonHanlder;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.netcracker.miniOPF.admin.Admin;
 import com.netcracker.miniOPF.admin.impl.AdminImpl;
@@ -13,7 +14,7 @@ import com.netcracker.miniOPF.service.Service;
 import com.netcracker.miniOPF.service.impl.ServiceImpl;
 import com.netcracker.miniOPF.template.Template;
 import com.netcracker.miniOPF.template.impl.TemplateImpl;
-import com.netcracker.miniOPF.utils.PathConsts;
+import com.netcracker.miniOPF.utils.consts.PathConsts;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -23,46 +24,12 @@ import java.util.Scanner;
 public class JsonHandler
 {
 
-    public static <T> void serializeJson(T value)
+    public static <T> void serializeJson(T value, String path)
     {
-        try
+        try(Writer out = new FileWriter(path, true))
         {
-            String path = null;
-            if (value instanceof Admin)
-            {
-                path = PathConsts.ADMIN_PATH;
-            }
-            else if (value instanceof Area)
-            {
-                path = PathConsts.AREA_PATH;
-            }
-            else if (value instanceof Customer)
-            {
-                path = PathConsts.CUSTOMER_PATH;
-            }
-            else if (value instanceof Order)
-            {
-                path = PathConsts.ORDER_PATH;
-            }
-            else if (value instanceof Service)
-            {
-                path = PathConsts.SERVICE_PATH;
-            }
-            else if (value instanceof Template)
-            {
-                path = PathConsts.TEMPLATE_PATH;
-            }
-
-            ObjectMapper objectMapper = new ObjectMapper();
-
-            String json = objectMapper.writeValueAsString(value);
-
-            assert path != null;
-            Writer out = new FileWriter(path, true);
-            out.write(json);
-            out.write("\n");
+            out.write(new ObjectMapper().writeValueAsString(value) + "\n");
             out.flush();
-            out.close();
         }
         catch (IOException e)
         {
@@ -70,20 +37,7 @@ public class JsonHandler
         }
     }
 
-    public static List<?> deserializeJson(EntityType type)
-    {
-        return switch (type)
-                {
-                    case ADMIN -> JsonHandler.deserializeAdmin();
-                    case AREA -> JsonHandler.deserializeArea();
-                    case CUSTOMER -> JsonHandler.deserializeCustomer();
-                    case ORDER -> JsonHandler.deserializeOrder();
-                    case SERVICE -> JsonHandler.deserializeService();
-                    case TEMPLATE -> JsonHandler.deserializeTemplate();
-                };
-    }
-
-    private static List<Admin> deserializeAdmin()
+    public static List<Admin> deserializeAdmin()
     {
         List<Admin> forReturn = new ArrayList<>();
         try (Reader in = new FileReader(PathConsts.ADMIN_PATH);
@@ -104,7 +58,7 @@ public class JsonHandler
         return forReturn;
     }
 
-    private static List<Area> deserializeArea()
+    public static List<Area> deserializeArea()
     {
         List<Area> forReturn = new ArrayList<>();
         try (Reader in = new FileReader(PathConsts.AREA_PATH);
@@ -125,7 +79,7 @@ public class JsonHandler
         return forReturn;
     }
 
-    private static List<Customer> deserializeCustomer()
+    public static List<Customer> deserializeCustomer()
     {
         List<Customer> forReturn = new ArrayList<>();
         try (Reader in = new FileReader(PathConsts.CUSTOMER_PATH);
@@ -146,7 +100,7 @@ public class JsonHandler
         return forReturn;
     }
 
-    private static List<Order> deserializeOrder()
+    public static List<Order> deserializeOrder()
     {
         List<Order> forReturn = new ArrayList<>();
         try (Reader in = new FileReader(PathConsts.ORDER_PATH);
@@ -167,7 +121,7 @@ public class JsonHandler
         return forReturn;
     }
 
-    private static List<Service> deserializeService()
+    public static List<Service> deserializeService()
     {
         List<Service> forReturn = new ArrayList<>();
         try (Reader in = new FileReader(PathConsts.SERVICE_PATH);
@@ -188,7 +142,7 @@ public class JsonHandler
         return forReturn;
     }
 
-    private static List<Template> deserializeTemplate()
+    public static List<Template> deserializeTemplate()
     {
         List<Template> forReturn = new ArrayList<>();
         try (Reader in = new FileReader(PathConsts.TEMPLATE_PATH);
@@ -207,15 +161,5 @@ public class JsonHandler
             e.printStackTrace();
         }
         return forReturn;
-    }
-
-    public enum EntityType
-    {
-        ADMIN,
-        AREA,
-        CUSTOMER,
-        ORDER,
-        SERVICE,
-        TEMPLATE
     }
 }

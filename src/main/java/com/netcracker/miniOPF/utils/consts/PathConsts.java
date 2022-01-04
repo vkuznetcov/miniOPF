@@ -1,4 +1,4 @@
-package com.netcracker.miniOPF.utils;
+package com.netcracker.miniOPF.utils.consts;
 
 public interface PathConsts
 {

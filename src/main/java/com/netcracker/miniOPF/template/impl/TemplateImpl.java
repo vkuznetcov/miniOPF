@@ -1,8 +1,13 @@
 package com.netcracker.miniOPF.template.impl;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.netcracker.miniOPF.area.Area;
 import com.netcracker.miniOPF.template.Template;
 
+
+@JsonTypeName("template")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class TemplateImpl implements Template
 {
     private int id;

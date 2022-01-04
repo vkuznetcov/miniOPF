@@ -1,11 +1,16 @@
 package com.netcracker.miniOPF.order.impl;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.netcracker.miniOPF.admin.Admin;
 import com.netcracker.miniOPF.order.Order;
 import com.netcracker.miniOPF.order.enums.OrderAction;
 import com.netcracker.miniOPF.order.enums.OrderStatus;
 import com.netcracker.miniOPF.service.Service;
 
+
+@JsonTypeName("order")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrderImpl implements Order
 {
     private int id;

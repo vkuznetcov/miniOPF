@@ -1,7 +1,13 @@
 package com.netcracker.miniOPF.area.impl;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.netcracker.miniOPF.area.Area;
 
+
+@JsonTypeName("area")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AreaImpl implements Area
 {
     int id;

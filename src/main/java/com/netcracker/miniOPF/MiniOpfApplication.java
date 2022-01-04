@@ -140,10 +140,10 @@ public class MiniOpfApplication
 
 //        Order orderTest = new ObjectMapper().readValue(json, OrderImpl.class);
 
-        var area2 = JsonHandler.deserializeJson(JsonHandler.EntityType.AREA);
+        var area2 = JsonHandler.deserializeArea();
 
         int a = 2;
-        List<Order> order = (List<Order>) JsonHandler.deserializeJson(JsonHandler.EntityType.ORDER);
+        List<Order> order = (List<Order>) JsonHandler.deserializeOrder();
         for (Order cur : order)
         {
             System.out.println(
