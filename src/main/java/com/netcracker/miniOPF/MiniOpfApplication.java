@@ -5,6 +5,7 @@ import com.netcracker.miniOPF.admin.Admin;
 import com.netcracker.miniOPF.admin.impl.AdminImpl;
 import com.netcracker.miniOPF.area.Area;
 import com.netcracker.miniOPF.area.impl.AreaImpl;
+import com.netcracker.miniOPF.controller.Controller;
 import com.netcracker.miniOPF.customer.Customer;
 import com.netcracker.miniOPF.customer.impl.CustomerImpl;
 import com.netcracker.miniOPF.jsonHanlder.JsonHandler;
@@ -56,9 +57,8 @@ public class MiniOpfApplication
 //        context.close();
 
 
-//		Controller controller = context.getBean("controller", Controller.class);
+		Controller controller = context.getBean("controller", Controller.class);
 //		Storage storage = context.getBean("storage", Storage.class);
-        Storage storage = new StorageImpl();
 
         Admin admin1 = new AdminImpl();
         admin1.setPassword("abcdef");
@@ -143,7 +143,7 @@ public class MiniOpfApplication
         var area2 = JsonHandler.deserializeArea();
 
         int a = 2;
-        List<Order> order = (List<Order>) JsonHandler.deserializeOrder();
+        List<Order> order = JsonHandler.deserializeOrder();
         for (Order cur : order)
         {
             System.out.println(
