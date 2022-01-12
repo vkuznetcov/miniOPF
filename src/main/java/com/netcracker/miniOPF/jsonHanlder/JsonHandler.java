@@ -37,7 +37,7 @@ public class JsonHandler
         }
     }
 
-    public static List<Admin> deserializeAdmin()
+    public static List<Admin> deserializeAdmins()
     {
         List<Admin> forReturn = new ArrayList<>();
         try (Reader in = new FileReader(PathConsts.ADMIN_PATH);
@@ -58,7 +58,7 @@ public class JsonHandler
         return forReturn;
     }
 
-    public static List<Area> deserializeArea()
+    public static List<Area> deserializeAreas()
     {
         List<Area> forReturn = new ArrayList<>();
         try (Reader in = new FileReader(PathConsts.AREA_PATH);
@@ -79,7 +79,7 @@ public class JsonHandler
         return forReturn;
     }
 
-    public static List<Customer> deserializeCustomer()
+    public static List<Customer> deserializeCustomers()
     {
         List<Customer> forReturn = new ArrayList<>();
         try (Reader in = new FileReader(PathConsts.CUSTOMER_PATH);
@@ -100,7 +100,7 @@ public class JsonHandler
         return forReturn;
     }
 
-    public static List<Order> deserializeOrder()
+    public static List<Order> deserializeOrders()
     {
         List<Order> forReturn = new ArrayList<>();
         try (Reader in = new FileReader(PathConsts.ORDER_PATH);
@@ -121,7 +121,7 @@ public class JsonHandler
         return forReturn;
     }
 
-    public static List<Service> deserializeService()
+    public static List<Service> deserializeServices()
     {
         List<Service> forReturn = new ArrayList<>();
         try (Reader in = new FileReader(PathConsts.SERVICE_PATH);
@@ -142,7 +142,7 @@ public class JsonHandler
         return forReturn;
     }
 
-    public static List<Template> deserializeTemplate()
+    public static List<Template> deserializeTemplates()
     {
         List<Template> forReturn = new ArrayList<>();
         try (Reader in = new FileReader(PathConsts.TEMPLATE_PATH);

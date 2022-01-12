@@ -12,6 +12,7 @@ import com.netcracker.miniOPF.utils.storageUtils.*;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component("storage")
@@ -64,6 +65,10 @@ public class StorageImpl implements Storage
         id = getNextKey(id);
         customer.setID(id);
         customerMap.put(customer.getID(), customer);
+    }
+
+    public List<Customer> getCustomerValues(){
+        return customerMap.values().stream().toList();
     }
 
     @Override
