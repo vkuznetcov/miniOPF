@@ -51,8 +51,8 @@ public class MiniOpfApplication
     public static void main(String[] args) throws IOException
     {
 
-//        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-//                "applicationContext.xml");
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+               "applicationContext.xml");
 
         Admin admin = new AdminImpl();
         admin.setID(1);
@@ -63,6 +63,8 @@ public class MiniOpfApplication
         JsonHandler.serializeJson(admin, PathConsts.ADMIN_PATH);
 
 //		SpringApplication.run(MiniOpfApplication.class, args);
+        Storage storage = context.getBean("storage",StorageImpl.class);
+
     }
 
 }

@@ -18,12 +18,12 @@ import java.util.Map;
 @Component("storage")
 public class StorageImpl implements Storage
 {
-    private final Map<Integer, Customer> customerMap;
-    private final Map<Integer, Order> orderMap;
-    private final Map<Integer, Service> serviceMap;
-    private final Map<Integer, Admin> adminMap;
-    private final Map<Integer, Area> areaMap;
-    private final Map<Integer, Template> templateMap;
+    private Map<Integer, Customer> customerMap;
+    private Map<Integer, Order> orderMap;
+    private Map<Integer, Service> serviceMap;
+    private Map<Integer, Admin> adminMap;
+    private Map<Integer, Area> areaMap;
+    private Map<Integer, Template> templateMap;
     public CustomerHandler customerHandler;
     public OrderHandler orderHandler;
     public ServiceHandler serviceHandler;
@@ -32,14 +32,14 @@ public class StorageImpl implements Storage
     public TemplateHandler templateHandler;
     private int id;
 
-    public StorageImpl()
+    public StorageImpl(HashMap customerMap,HashMap orderMap,HashMap serviceMap,HashMap adminMap,HashMap areaMap,HashMap templateMap)
     {
-        customerMap = new HashMap<>();
-        orderMap = new HashMap<>();
-        serviceMap = new HashMap<>();
-        adminMap = new HashMap<>();
-        areaMap = new HashMap<>();
-        templateMap = new HashMap<>();
+        this.customerMap = customerMap;
+        this.orderMap = orderMap;
+        this.serviceMap = serviceMap;
+        this.adminMap = adminMap;
+        this.areaMap = areaMap;
+        this.templateMap = templateMap;
 
         customerHandler = new CustomerHandler(this.customerMap);
 
@@ -53,7 +53,30 @@ public class StorageImpl implements Storage
 
         templateHandler = new TemplateHandler(this.templateMap);
     }
-
+    public  void setCustomerMap(HashMap customerMap)
+    {
+        this.customerMap = customerMap;
+    }
+    public  void setOrderMap (HashMap orderMap)
+    {
+        this.orderMap = orderMap;
+    }
+    public void  setServiceMap (HashMap serviceMap)
+    {
+        this.serviceMap = serviceMap;
+    }
+    public void setAdminMap(HashMap adminMap)
+    {
+        this.adminMap = adminMap;
+    }
+    public void setAreaMap(HashMap areaMap)
+    {
+        this.areaMap = areaMap;
+    }
+    public void setTemplateMap(HashMap templateMap)
+    {
+        this.templateMap = templateMap;
+    }
     private int getNextKey(int id)
     {
         return ++id;
