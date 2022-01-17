@@ -4,141 +4,136 @@ import com.netcracker.miniOPF.customer.Customer;
 import com.netcracker.miniOPF.service.Service;
 import com.netcracker.miniOPF.service.enums.ServiceStatus;
 import com.netcracker.miniOPF.template.Template;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
+@Component
 public class ServiceHandler
 {
-    private final Map<Integer, Service> serviceMap;
 
-    public ServiceHandler(Map<Integer, Service> serviceMap)
+    public List<Service> sortServicesByID(List<Service> values)
     {
-        this.serviceMap = serviceMap;
+        return values.stream().sorted(Comparator.comparingInt(Service::getID)).toList();
     }
 
-    public List<Service> sortServicesByID()
+    public List<Service> sortServicesByIDReversed(List<Service> values)
     {
-        return serviceMap.values().stream().sorted(Comparator.comparingInt(Service::getID)).toList();
+        return values.stream().sorted((o1, o2) -> o2.getID() - o1.getID()).toList();
     }
 
-    public List<Service> sortServicesByIDReversed()
+    public List<Service> sortServicesByName(List<Service> values)
     {
-        return serviceMap.values().stream().sorted((o1, o2) -> o2.getID() - o1.getID()).toList();
+        return values.stream().sorted(Comparator.comparing(Service::getName)).toList();
     }
 
-    public List<Service> sortServicesByName()
+    public List<Service> sortServicesByNameReversed(List<Service> values)
     {
-        return serviceMap.values().stream().sorted(Comparator.comparing(Service::getName)).toList();
+        return values.stream().sorted((o1, o2) -> o2.getName().compareTo(o1.getName())).toList();
     }
 
-    public List<Service> sortServicesByNameReversed()
+    public List<Service> sortServicesByDescription(List<Service> values)
     {
-        return serviceMap.values().stream().sorted((o1, o2) -> o2.getName().compareTo(o1.getName())).toList();
+        return values.stream().sorted(Comparator.comparing(Service::getDescription)).toList();
     }
 
-    public List<Service> sortServicesByDescription()
+    public List<Service> sortServicesByDescriptionReversed(List<Service> values)
     {
-        return serviceMap.values().stream().sorted(Comparator.comparing(Service::getDescription)).toList();
+        return values
+                .stream()
+                .sorted((o1, o2) -> o2.getDescription().compareTo(o1.getDescription()))
+                .toList();
     }
 
-    public List<Service> sortServicesByDescriptionReversed()
+    public List<Service> sortServicesByPrice(List<Service> values)
     {
-        return serviceMap.values()
-                         .stream()
-                         .sorted((o1, o2) -> o2.getDescription().compareTo(o1.getDescription()))
-                         .toList();
+        return values.stream().sorted((o1, o2) ->
+                                      {
+                                          if (o1.getPrice() - o2.getPrice() > 0)
+                                          {
+                                              return 1;
+                                          }
+                                          else if (o1.getPrice() == o2.getPrice())
+                                          {
+                                              return 0;
+                                          }
+                                          else
+                                          {
+                                              return -1;
+                                          }
+                                      }).toList();
     }
 
-    public List<Service> sortServicesByPrice()
+    public List<Service> sortServicesByPriceReversed(List<Service> values)
     {
-        return serviceMap.values().stream().sorted((o1, o2) ->
-                                                   {
-                                                       if (o1.getPrice() - o2.getPrice() > 0)
-                                                       {
-                                                           return 1;
-                                                       }
-                                                       else if (o1.getPrice() == o2.getPrice())
-                                                       {
-                                                           return 0;
-                                                       }
-                                                       else
-                                                       {
-                                                           return -1;
-                                                       }
-                                                   }).toList();
+        return values.stream().sorted((o1, o2) ->
+                                      {
+                                          if (o2.getPrice() - o1.getPrice() > 0)
+                                          {
+                                              return 1;
+                                          }
+                                          else if (o1.getPrice() == o2.getPrice())
+                                          {
+                                              return 0;
+                                          }
+                                          else
+                                          {
+                                              return -1;
+                                          }
+                                      }).toList();
     }
 
-    public List<Service> sortServicesByPriceReversed()
+    public List<Service> sortServicesByTemplateName(List<Service> values)
     {
-        return serviceMap.values().stream().sorted((o1, o2) ->
-                                                   {
-                                                       if (o2.getPrice() - o1.getPrice() > 0)
-                                                       {
-                                                           return 1;
-                                                       }
-                                                       else if (o1.getPrice() == o2.getPrice())
-                                                       {
-                                                           return 0;
-                                                       }
-                                                       else
-                                                       {
-                                                           return -1;
-                                                       }
-                                                   }).toList();
+        return values
+                .stream()
+                .sorted(Comparator.comparing(o -> o.getTemplate().getName()))
+                .toList();
     }
 
-    public List<Service> sortServicesByTemplateName()
+    public List<Service> sortServicesByTemplateNameReversed(List<Service> values)
     {
-        return serviceMap.values()
-                         .stream()
-                         .sorted(Comparator.comparing(o -> o.getTemplate().getName()))
-                         .toList();
+        return values
+                .stream()
+                .sorted((o1, o2) -> o2.getTemplate().getName().compareTo(o1.getTemplate().getName()))
+                .toList();
     }
 
-    public List<Service> sortServicesByTemplateNameReversed()
+    public List<Service> sortServicesByCustomerLogin(List<Service> values)
     {
-        return serviceMap.values()
-                         .stream()
-                         .sorted((o1, o2) -> o2.getTemplate().getName().compareTo(o1.getTemplate().getName()))
-                         .toList();
+        return values
+                .stream()
+                .sorted(Comparator.comparing(o -> o.getCustomer().getLogin()))
+                .toList();
     }
 
-    public List<Service> sortServicesByCustomerLogin()
+    public List<Service> sortServicesByCustomerLoginReversed(List<Service> values)
     {
-        return serviceMap.values()
-                         .stream()
-                         .sorted(Comparator.comparing(o -> o.getCustomer().getLogin()))
-                         .toList();
+        return values
+                .stream()
+                .sorted((o1, o2) -> o2.getCustomer().getLogin().compareTo(o1.getCustomer().getLogin()))
+                .toList();
     }
 
-    public List<Service> sortServicesByCustomerLoginReversed()
+    public List<Service> sortServicesByStatus(List<Service> values)
     {
-        return serviceMap.values()
-                         .stream()
-                         .sorted((o1, o2) -> o2.getCustomer().getLogin().compareTo(o1.getCustomer().getLogin()))
-                         .toList();
+        return values.stream().sorted(Comparator.comparing(Service::getStatus)).toList();
     }
 
-    public List<Service> sortServicesByStatus()
+    public List<Service> sortServicesByStatusReversed(List<Service> values)
     {
-        return serviceMap.values().stream().sorted(Comparator.comparing(Service::getStatus)).toList();
+        return values
+                .stream()
+                .sorted((o1, o2) -> o2.getStatus().compareTo(o1.getStatus()))
+                .toList();
     }
 
-    public List<Service> sortServicesByStatusReversed()
-    {
-        return serviceMap.values()
-                         .stream()
-                         .sorted((o1, o2) -> o2.getStatus().compareTo(o1.getStatus()))
-                         .toList();
-    }
-
-    public List<Service> searchServiceByID(int id)
+    public List<Service> searchServiceByID(List<Service> values, int id)
     {
         List<Service> list = new ArrayList<>();
-        for (Service cur : serviceMap.values())
+        for (Service cur : values)
         {
             if (cur.getID() == id)
             {
@@ -148,10 +143,10 @@ public class ServiceHandler
         return list;
     }
 
-    public List<Service> searchServiceByName(String name)
+    public List<Service> searchServiceByName(List<Service> values, String name)
     {
         List<Service> list = new ArrayList<>();
-        for (Service cur : serviceMap.values())
+        for (Service cur : values)
         {
             if (cur.getName().equals(name))
             {
@@ -161,10 +156,10 @@ public class ServiceHandler
         return list;
     }
 
-    public List<Service> searchServiceByDescription(String description)
+    public List<Service> searchServiceByDescription(List<Service> values, String description)
     {
         List<Service> list = new ArrayList<>();
-        for (Service cur : serviceMap.values())
+        for (Service cur : values)
         {
             if (cur.getDescription().equals(description))
             {
@@ -174,10 +169,10 @@ public class ServiceHandler
         return list;
     }
 
-    public List<Service> searchServiceByPrice(double price)
+    public List<Service> searchServiceByPrice(List<Service> values, double price)
     {
         List<Service> list = new ArrayList<>();
-        for (Service cur : serviceMap.values())
+        for (Service cur : values)
         {
             if (cur.getPrice() == price)
             {
@@ -187,10 +182,10 @@ public class ServiceHandler
         return list;
     }
 
-    public List<Service> searchServiceByTemplate(Template template)
+    public List<Service> searchServiceByTemplate(List<Service> values, Template template)
     {
         List<Service> list = new ArrayList<>();
-        for (Service cur : serviceMap.values())
+        for (Service cur : values)
         {
             if (cur.getTemplate().equals(template))
             {
@@ -200,10 +195,10 @@ public class ServiceHandler
         return list;
     }
 
-    public List<Service> searchServiceByCustomer(Customer customer)
+    public List<Service> searchServiceByCustomer(List<Service> values, Customer customer)
     {
         List<Service> list = new ArrayList<>();
-        for (Service cur : serviceMap.values())
+        for (Service cur : values)
         {
             if (cur.getCustomer().equals(customer))
             {
@@ -213,10 +208,10 @@ public class ServiceHandler
         return list;
     }
 
-    public List<Service> searchServiceByStatus(ServiceStatus status)
+    public List<Service> searchServiceByStatus(List<Service> values, ServiceStatus status)
     {
         List<Service> list = new ArrayList<>();
-        for (Service cur : serviceMap.values())
+        for (Service cur : values)
         {
             if (cur.getStatus().equals(status))
             {

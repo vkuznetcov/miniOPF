@@ -1,4 +1,4 @@
-package com.netcracker.miniOPF.customer.impl;
+package com.netcracker.miniOPF.customer;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;

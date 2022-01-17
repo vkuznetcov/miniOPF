@@ -1,4 +1,4 @@
-package com.netcracker.miniOPF.area.impl;
+package com.netcracker.miniOPF.area;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;

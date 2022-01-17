@@ -5,82 +5,76 @@ import com.netcracker.miniOPF.order.Order;
 import com.netcracker.miniOPF.order.enums.OrderAction;
 import com.netcracker.miniOPF.order.enums.OrderStatus;
 import com.netcracker.miniOPF.service.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
+@Component
 public class OrderHandler
 {
 
-    private final Map<Integer, Order> orderMap;
-
-    public OrderHandler(Map<Integer, Order> orderMap)
+    public List<Order> sortOrdersByID(List<Order> values)
     {
-        this.orderMap = orderMap;
+        return values.stream().sorted(Comparator.comparingInt(Order::getID)).toList();
     }
 
-    public List<Order> sortOrdersByID()
+    public List<Order> sortOrdersByIDReversed(List<Order> values)
     {
-        return orderMap.values().stream().sorted(Comparator.comparingInt(Order::getID)).toList();
+        return values.stream().sorted((o1, o2) -> o2.getID() - o1.getID()).toList();
     }
 
-    public List<Order> sortOrdersByIDReversed()
+    public List<Order> sortOrdersByAdminLogin(List<Order> values)
     {
-        return orderMap.values().stream().sorted((o1, o2) -> o2.getID() - o1.getID()).toList();
+        return values.stream().sorted(Comparator.comparing(o -> o.getAdmin().getLogin())).toList();
     }
 
-    public List<Order> sortOrdersByAdminLogin()
+    public List<Order> sortOrdersByAdminLoginReversed(List<Order> values)
     {
-        return orderMap.values().stream().sorted(Comparator.comparing(o -> o.getAdmin().getLogin())).toList();
+        return values
+                .stream()
+                .sorted((o1, o2) -> o2.getAdmin().getLogin().compareTo(o1.getAdmin().getLogin()))
+                .toList();
     }
 
-    public List<Order> sortOrdersByAdminLoginReversed()
+    public List<Order> sortOrdersByServiceName(List<Order> values)
     {
-        return orderMap.values()
-                       .stream()
-                       .sorted((o1, o2) -> o2.getAdmin().getLogin().compareTo(o1.getAdmin().getLogin()))
-                       .toList();
+        return values.stream().sorted(Comparator.comparing(o -> o.getService().getName())).toList();
     }
 
-    public List<Order> sortOrdersByServiceName()
+    public List<Order> sortOrdersByServiceNameReversed(List<Order> values)
     {
-        return orderMap.values().stream().sorted(Comparator.comparing(o -> o.getService().getName())).toList();
+        return values
+                .stream()
+                .sorted((o1, o2) -> o2.getService().getName().compareTo(o1.getService().getName()))
+                .toList();
     }
 
-    public List<Order> sortOrdersByServiceNameReversed()
+    public List<Order> sortOrdersByStatus(List<Order> values)
     {
-        return orderMap.values()
-                       .stream()
-                       .sorted((o1, o2) -> o2.getService().getName().compareTo(o1.getService().getName()))
-                       .toList();
+        return values.stream().sorted(Comparator.comparing(Order::getStatus)).toList();
     }
 
-    public List<Order> sortOrdersByStatus()
+    public List<Order> sortOrdersByStatusReversed(List<Order> values)
     {
-        return orderMap.values().stream().sorted(Comparator.comparing(Order::getStatus)).toList();
+        return values.stream().sorted((o1, o2) -> o2.getStatus().compareTo(o1.getStatus())).toList();
     }
 
-    public List<Order> sortOrdersByStatusReversed()
+    public List<Order> sortOrdersByAction(List<Order> values)
     {
-        return orderMap.values().stream().sorted((o1, o2) -> o2.getStatus().compareTo(o1.getStatus())).toList();
+        return values.stream().sorted(Comparator.comparing(Order::getAction)).toList();
     }
 
-    public List<Order> sortOrdersByAction()
+    public List<Order> sortOrdersByActionReversed(List<Order> values)
     {
-        return orderMap.values().stream().sorted(Comparator.comparing(Order::getAction)).toList();
+        return values.stream().sorted((o1, o2) -> o2.getAction().compareTo(o1.getAction())).toList();
     }
 
-    public List<Order> sortOrdersByActionReversed()
-    {
-        return orderMap.values().stream().sorted((o1, o2) -> o2.getAction().compareTo(o1.getAction())).toList();
-    }
-
-    public List<Order> searchOrderByID(int id)
+    public List<Order> searchOrderByID(List<Order> values, int id)
     {
         List<Order> list = new ArrayList<>();
-        for (Order cur : orderMap.values())
+        for (Order cur : values)
         {
             if (cur.getID() == id)
             {
@@ -90,10 +84,10 @@ public class OrderHandler
         return list;
     }
 
-    public List<Order> searchOrderByAdmin(Admin admin)
+    public List<Order> searchOrderByAdmin(List<Order> values, Admin admin)
     {
         List<Order> list = new ArrayList<>();
-        for (Order cur : orderMap.values())
+        for (Order cur : values)
         {
             if (cur.getAdmin().equals(admin))
             {
@@ -103,10 +97,10 @@ public class OrderHandler
         return list;
     }
 
-    public List<Order> searchOrderByService(Service service)
+    public List<Order> searchOrderByService(List<Order> values, Service service)
     {
         List<Order> list = new ArrayList<>();
-        for (Order cur : orderMap.values())
+        for (Order cur : values)
         {
             if (cur.getService().equals(service))
             {
@@ -116,10 +110,10 @@ public class OrderHandler
         return list;
     }
 
-    public List<Order> searchOrderByStatus(OrderStatus status)
+    public List<Order> searchOrderByStatus(List<Order> values, OrderStatus status)
     {
         List<Order> list = new ArrayList<>();
-        for (Order cur : orderMap.values())
+        for (Order cur : values)
         {
             if (cur.getStatus().equals(status))
             {
@@ -129,10 +123,10 @@ public class OrderHandler
         return list;
     }
 
-    public List<Order> searchOrderByAction(OrderAction action)
+    public List<Order> searchOrderByAction(List<Order> values, OrderAction action)
     {
         List<Order> list = new ArrayList<>();
-        for (Order cur : orderMap.values())
+        for (Order cur : values)
         {
             if (cur.getAction().equals(action))
             {

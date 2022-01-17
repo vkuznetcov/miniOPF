@@ -1,11 +1,11 @@
-package com.netcracker.miniOPF.storage.impl;
+package com.netcracker.miniOPF.storage;
 
 import com.netcracker.miniOPF.admin.Admin;
 import com.netcracker.miniOPF.area.Area;
 import com.netcracker.miniOPF.customer.Customer;
 import com.netcracker.miniOPF.order.Order;
 import com.netcracker.miniOPF.service.Service;
-import com.netcracker.miniOPF.service.impl.ServiceImpl;
+import com.netcracker.miniOPF.service.ServiceImpl;
 import com.netcracker.miniOPF.storage.Storage;
 import com.netcracker.miniOPF.template.Template;
 import com.netcracker.miniOPF.utils.storageUtils.*;
@@ -24,12 +24,6 @@ public class StorageImpl implements Storage
     private final Map<Integer, Admin> adminMap;
     private final Map<Integer, Area> areaMap;
     private final Map<Integer, Template> templateMap;
-    public CustomerHandler customerHandler;
-    public OrderHandler orderHandler;
-    public ServiceHandler serviceHandler;
-    public AdminHandler adminHandler;
-    public AreaHandler areaHandler;
-    public TemplateHandler templateHandler;
     private int id;
 
     public StorageImpl()
@@ -40,18 +34,6 @@ public class StorageImpl implements Storage
         adminMap = new HashMap<>();
         areaMap = new HashMap<>();
         templateMap = new HashMap<>();
-
-        customerHandler = new CustomerHandler(this.customerMap);
-
-        orderHandler = new OrderHandler(this.orderMap);
-
-        serviceHandler = new ServiceHandler(this.serviceMap);
-
-        adminHandler = new AdminHandler(this.adminMap);
-
-        areaHandler = new AreaHandler(this.areaMap);
-
-        templateHandler = new TemplateHandler(this.templateMap);
     }
 
     private int getNextKey(int id)
@@ -65,10 +47,6 @@ public class StorageImpl implements Storage
         id = getNextKey(id);
         customer.setID(id);
         customerMap.put(customer.getID(), customer);
-    }
-
-    public List<Customer> getCustomerValues(){
-        return customerMap.values().stream().toList();
     }
 
     @Override
@@ -189,5 +167,41 @@ public class StorageImpl implements Storage
         newService.setCustomer(customerMap.get(customerID));
         newService.setTemplate(templateMap.get(templateID));
         return newService;
+    }
+
+    @Override
+    public List<Admin> getAdminValues()
+    {
+        return adminMap.values().stream().toList();
+    }
+
+    @Override
+    public List<Area> getAreaValues()
+    {
+        return areaMap.values().stream().toList();
+    }
+
+    @Override
+    public List<Customer> getCustomerValues()
+    {
+        return customerMap.values().stream().toList();
+    }
+
+    @Override
+    public List<Order> getOrderValues()
+    {
+        return orderMap.values().stream().toList();
+    }
+
+    @Override
+    public List<Service> getServiceValues()
+    {
+        return serviceMap.values().stream().toList();
+    }
+
+    @Override
+    public List<Template> getTemplateValues()
+    {
+        return templateMap.values().stream().toList();
     }
 }

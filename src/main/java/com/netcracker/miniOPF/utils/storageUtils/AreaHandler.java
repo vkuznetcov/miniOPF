@@ -1,51 +1,84 @@
 package com.netcracker.miniOPF.utils.storageUtils;
 
 import com.netcracker.miniOPF.area.Area;
+import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
+@Component
 public class AreaHandler
 {
-
-    private final Map<Integer, Area> areaMap;
-
-    public AreaHandler(Map<Integer, Area> areaMap)
+    public List<Area> sortAreasByID(List<Area> values)
     {
-        this.areaMap = areaMap;
+        return values.stream().sorted(Comparator.comparingInt(Area::getID)).toList();
     }
 
-    public List<Area> sortAreasByID()
+    public List<Area> sortAreasByIDReversed(List<Area> values)
     {
-        return areaMap.values().stream().sorted(Comparator.comparingInt(Area::getID)).toList();
+        return values.stream().sorted((o1, o2) -> o2.getID() - o1.getID()).toList();
     }
 
-    public List<Area> sortAreasByIDReversed()
+    public List<Area> sortAreasByName(List<Area> values)
     {
-        return areaMap.values().stream().sorted((o1, o2) -> o2.getID() - o1.getID()).toList();
+        return values.stream().sorted(Comparator.comparing(Area::getName)).toList();
     }
 
-    public List<Area> sortAreasByName()
+    public List<Area> sortAreasByNameReversed(List<Area> values)
     {
-        return areaMap.values().stream().sorted(Comparator.comparing(Area::getName)).toList();
+        return values.stream().sorted((o1, o2) -> o2.getName().compareTo(o1.getName())).toList();
     }
 
-    public List<Area> sortAreasByNameReversed()
+    public List<Area> sortAreasByDescription(List<Area> values)
     {
-        return areaMap.values().stream().sorted((o1, o2) -> o2.getName().compareTo(o1.getName())).toList();
+        return values.stream().sorted(Comparator.comparing(Area::getDescription)).toList();
     }
 
-    public List<Area> sortAreasByDescription()
+    public List<Area> sortAreasByDescriptionReversed(List<Area> values)
     {
-        return areaMap.values().stream().sorted(Comparator.comparing(Area::getDescription)).toList();
+        return values
+                .stream()
+                .sorted((o1, o2) -> o2.getDescription().compareTo(o1.getDescription()))
+                .toList();
     }
 
-    public List<Area> sortAreasByDescriptionReversed()
+    public List<Area> searchServiceByID(List<Area> values, int id)
     {
-        return areaMap.values()
-                      .stream()
-                      .sorted((o1, o2) -> o2.getDescription().compareTo(o1.getDescription()))
-                      .toList();
+        List<Area> list = new ArrayList<>();
+        for (Area cur : values)
+        {
+            if (cur.getID() == id)
+            {
+                list.add(cur);
+            }
+        }
+        return list;
+    }
+
+    public List<Area> searchServiceByName(List<Area> values, String name)
+    {
+        List<Area> list = new ArrayList<>();
+        for (Area cur : values)
+        {
+            if (cur.getName().equals(name))
+            {
+                list.add(cur);
+            }
+        }
+        return list;
+    }
+
+    public List<Area> searchServiceByDescription(List<Area> values, String description)
+    {
+        List<Area> list = new ArrayList<>();
+        for (Area cur : values)
+        {
+            if (cur.getDescription().equals(description))
+            {
+                list.add(cur);
+            }
+        }
+        return list;
     }
 }

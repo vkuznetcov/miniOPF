@@ -2,7 +2,6 @@ package com.netcracker.miniOPF.customer;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.netcracker.miniOPF.customer.impl.CustomerImpl;
 import com.netcracker.miniOPF.service.Service;
 
 import java.util.List;

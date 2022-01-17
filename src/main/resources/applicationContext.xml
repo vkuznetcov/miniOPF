@@ -8,7 +8,7 @@
         http://www.springframework.org/schema/context/spring-context.xsd">
 
 <!--    <bean id="storage"-->
-<!--          class = "com.netcracker.miniOPF.storage.impl.StorageImpl">-->
+<!--          class = "com.netcracker.miniOPF.storage.StorageImpl">-->
 <!--    </bean>-->
 
 <!--    <bean id="controller"-->

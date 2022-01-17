@@ -1,69 +1,62 @@
 package com.netcracker.miniOPF.utils.storageUtils;
 
 import com.netcracker.miniOPF.admin.Admin;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
+@Component
 public class AdminHandler
 {
-
-    private final Map<Integer, Admin> adminMap;
-
-    public AdminHandler(Map<Integer, Admin> adminMap)
+    public List<Admin> sortAdminsByLogin(List<Admin> values)
     {
-        this.adminMap = adminMap;
+        return values.stream().sorted(Comparator.comparing(Admin::getLogin)).toList();
     }
 
-    public List<Admin> sortAdminsByLogin()
+    public List<Admin> sortAdminsByLoginReversed(List<Admin> values)
     {
-        return adminMap.values().stream().sorted(Comparator.comparing(Admin::getLogin)).toList();
+        return values.stream().sorted((o1, o2) -> o2.getLogin().compareTo(o1.getLogin())).toList();
     }
 
-    public List<Admin> sortAdminsByLoginReversed()
+    public List<Admin> sortAdminsByPassword(List<Admin> values)
     {
-        return adminMap.values().stream().sorted((o1, o2) -> o2.getLogin().compareTo(o1.getLogin())).toList();
+        return values.stream().sorted(Comparator.comparing(Admin::getPassword)).toList();
     }
 
-    public List<Admin> sortAdminsByPassword()
+    public List<Admin> sortAdminsByPasswordReversed(List<Admin> values)
     {
-        return adminMap.values().stream().sorted(Comparator.comparing(Admin::getPassword)).toList();
+        return values
+                .stream()
+                .sorted((o1, o2) -> o2.getPassword().compareTo(o1.getPassword()))
+                .toList();
     }
 
-    public List<Admin> sortAdminsByPasswordReversed()
+    public List<Admin> sortAdminsByID(List<Admin> values)
     {
-        return adminMap.values()
-                       .stream()
-                       .sorted((o1, o2) -> o2.getPassword().compareTo(o1.getPassword()))
-                       .toList();
+        return values.stream().sorted(Comparator.comparingInt(Admin::getID)).toList();
     }
 
-    public List<Admin> sortAdminsByID()
+    public List<Admin> sortAdminsByIDReversed(List<Admin> values)
     {
-        return adminMap.values().stream().sorted(Comparator.comparingInt(Admin::getID)).toList();
+        return values.stream().sorted((o1, o2) -> o2.getID() - o1.getID()).toList();
     }
 
-    public List<Admin> sortAdminsByIDReversed()
+    public List<Admin> sortAdminsByName(List<Admin> values)
     {
-        return adminMap.values().stream().sorted((o1, o2) -> o2.getID() - o1.getID()).toList();
+        return values.stream().sorted(Comparator.comparing(Admin::getName)).toList();
     }
 
-    public List<Admin> sortAdminsByName()
+    public List<Admin> sortAdminsByNameReversed(List<Admin> values)
     {
-        return adminMap.values().stream().sorted(Comparator.comparing(Admin::getName)).toList();
+        return values.stream().sorted((o1, o2) -> o2.getName().compareTo(o1.getName())).toList();
     }
 
-    public List<Admin> sortAdminsByNameReversed()
-    {
-        return adminMap.values().stream().sorted((o1, o2) -> o2.getName().compareTo(o1.getName())).toList();
-    }
-
-    public List<Admin> searchAdminByLogin(String login)
+    public List<Admin> searchAdminByLogin(List<Admin> values, String login)
     {
         List<Admin> list = new ArrayList<>();
-        for (Admin cur : adminMap.values())
+        for (Admin cur : values)
         {
             if (cur.getLogin().equals(login))
             {
@@ -73,10 +66,10 @@ public class AdminHandler
         return list;
     }
 
-    public List<Admin> searchAdminByPassword(String password)
+    public List<Admin> searchAdminByPassword(List<Admin> values, String password)
     {
         List<Admin> list = new ArrayList<>();
-        for (Admin cur : adminMap.values())
+        for (Admin cur : values)
         {
             if (cur.getPassword().equals(password))
             {
@@ -86,10 +79,10 @@ public class AdminHandler
         return list;
     }
 
-    public List<Admin> searchAdminByID(int id)
+    public List<Admin> searchAdminByID(List<Admin> values, int id)
     {
         List<Admin> list = new ArrayList<>();
-        for (Admin cur : adminMap.values())
+        for (Admin cur : values)
         {
             if (cur.getID() == id)
             {
@@ -99,10 +92,10 @@ public class AdminHandler
         return list;
     }
 
-    public List<Admin> searchAdminByName(String name)
+    public List<Admin> searchAdminByName(List<Admin> values, String name)
     {
         List<Admin> list = new ArrayList<>();
-        for (Admin cur : adminMap.values())
+        for (Admin cur : values)
         {
             if (cur.getName().equals(name))
             {

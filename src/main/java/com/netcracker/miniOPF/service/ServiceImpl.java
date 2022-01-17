@@ -1,21 +1,26 @@
-package com.netcracker.miniOPF.template.impl;
+package com.netcracker.miniOPF.service;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.netcracker.miniOPF.area.Area;
+import com.netcracker.miniOPF.customer.Customer;
+import com.netcracker.miniOPF.service.Service;
+import com.netcracker.miniOPF.service.enums.ServiceStatus;
 import com.netcracker.miniOPF.template.Template;
 
 
-@JsonTypeName("template")
+@JsonTypeName("service")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TemplateImpl implements Template
+public class ServiceImpl implements Service
 {
     private int id;
     private String name;
     private String description;
     private double price;
-    private Area area;
-
+    private Template template;
+    private Customer customer;
+    private ServiceStatus status;
 
     @Override
     public int getID()
@@ -66,14 +71,38 @@ public class TemplateImpl implements Template
     }
 
     @Override
-    public Area getArea()
+    public Template getTemplate()
     {
-        return area;
+        return template;
     }
 
     @Override
-    public void setArea(Area area)
+    public void setTemplate(Template template)
     {
-        this.area = area;
+        this.template = template;
+    }
+
+    @Override
+    public Customer getCustomer()
+    {
+        return customer;
+    }
+
+    @Override
+    public void setCustomer(Customer customer)
+    {
+        this.customer = customer;
+    }
+
+    @Override
+    public ServiceStatus getStatus()
+    {
+        return status;
+    }
+
+    @Override
+    public void setStatus(ServiceStatus status)
+    {
+        this.status = status;
     }
 }

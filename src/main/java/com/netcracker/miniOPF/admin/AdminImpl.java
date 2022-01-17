@@ -1,4 +1,4 @@
-package com.netcracker.miniOPF.admin.impl;
+package com.netcracker.miniOPF.admin;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

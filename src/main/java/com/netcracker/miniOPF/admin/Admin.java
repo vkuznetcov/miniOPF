@@ -2,7 +2,6 @@ package com.netcracker.miniOPF.admin;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.netcracker.miniOPF.admin.impl.AdminImpl;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME,
         property = "type")

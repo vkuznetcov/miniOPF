@@ -2,7 +2,6 @@ package com.netcracker.miniOPF.area;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.netcracker.miniOPF.area.impl.AreaImpl;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,

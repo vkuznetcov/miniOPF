@@ -2,110 +2,104 @@ package com.netcracker.miniOPF.utils.storageUtils;
 
 import com.netcracker.miniOPF.area.Area;
 import com.netcracker.miniOPF.template.Template;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
+@Component
 public class TemplateHandler
 {
 
-    private final Map<Integer, Template> templateMap;
-
-    public TemplateHandler(Map<Integer, Template> templateMap)
+    public List<Template> sortTemplatesByID(List<Template> values)
     {
-        this.templateMap = templateMap;
+        return values.stream().sorted(Comparator.comparingInt(Template::getID)).toList();
     }
 
-    public List<Template> sortTemplatesByID()
+    public List<Template> sortTemplatesByIDReversed(List<Template> values)
     {
-        return templateMap.values().stream().sorted(Comparator.comparingInt(Template::getID)).toList();
+        return values.stream().sorted((o1, o2) -> o2.getID() - o1.getID()).toList();
     }
 
-    public List<Template> sortTemplatesByIDReversed()
+    public List<Template> sortTemplatesByName(List<Template> values)
     {
-        return templateMap.values().stream().sorted((o1, o2) -> o2.getID() - o1.getID()).toList();
+        return values.stream().sorted(Comparator.comparing(Template::getName)).toList();
     }
 
-    public List<Template> sortTemplatesByName()
+    public List<Template> sortTemplatesByNameReversed(List<Template> values)
     {
-        return templateMap.values().stream().sorted(Comparator.comparing(Template::getName)).toList();
+        return values.stream().sorted((o1, o2) -> o2.getName().compareTo(o1.getName())).toList();
     }
 
-    public List<Template> sortTemplatesByNameReversed()
+    public List<Template> sortTemplatesByDescription(List<Template> values)
     {
-        return templateMap.values().stream().sorted((o1, o2) -> o2.getName().compareTo(o1.getName())).toList();
+        return values.stream().sorted(Comparator.comparing(Template::getDescription)).toList();
     }
 
-    public List<Template> sortTemplatesByDescription()
+    public List<Template> sortTemplatesByDescriptionReversed(List<Template> values)
     {
-        return templateMap.values().stream().sorted(Comparator.comparing(Template::getDescription)).toList();
+        return values
+                .stream()
+                .sorted((o1, o2) -> o2.getDescription().compareTo(o1.getDescription()))
+                .toList();
     }
 
-    public List<Template> sortTemplatesByDescriptionReversed()
+    public List<Template> sortTemplatesByPrice(List<Template> values)
     {
-        return templateMap.values()
-                          .stream()
-                          .sorted((o1, o2) -> o2.getDescription().compareTo(o1.getDescription()))
-                          .toList();
+        return values.stream().sorted((o1, o2) ->
+                                      {
+                                          if (o1.getPrice() - o2.getPrice() > 0)
+                                          {
+                                              return 1;
+                                          }
+                                          else if (o1.getPrice() == o2.getPrice())
+                                          {
+                                              return 0;
+                                          }
+                                          else
+                                          {
+                                              return -1;
+                                          }
+                                      }).toList();
     }
 
-    public List<Template> sortTemplatesByPrice()
+    public List<Template> sortTemplatesByPriceReversed(List<Template> values)
     {
-        return templateMap.values().stream().sorted((o1, o2) ->
-                                                    {
-                                                        if (o1.getPrice() - o2.getPrice() > 0)
-                                                        {
-                                                            return 1;
-                                                        }
-                                                        else if (o1.getPrice() == o2.getPrice())
-                                                        {
-                                                            return 0;
-                                                        }
-                                                        else
-                                                        {
-                                                            return -1;
-                                                        }
-                                                    }).toList();
+        return values.stream().sorted((o1, o2) ->
+                                      {
+                                          if (o2.getPrice() - o1.getPrice() > 0)
+                                          {
+                                              return 1;
+                                          }
+                                          else if (o1.getPrice() == o2.getPrice())
+                                          {
+                                              return 0;
+                                          }
+                                          else
+                                          {
+                                              return -1;
+                                          }
+                                      }).toList();
     }
 
-    public List<Template> sortTemplatesByPriceReversed()
+    public List<Template> sortTemplatesByAreaName(List<Template> values)
     {
-        return templateMap.values().stream().sorted((o1, o2) ->
-                                                    {
-                                                        if (o2.getPrice() - o1.getPrice() > 0)
-                                                        {
-                                                            return 1;
-                                                        }
-                                                        else if (o1.getPrice() == o2.getPrice())
-                                                        {
-                                                            return 0;
-                                                        }
-                                                        else
-                                                        {
-                                                            return -1;
-                                                        }
-                                                    }).toList();
+        return values.stream().sorted(Comparator.comparing(o -> o.getArea().getName())).toList();
     }
 
-    public List<Template> sortTemplatesByAreaName()
+    public List<Template> sortTemplatesByAreaNameReversed(List<Template> values)
     {
-        return templateMap.values().stream().sorted(Comparator.comparing(o -> o.getArea().getName())).toList();
+        return values
+                .stream()
+                .sorted((o1, o2) -> o2.getArea().getName().compareTo(o1.getArea().getName()))
+                .toList();
     }
 
-    public List<Template> sortTemplatesByAreaNameReversed()
-    {
-        return templateMap.values()
-                          .stream()
-                          .sorted((o1, o2) -> o2.getArea().getName().compareTo(o1.getArea().getName()))
-                          .toList();
-    }
-
-    public List<Template> searchTemplateByID(int id)
+    public List<Template> searchTemplateByID(List<Template> values, int id)
     {
         List<Template> list = new ArrayList<>();
-        for (Template cur : templateMap.values())
+        for (Template cur : values)
         {
             if (cur.getID() == id)
             {
@@ -115,10 +109,10 @@ public class TemplateHandler
         return list;
     }
 
-    public List<Template> searchTemplateByName(String name)
+    public List<Template> searchTemplateByName(List<Template> values, String name)
     {
         List<Template> list = new ArrayList<>();
-        for (Template cur : templateMap.values())
+        for (Template cur : values)
         {
             if (cur.getName().equals(name))
             {
@@ -128,10 +122,10 @@ public class TemplateHandler
         return list;
     }
 
-    public List<Template> searchTemplateByDescription(String description)
+    public List<Template> searchTemplateByDescription(List<Template> values, String description)
     {
         List<Template> list = new ArrayList<>();
-        for (Template cur : templateMap.values())
+        for (Template cur : values)
         {
             if (cur.getDescription().equals(description))
             {
@@ -141,10 +135,10 @@ public class TemplateHandler
         return list;
     }
 
-    public List<Template> searchTemplateByPrice(double price)
+    public List<Template> searchTemplateByPrice(List<Template> values, double price)
     {
         List<Template> list = new ArrayList<>();
-        for (Template cur : templateMap.values())
+        for (Template cur : values)
         {
             if (cur.getPrice() == price)
             {
@@ -154,10 +148,10 @@ public class TemplateHandler
         return list;
     }
 
-    public List<Template> searchTemplateByArea(Area area)
+    public List<Template> searchTemplateByArea(List<Template> values, Area area)
     {
         List<Template> list = new ArrayList<>();
-        for (Template cur : templateMap.values())
+        for (Template cur : values)
         {
             if (cur.getArea().equals(area))
             {

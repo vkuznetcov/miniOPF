@@ -7,6 +7,9 @@ import com.netcracker.miniOPF.order.Order;
 import com.netcracker.miniOPF.service.Service;
 import com.netcracker.miniOPF.template.Template;
 
+import java.util.Collection;
+import java.util.List;
+
 public interface Storage
 {
     void createCustomer(Customer customer);
@@ -47,4 +50,16 @@ public interface Storage
     void deleteTemplate(int id);
 
     Service createService(int templateID, int customerID);
+
+    List<Admin> getAdminValues();
+
+    List<Area> getAreaValues();
+
+    List<Customer> getCustomerValues();
+
+    List<Order> getOrderValues();
+
+    List<Service> getServiceValues();
+
+    List<Template> getTemplateValues();
 }

@@ -3,6 +3,7 @@ package com.netcracker.miniOPF.controller;
 import com.netcracker.miniOPF.order.enums.OrderAction;
 import com.netcracker.miniOPF.service.enums.ServiceStatus;
 import com.netcracker.miniOPF.storage.Storage;
+import com.netcracker.miniOPF.utils.storageUtils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,11 +12,29 @@ import org.springframework.stereotype.Component;
 public class Controller
 {
     private final Storage storage;
+    private final CustomerHandler customerHandler;
+    private final OrderHandler orderHandler;
+    private final ServiceHandler serviceHandler;
+    private final AdminHandler adminHandler;
+    private final AreaHandler areaHandler;
+    private final TemplateHandler templateHandler;
 
     @Autowired
-    public Controller(Storage storage)
+    public Controller(Storage storage,
+                      CustomerHandler customerHandler,
+                      OrderHandler orderHandler,
+                      ServiceHandler serviceHandler,
+                      AdminHandler adminHandler,
+                      AreaHandler areaHandler,
+                      TemplateHandler templateHandler)
     {
         this.storage = storage;
+        this.customerHandler = customerHandler;
+        this.orderHandler = orderHandler;
+        this.serviceHandler = serviceHandler;
+        this.adminHandler = adminHandler;
+        this.areaHandler = areaHandler;
+        this.templateHandler = templateHandler;
     }
 
     public void suspendService(int id)
@@ -49,4 +68,6 @@ public class Controller
 
         storage.createService(storage.createService(templateID, customerID));
     }
+
+
 }

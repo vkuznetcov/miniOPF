@@ -1,4 +1,4 @@
-package com.netcracker.miniOPF.order.impl;
+package com.netcracker.miniOPF.order;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonTypeName;

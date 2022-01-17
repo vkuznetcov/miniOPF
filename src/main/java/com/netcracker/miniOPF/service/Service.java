@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.netcracker.miniOPF.customer.Customer;
 import com.netcracker.miniOPF.service.enums.ServiceStatus;
-import com.netcracker.miniOPF.service.impl.ServiceImpl;
 import com.netcracker.miniOPF.template.Template;
 
 @JsonTypeInfo(
