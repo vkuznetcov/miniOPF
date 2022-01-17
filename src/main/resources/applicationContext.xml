@@ -1,20 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans  xmlns="http://www.springframework.org/schema/beans"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:context="http://www.springframework.org/schema/context"
-        xsi:schemaLocation="http://www.springframework.org/schema/beans
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-<!--    <bean id="storage"-->
-<!--          class = "com.netcracker.miniOPF.storage.StorageImpl">-->
-<!--    </bean>-->
+    <context:property-placeholder location="classpath:application.properties"/>
+    <bean id="customerMap"
+          class="java.util.HashMap">
+    </bean>
+    <bean id="orderMap"
+          class="java.util.HashMap">
+    </bean>
+    <bean id="serviceMap"
+          class="java.util.HashMap">
+    </bean>
+    <bean id="adminMap"
+          class="java.util.HashMap">
+    </bean>
+    <bean id="areaMap"
+          class="java.util.HashMap">
+    </bean>
+    <bean id="templateMap"
+          class="java.util.HashMap">
+    </bean>
 
-<!--    <bean id="controller"-->
-<!--          class="com.netcracker.miniOPF.controller.Controller">-->
-<!--        <constructor-arg ref="storage"/>-->
-<!--    </bean>-->
+    <bean id="storage"
+          class="com.netcracker.miniOPF.storage.StorageImpl">
+        <constructor-arg ref="customerMap"/>
+        <constructor-arg ref="orderMap"/>
+        <constructor-arg ref="serviceMap"/>
+        <constructor-arg ref="adminMap"/>
+        <constructor-arg ref="areaMap"/>
+        <constructor-arg ref="templateMap"/>
+    </bean>
+
+    <bean id="controller"
+          class="com.netcracker.miniOPF.controller.Controller">
+        <constructor-arg ref="storage"/>
+    </bean>
 
     <context:component-scan base-package="com.netcracker.miniOPF"/>
 
