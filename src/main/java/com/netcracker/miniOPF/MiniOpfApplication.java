@@ -17,11 +17,11 @@ public class MiniOpfApplication
 {
 
 
-//	static Controller controller;
+//	static TemplateController controller;
 //	static Storage storage;
 
 //	@Autowired
-//	public MiniOpfApplication(Controller controller) {
+//	public MiniOpfApplication(TemplateController controller) {
 //		this.controller = controller;
 //	}
 

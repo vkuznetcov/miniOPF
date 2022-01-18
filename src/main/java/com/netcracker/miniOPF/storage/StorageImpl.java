@@ -9,6 +9,7 @@ import com.netcracker.miniOPF.service.ServiceImpl;
 import com.netcracker.miniOPF.storage.Storage;
 import com.netcracker.miniOPF.template.Template;
 import com.netcracker.miniOPF.utils.storageUtils.*;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component("storage")
+@Scope("singleton")
 public class StorageImpl implements Storage
 {
     private Map<Integer, Customer> customerMap;

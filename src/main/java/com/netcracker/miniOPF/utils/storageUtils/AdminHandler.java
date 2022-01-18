@@ -53,7 +53,7 @@ public class AdminHandler
         return values.stream().sorted((o1, o2) -> o2.getName().compareTo(o1.getName())).toList();
     }
 
-    public List<Admin> searchAdminByLogin(List<Admin> values, String login)
+    public List<Admin> searchAdminsByLogin(List<Admin> values, String login)
     {
         List<Admin> list = new ArrayList<>();
         for (Admin cur : values)
@@ -66,7 +66,7 @@ public class AdminHandler
         return list;
     }
 
-    public List<Admin> searchAdminByPassword(List<Admin> values, String password)
+    public List<Admin> searchAdminsByPassword(List<Admin> values, String password)
     {
         List<Admin> list = new ArrayList<>();
         for (Admin cur : values)
@@ -79,7 +79,7 @@ public class AdminHandler
         return list;
     }
 
-    public List<Admin> searchAdminByID(List<Admin> values, int id)
+    public List<Admin> searchAdminsByID(List<Admin> values, int id)
     {
         List<Admin> list = new ArrayList<>();
         for (Admin cur : values)
@@ -92,7 +92,7 @@ public class AdminHandler
         return list;
     }
 
-    public List<Admin> searchAdminByName(List<Admin> values, String name)
+    public List<Admin> searchAdminsByName(List<Admin> values, String name)
     {
         List<Admin> list = new ArrayList<>();
         for (Admin cur : values)

@@ -43,7 +43,7 @@ public class AreaHandler
                 .toList();
     }
 
-    public List<Area> searchServiceByID(List<Area> values, int id)
+    public List<Area> searchAreasByID(List<Area> values, int id)
     {
         List<Area> list = new ArrayList<>();
         for (Area cur : values)
@@ -56,7 +56,7 @@ public class AreaHandler
         return list;
     }
 
-    public List<Area> searchServiceByName(List<Area> values, String name)
+    public List<Area> searchAreasByName(List<Area> values, String name)
     {
         List<Area> list = new ArrayList<>();
         for (Area cur : values)
@@ -69,7 +69,7 @@ public class AreaHandler
         return list;
     }
 
-    public List<Area> searchServiceByDescription(List<Area> values, String description)
+    public List<Area> searchAreasByDescription(List<Area> values, String description)
     {
         List<Area> list = new ArrayList<>();
         for (Area cur : values)
