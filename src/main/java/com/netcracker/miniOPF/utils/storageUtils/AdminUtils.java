@@ -8,7 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @Component
-public class AdminHandler
+public class AdminUtils
 {
     public List<Admin> sortAdminsByLogin(List<Admin> values)
     {
@@ -53,17 +53,26 @@ public class AdminHandler
         return values.stream().sorted((o1, o2) -> o2.getName().compareTo(o1.getName())).toList();
     }
 
-    public List<Admin> searchAdminsByLogin(List<Admin> values, String login)
+    public Admin searchAdminByLogin(List<Admin> values, String login)
     {
-        List<Admin> list = new ArrayList<>();
+//        List<Admin> list = new ArrayList<>();
+//        for (Admin cur : values)
+//        {
+//            if (cur.getLogin().equals(login))
+//            {
+//                list.add(cur);
+//            }
+//        }
+//        return list;
+
         for (Admin cur : values)
         {
             if (cur.getLogin().equals(login))
             {
-                list.add(cur);
+                return cur;
             }
         }
-        return list;
+        return null;
     }
 
     public List<Admin> searchAdminsByPassword(List<Admin> values, String password)
@@ -79,17 +88,26 @@ public class AdminHandler
         return list;
     }
 
-    public List<Admin> searchAdminsByID(List<Admin> values, int id)
+    public Admin searchAdminByID(List<Admin> values, int id)
     {
-        List<Admin> list = new ArrayList<>();
+//        List<Admin> list = new ArrayList<>();
+//        for (Admin cur : values)
+//        {
+//            if (cur.getID() == id)
+//            {
+//                list.add(cur);
+//            }
+//        }
+//        return list;
+
         for (Admin cur : values)
         {
             if (cur.getID() == id)
             {
-                list.add(cur);
+                return cur;
             }
         }
-        return list;
+        return null;
     }
 
     public List<Admin> searchAdminsByName(List<Admin> values, String name)

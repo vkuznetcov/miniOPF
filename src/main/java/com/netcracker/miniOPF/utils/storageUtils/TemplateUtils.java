@@ -9,7 +9,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @Component
-public class TemplateHandler
+public class TemplateUtils
 {
 
     public List<Template> sortTemplatesByID(List<Template> values)
@@ -96,46 +96,74 @@ public class TemplateHandler
                 .toList();
     }
 
-    public List<Template> searchTemplateByID(List<Template> values, int id)
+    public Template searchTemplateByID(List<Template> values, int id)
     {
-        List<Template> list = new ArrayList<>();
+//        List<Template> list = new ArrayList<>();
+//        for (Template cur : values)
+//        {
+//            if (cur.getID() == id)
+//            {
+//                list.add(cur);
+//            }
+//        }
+//        return list;
+
         for (Template cur : values)
         {
             if (cur.getID() == id)
             {
-                list.add(cur);
+                return cur;
             }
         }
-        return list;
+
+        return null;
     }
 
-    public List<Template> searchTemplateByName(List<Template> values, String name)
+    public Template searchTemplateByName(List<Template> values, String name)
     {
-        List<Template> list = new ArrayList<>();
+//        List<Template> list = new ArrayList<>();
+//        for (Template cur : values)
+//        {
+//            if (cur.getName().equals(name))
+//            {
+//                list.add(cur);
+//            }
+//        }
+//        return list;
+
         for (Template cur : values)
         {
             if (cur.getName().equals(name))
             {
-                list.add(cur);
+                return cur;
             }
         }
-        return list;
+        return null;
     }
 
-    public List<Template> searchTemplateByDescription(List<Template> values, String description)
+    public Template searchTemplateByDescription(List<Template> values, String description)
     {
-        List<Template> list = new ArrayList<>();
+//        List<Template> list = new ArrayList<>();
+//        for (Template cur : values)
+//        {
+//            if (cur.getDescription().equals(description))
+//            {
+//                list.add(cur);
+//            }
+//        }
+//        return list;
+
         for (Template cur : values)
         {
             if (cur.getDescription().equals(description))
             {
-                list.add(cur);
+                return cur;
             }
         }
-        return list;
+        return null;
     }
 
-    public List<Template> searchTemplateByPrice(List<Template> values, double price)
+    public List<Template> searchTemplatesByPrice(List<Template> values, double price)
     {
         List<Template> list = new ArrayList<>();
         for (Template cur : values)
@@ -148,7 +176,7 @@ public class TemplateHandler
         return list;
     }
 
-    public List<Template> searchTemplateByArea(List<Template> values, Area area)
+    public List<Template> searchTemplatesByArea(List<Template> values, Area area)
     {
         List<Template> list = new ArrayList<>();
         for (Template cur : values)

@@ -1,14 +1,7 @@
 package com.netcracker.miniOPF;
 
-import com.netcracker.miniOPF.admin.Admin;
-import com.netcracker.miniOPF.admin.AdminImpl;
-import com.netcracker.miniOPF.jsonHanlder.JsonHandler;
-import com.netcracker.miniOPF.storage.Storage;
-import com.netcracker.miniOPF.storage.StorageImpl;
-import com.netcracker.miniOPF.utils.consts.PathConsts;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 
@@ -60,7 +53,7 @@ public class MiniOpfApplication
 //
 //        JsonHandler.serializeJson(admin, PathConsts.ADMIN_PATH);
 
-		SpringApplication.run(MiniOpfApplication.class, args);
+        SpringApplication.run(MiniOpfApplication.class, args);
     }
 
 }

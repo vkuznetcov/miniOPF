@@ -2,7 +2,7 @@ package com.netcracker.miniOPF.controller;
 
 import com.netcracker.miniOPF.admin.Admin;
 import com.netcracker.miniOPF.storage.Storage;
-import com.netcracker.miniOPF.utils.storageUtils.AdminHandler;
+import com.netcracker.miniOPF.utils.storageUtils.AdminUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,75 +13,75 @@ import java.util.List;
 public class AdminController
 {
     private final Storage storage;
-    private final AdminHandler adminHandler;
+    private final AdminUtils adminUtils;
 
     @Autowired
     public AdminController(Storage storage,
-                           AdminHandler adminHandler
+                           AdminUtils adminUtils
                           )
     {
         this.storage = storage;
-        this.adminHandler = adminHandler;
+        this.adminUtils = adminUtils;
     }
 
     public List<Admin> sortAdminsByID()
     {
-        return adminHandler.sortAdminsByID(storage.getAdminValues());
+        return adminUtils.sortAdminsByID(storage.getAdminValues());
     }
 
     public List<Admin> sortAdminsByIDReversed()
     {
-        return adminHandler.sortAdminsByIDReversed(storage.getAdminValues());
+        return adminUtils.sortAdminsByIDReversed(storage.getAdminValues());
     }
 
     public List<Admin> sortAdminsByLogin()
     {
-        return adminHandler.sortAdminsByLogin(storage.getAdminValues());
+        return adminUtils.sortAdminsByLogin(storage.getAdminValues());
     }
 
     public List<Admin> sortAdminsByLoginReversed()
     {
-        return adminHandler.sortAdminsByLoginReversed(storage.getAdminValues());
+        return adminUtils.sortAdminsByLoginReversed(storage.getAdminValues());
     }
 
     public List<Admin> sortAdminsByName()
     {
-        return adminHandler.sortAdminsByName(storage.getAdminValues());
+        return adminUtils.sortAdminsByName(storage.getAdminValues());
     }
 
     public List<Admin> sortAdminsByNameReversed()
     {
-        return adminHandler.sortAdminsByNameReversed(storage.getAdminValues());
+        return adminUtils.sortAdminsByNameReversed(storage.getAdminValues());
     }
 
     public List<Admin> sortAdminsByPassword()
     {
-        return adminHandler.sortAdminsByPassword(storage.getAdminValues());
+        return adminUtils.sortAdminsByPassword(storage.getAdminValues());
     }
 
     public List<Admin> sortAdminsByPasswordReversed()
     {
-        return adminHandler.sortAdminsByPasswordReversed(storage.getAdminValues());
+        return adminUtils.sortAdminsByPasswordReversed(storage.getAdminValues());
     }
 
-    public List<Admin> searchAdminsByID(int ID)
+    public Admin searchAdminByID(int ID)
     {
-        return adminHandler.searchAdminsByID(storage.getAdminValues(), ID);
+        return adminUtils.searchAdminByID(storage.getAdminValues(), ID);
     }
 
-    public List<Admin> searchAdminsByLogin(String login)
+    public Admin searchAdminByLogin(String login)
     {
-        return adminHandler.searchAdminsByLogin(storage.getAdminValues(), login);
+        return adminUtils.searchAdminByLogin(storage.getAdminValues(), login);
     }
 
     public List<Admin> searchAdminsByName(String name)
     {
-        return adminHandler.searchAdminsByName(storage.getAdminValues(), name);
+        return adminUtils.searchAdminsByName(storage.getAdminValues(), name);
     }
 
     public List<Admin> searchAdminsByPassword(String password)
     {
-        return adminHandler.searchAdminsByPassword(storage.getAdminValues(), password);
+        return adminUtils.searchAdminsByPassword(storage.getAdminValues(), password);
     }
 
     public Admin getAdmin(int id)

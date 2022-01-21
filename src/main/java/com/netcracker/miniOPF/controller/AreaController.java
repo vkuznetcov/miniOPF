@@ -2,7 +2,7 @@ package com.netcracker.miniOPF.controller;
 
 import com.netcracker.miniOPF.area.Area;
 import com.netcracker.miniOPF.storage.Storage;
-import com.netcracker.miniOPF.utils.storageUtils.AreaHandler;
+import com.netcracker.miniOPF.utils.storageUtils.AreaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,59 +13,59 @@ import java.util.List;
 public class AreaController
 {
     private final Storage storage;
-    private final AreaHandler areaHandler;
+    private final AreaUtils areaUtils;
 
     @Autowired
     public AreaController(Storage storage,
-                          AreaHandler areaHandler)
+                          AreaUtils areaUtils)
     {
         this.storage = storage;
-        this.areaHandler = areaHandler;
+        this.areaUtils = areaUtils;
     }
 
     public List<Area> sortAreasByID()
     {
-        return areaHandler.sortAreasByID(storage.getAreaValues());
+        return areaUtils.sortAreasByID(storage.getAreaValues());
     }
 
     public List<Area> sortAreasByIDReversed()
     {
-        return areaHandler.sortAreasByIDReversed(storage.getAreaValues());
+        return areaUtils.sortAreasByIDReversed(storage.getAreaValues());
     }
 
     public List<Area> sortAreasByName()
     {
-        return areaHandler.sortAreasByName(storage.getAreaValues());
+        return areaUtils.sortAreasByName(storage.getAreaValues());
     }
 
     public List<Area> sortAreasByNameReversed()
     {
-        return areaHandler.sortAreasByNameReversed(storage.getAreaValues());
+        return areaUtils.sortAreasByNameReversed(storage.getAreaValues());
     }
 
     public List<Area> sortAreasByDescription()
     {
-        return areaHandler.sortAreasByDescription(storage.getAreaValues());
+        return areaUtils.sortAreasByDescription(storage.getAreaValues());
     }
 
     public List<Area> sortAreasByDescriptionReversed()
     {
-        return areaHandler.sortAreasByDescriptionReversed(storage.getAreaValues());
+        return areaUtils.sortAreasByDescriptionReversed(storage.getAreaValues());
     }
 
-    public List<Area> searchAreasByID(int ID)
+    public Area searchAreaByID(int ID)
     {
-        return areaHandler.searchAreasByID(storage.getAreaValues(), ID);
+        return areaUtils.searchAreaByID(storage.getAreaValues(), ID);
     }
 
-    public List<Area> searchAreasByName(String name)
+    public Area searchAreaByName(String name)
     {
-        return areaHandler.searchAreasByName(storage.getAreaValues(), name);
+        return areaUtils.searchAreaByName(storage.getAreaValues(), name);
     }
 
     public List<Area> searchAreasByDescription(String description)
     {
-        return areaHandler.searchAreasByDescription(storage.getAreaValues(), description);
+        return areaUtils.searchAreasByDescription(storage.getAreaValues(), description);
     }
 
     public Area getArea(int id)

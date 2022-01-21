@@ -6,7 +6,7 @@ import com.netcracker.miniOPF.order.enums.OrderAction;
 import com.netcracker.miniOPF.order.enums.OrderStatus;
 import com.netcracker.miniOPF.service.Service;
 import com.netcracker.miniOPF.storage.Storage;
-import com.netcracker.miniOPF.utils.storageUtils.OrderHandler;
+import com.netcracker.miniOPF.utils.storageUtils.OrderUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,14 +17,14 @@ import java.util.List;
 public class OrderController
 {
     private final Storage storage;
-    private final OrderHandler orderHandler;
+    private final OrderUtils orderUtils;
 
     @Autowired
     public OrderController(Storage storage,
-                           OrderHandler orderHandler)
+                           OrderUtils orderUtils)
     {
         this.storage = storage;
-        this.orderHandler = orderHandler;
+        this.orderUtils = orderUtils;
     }
 
     public void suspendOrder(int id)
@@ -39,82 +39,82 @@ public class OrderController
 
     public List<Order> sortOrdersByID()
     {
-        return orderHandler.sortOrdersByID(storage.getOrderValues());
+        return orderUtils.sortOrdersByID(storage.getOrderValues());
     }
 
     public List<Order> sortOrdersByIDReversed()
     {
-        return orderHandler.sortOrdersByIDReversed(storage.getOrderValues());
+        return orderUtils.sortOrdersByIDReversed(storage.getOrderValues());
     }
 
     public List<Order> sortOrdersByAdminLogin()
     {
-        return orderHandler.sortOrdersByAdminLogin(storage.getOrderValues());
+        return orderUtils.sortOrdersByAdminLogin(storage.getOrderValues());
     }
 
     public List<Order> sortOrdersByAdminLoginReversed()
     {
-        return orderHandler.sortOrdersByAdminLoginReversed(storage.getOrderValues());
+        return orderUtils.sortOrdersByAdminLoginReversed(storage.getOrderValues());
     }
 
     public List<Order> sortOrdersByServiceName()
     {
-        return orderHandler.sortOrdersByServiceName(storage.getOrderValues());
+        return orderUtils.sortOrdersByServiceName(storage.getOrderValues());
     }
 
     public List<Order> sortOrdersByServiceNameReversed()
     {
-        return orderHandler.sortOrdersByServiceNameReversed(storage.getOrderValues());
+        return orderUtils.sortOrdersByServiceNameReversed(storage.getOrderValues());
     }
 
     public List<Order> sortOrdersByStatus()
     {
-        return orderHandler.sortOrdersByStatus(storage.getOrderValues());
+        return orderUtils.sortOrdersByStatus(storage.getOrderValues());
     }
 
     public List<Order> sortOrdersByStatusReversed()
     {
-        return orderHandler.sortOrdersByStatusReversed(storage.getOrderValues());
+        return orderUtils.sortOrdersByStatusReversed(storage.getOrderValues());
     }
 
     public List<Order> sortOrdersByAction()
     {
-        return orderHandler.sortOrdersByAction(storage.getOrderValues());
+        return orderUtils.sortOrdersByAction(storage.getOrderValues());
     }
 
     public List<Order> sortOrdersByActionReversed()
     {
-        return orderHandler.sortOrdersByActionReversed(storage.getOrderValues());
+        return orderUtils.sortOrdersByActionReversed(storage.getOrderValues());
     }
 
-    public List<Order> searchOrderByID(
+    public Order searchOrderByID(
             int id)
     {
-        return orderHandler.searchOrderByID(storage.getOrderValues(), id);
+        return orderUtils.searchOrderByID(storage.getOrderValues(), id);
     }
 
-    public List<Order> searchOrderByAdmin(
+    public List<Order> searchOrdersByAdmin(
             Admin admin)
     {
-        return orderHandler.searchOrderByAdmin(storage.getOrderValues(), admin);
+        return orderUtils.searchOrdersByAdmin(storage.getOrderValues(), admin);
     }
 
-    public List<Order> searchOrderByService(
+    public List<Order> searchOrdersByService(
             Service service)
     {
-        return orderHandler.searchOrderByService(storage.getOrderValues(), service);
+        return orderUtils.searchOrdersByService(storage.getOrderValues(), service);
     }
 
-    public List<Order> searchOrderByStatus(
+    public List<Order> searchOrdersByStatus(
             OrderStatus status)
     {
-        return orderHandler.searchOrderByStatus(storage.getOrderValues(), status);
+        return orderUtils.searchOrdersByStatus(storage.getOrderValues(), status);
     }
 
-    public List<Order> searchOrderByAction(
+    public List<Order> searchOrdersByAction(
             OrderAction action)
     {
-        return orderHandler.searchOrderByAction(storage.getOrderValues(), action);
+        return orderUtils.searchOrdersByAction(storage.getOrderValues(), action);
     }
 
     public Order getOrder(int id)

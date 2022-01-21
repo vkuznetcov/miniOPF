@@ -2,7 +2,7 @@ package com.netcracker.miniOPF.controller;
 
 import com.netcracker.miniOPF.customer.Customer;
 import com.netcracker.miniOPF.storage.Storage;
-import com.netcracker.miniOPF.utils.storageUtils.CustomerHandler;
+import com.netcracker.miniOPF.utils.storageUtils.CustomerUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,94 +13,94 @@ import java.util.List;
 public class CustomerController
 {
     private final Storage storage;
-    private final CustomerHandler customerHandler;
+    private final CustomerUtils customerUtils;
 
     @Autowired
     public CustomerController(Storage storage,
-                              CustomerHandler customerHandler)
+                              CustomerUtils customerUtils)
     {
         this.storage = storage;
-        this.customerHandler = customerHandler;
+        this.customerUtils = customerUtils;
     }
 
     public List<Customer> sortCustomersByLogin()
     {
-        return customerHandler.sortCustomersByLogin(storage.getCustomerValues());
+        return customerUtils.sortCustomersByLogin(storage.getCustomerValues());
     }
 
     public List<Customer> sortCustomersByLoginReversed()
     {
-        return customerHandler.sortCustomersByLoginReversed(storage.getCustomerValues());
+        return customerUtils.sortCustomersByLoginReversed(storage.getCustomerValues());
     }
 
     public List<Customer> sortCustomersByPassword()
     {
-        return customerHandler.sortCustomersByPassword(storage.getCustomerValues());
+        return customerUtils.sortCustomersByPassword(storage.getCustomerValues());
     }
 
     public List<Customer> sortCustomersByPasswordReversed()
     {
-        return customerHandler.sortCustomersByPasswordReversed(storage.getCustomerValues());
+        return customerUtils.sortCustomersByPasswordReversed(storage.getCustomerValues());
     }
 
     public List<Customer> sortCustomersByBalance()
     {
-        return customerHandler.sortCustomersByBalance(storage.getCustomerValues());
+        return customerUtils.sortCustomersByBalance(storage.getCustomerValues());
     }
 
     public List<Customer> sortCustomersByBalanceReversed()
     {
-        return customerHandler.sortCustomersByBalanceReversed(storage.getCustomerValues());
+        return customerUtils.sortCustomersByBalanceReversed(storage.getCustomerValues());
     }
 
     public List<Customer> sortCustomersByName()
     {
-        return customerHandler.sortCustomersByName(storage.getCustomerValues());
+        return customerUtils.sortCustomersByName(storage.getCustomerValues());
     }
 
     public List<Customer> sortCustomersByNameReversed()
     {
-        return customerHandler.sortCustomersByNameReversed(storage.getCustomerValues());
+        return customerUtils.sortCustomersByNameReversed(storage.getCustomerValues());
     }
 
     public List<Customer> sortCustomersByID()
     {
-        return customerHandler.sortCustomersByID(storage.getCustomerValues());
+        return customerUtils.sortCustomersByID(storage.getCustomerValues());
     }
 
     public List<Customer> sortCustomersByIDReversed()
     {
-        return customerHandler.sortCustomersByIDReversed(storage.getCustomerValues());
+        return customerUtils.sortCustomersByIDReversed(storage.getCustomerValues());
     }
 
-    public List<Customer> searchCustomerByLogin(
+    public Customer searchCustomerByLogin(
             String login)
     {
-        return customerHandler.searchCustomerByLogin(storage.getCustomerValues(), login);
+        return customerUtils.searchCustomerByLogin(storage.getCustomerValues(), login);
     }
 
-    public List<Customer> searchCustomerByPassword(
+    public List<Customer> searchCustomersByPassword(
             String password)
     {
-        return customerHandler.searchCustomerByPassword(storage.getCustomerValues(), password);
+        return customerUtils.searchCustomersByPassword(storage.getCustomerValues(), password);
     }
 
-    public List<Customer> searchCustomerByBalance(
+    public List<Customer> searchCustomersByBalance(
             double balance)
     {
-        return customerHandler.searchCustomerByBalance(storage.getCustomerValues(), balance);
+        return customerUtils.searchCustomersByBalance(storage.getCustomerValues(), balance);
     }
 
-    public List<Customer> searchCustomerByName(
+    public List<Customer> searchCustomersByName(
             String name)
     {
-        return customerHandler.searchCustomerByName(storage.getCustomerValues(), name);
+        return customerUtils.searchCustomersByName(storage.getCustomerValues(), name);
     }
 
-    public List<Customer> searchCustomerByID(
+    public Customer searchCustomerByID(
             int id)
     {
-        return customerHandler.searchCustomerByID(storage.getCustomerValues(), id);
+        return customerUtils.searchCustomerByID(storage.getCustomerValues(), id);
     }
 
     public Customer getCustomer(int id)

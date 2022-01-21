@@ -3,7 +3,6 @@ package com.netcracker.miniOPF.admin;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.netcracker.miniOPF.admin.Admin;
 
 @JsonTypeName("admin")
 @JsonInclude(JsonInclude.Include.NON_NULL)
