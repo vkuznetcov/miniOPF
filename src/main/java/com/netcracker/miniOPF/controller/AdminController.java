@@ -84,4 +84,13 @@ public class AdminController
         return adminHandler.searchAdminsByPassword(storage.getAdminValues(), password);
     }
 
+    public Admin getAdmin(int id)
+    {
+        return storage.getAdmin(id);
+    }
+
+    public List<Admin> getAdminValues()
+    {
+        return storage.getAdminValues();
+    }
 }

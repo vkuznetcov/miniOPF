@@ -102,4 +102,14 @@ public class CustomerController
     {
         return customerHandler.searchCustomerByID(storage.getCustomerValues(), id);
     }
+
+    public Customer getCustomer(int id)
+    {
+        return storage.getCustomer(id);
+    }
+
+    public List<Customer> getCustomerValues()
+    {
+        return storage.getCustomerValues();
+    }
 }

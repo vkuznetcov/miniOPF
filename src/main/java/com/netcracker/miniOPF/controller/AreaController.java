@@ -68,4 +68,13 @@ public class AreaController
         return areaHandler.searchAreasByDescription(storage.getAreaValues(), description);
     }
 
+    public Area getArea(int id)
+    {
+        return storage.getArea(id);
+    }
+
+    public List<Area> getAreaValues()
+    {
+        return storage.getAreaValues();
+    }
 }

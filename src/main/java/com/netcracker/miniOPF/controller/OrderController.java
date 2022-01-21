@@ -116,4 +116,14 @@ public class OrderController
     {
         return orderHandler.searchOrderByAction(storage.getOrderValues(), action);
     }
+
+    public Order getOrder(int id)
+    {
+        return storage.getOrder(id);
+    }
+
+    public List<Order> getOrderValues()
+    {
+        return storage.getOrderValues();
+    }
 }

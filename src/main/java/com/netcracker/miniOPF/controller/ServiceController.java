@@ -160,4 +160,14 @@ public class ServiceController
     {
         return serviceHandler.searchServiceByStatus(storage.getServiceValues(), status);
     }
+
+    public Service getService(int id)
+    {
+        return storage.getService(id);
+    }
+
+    public List<Service> getServiceValues()
+    {
+        return storage.getServiceValues();
+    }
 }
