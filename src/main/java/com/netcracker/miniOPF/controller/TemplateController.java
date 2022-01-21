@@ -103,4 +103,14 @@ public class TemplateController
     {
         return templateHandler.searchTemplateByArea(storage.getTemplateValues(), area);
     }
+
+    public Template getTemplate(int id)
+    {
+        return storage.getTemplate(id);
+    }
+
+    public List<Template> getTemplateValues()
+    {
+        return storage.getTemplateValues();
+    }
 }
