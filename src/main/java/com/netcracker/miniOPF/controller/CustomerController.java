@@ -112,4 +112,9 @@ public class CustomerController
     {
         return storage.getCustomerValues();
     }
+
+    public void createCustomer(Customer customer)
+    {
+        storage.createCustomer(customer);
+    }
 }
