@@ -14,8 +14,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class RegistrationController
 {
-    @Autowired
+
     CustomerController customerController;
+
+    @Autowired
+    public RegistrationController(CustomerController customerController)
+    {
+        this.customerController = customerController;
+    }
 
     @GetMapping("/registration")
     public String showRegister(Model model)
@@ -39,11 +45,6 @@ public class RegistrationController
 
         if(password.equals(passConfirm))
         {
-//            ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-//                    "applicationContext.xml");
-
-//            CustomerController customerController = (CustomerController) context.getBean("customerController");
-
             Customer customer = new CustomerImpl();
             customer.setName(name);
             customer.setLogin(login);

@@ -14,12 +14,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class AuthorizationController
 {
-    @Autowired
     CustomerController customerController;
 
-    @GetMapping("/authorization")
-    public String showAuth()
+    @Autowired
+    public AuthorizationController(CustomerController customerController)
     {
+        this.customerController = customerController;
+    }
+
+    @GetMapping("/authorization")
+    public String showAuth(Model model)
+    {
+        model.addAttribute("login", "");
+        model.addAttribute("errorMessage", "");
         return "authorization";
     }
 
@@ -28,16 +35,21 @@ public class AuthorizationController
                                 @RequestParam(name = "login") String login,
                                 @RequestParam(name = "password") String password)
     {
-//        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-//                "applicationContext.xml");
-//
-//        CustomerController customerController = (CustomerController) context.getBean("customerController");
-        if(customerController.searchCustomerByLogin(login)!=null){
-            Customer customer = customerController.searchCustomerByLogin(login);
+        Customer customer = customerController.searchCustomerByLogin(login);
+        if(customer == null){
+            model.addAttribute("errorMessage", "There is no such user!");
+            return "/authorization";
+        }
+        else if(customer.getPassword().equals(password)){
             model.addAttribute("name", customer.getName());
             model.addAttribute("customer", customer);
-            return "redirect:/greeting";
+            return "/greeting";
         }
-        return "/authorization";
+        else
+        {
+            model.addAttribute("login", login);
+            model.addAttribute("errorMessage", "Invalid password!");
+            return "/authorization";
+        }
     }
 }

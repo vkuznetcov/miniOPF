@@ -5,7 +5,6 @@
     <title>Greeting</title>
 </head>
 <body>
-<!--    <div>Hello, <p th:value = "${name}"></p></div>-->
-<p>hello</p>
+<p th:text="'Hello, ' + ${name} + '!'"></p>
 </body>
 </html>
