@@ -1,6 +1,7 @@
-{"type":"admin","password":"abcd","name":"James","login":"admin1","id":1}
-{"type":"admin","password":"abcd","name":"James","login":"admin1","id":1}
-{"type":"admin","password":"abcd","name":"James","login":"admin1","id":1}
-{"type":"admin","password":"abcd","name":"biba","login":"admin1","id":1}
-{"type":"admin","password":"abcd","name":"James","login":"admin1","id":1}
-{"type":"admin","password":"abcd","name":"biba","login":"admin1","id":1}
+{"type":"admin","password":"abcd","name":"ALEX","login":"admin1","id":1}
+{"type":"admin","password":"abcd","name":"STAR","login":"admin1","id":2}
+{"type":"admin","password":"abcd","name":"VOVA","login":"admin1","id":3}
+{"type":"admin","password":"abcd","name":"James","login":"admin1","id":4}
+{"type":"admin","password":"abcd","name":"biba","login":"admin1","id":5}
+{"type":"admin","password":"abcd","name":"boba","login":"admin1","id":6}
+{"type":"admin","password":"abcd","name":"boobs","login":"admin1","id":7}

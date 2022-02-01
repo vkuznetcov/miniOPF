@@ -6,7 +6,9 @@ import com.netcracker.miniOPF.customer.Customer;
 import com.netcracker.miniOPF.order.Order;
 import com.netcracker.miniOPF.service.Service;
 import com.netcracker.miniOPF.service.ServiceImpl;
+import com.netcracker.miniOPF.storage.Storage;
 import com.netcracker.miniOPF.template.Template;
+import com.netcracker.miniOPF.utils.storageUtils.*;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -26,12 +28,7 @@ public class StorageImpl implements Storage
     private Map<Integer, Template> templateMap;
     private int id;
 
-    public StorageImpl(HashMap customerMap,
-                       HashMap orderMap,
-                       HashMap serviceMap,
-                       HashMap adminMap,
-                       HashMap areaMap,
-                       HashMap templateMap)
+    public StorageImpl(HashMap customerMap,HashMap orderMap,HashMap serviceMap,HashMap adminMap,HashMap areaMap,HashMap templateMap)
     {
         this.customerMap = customerMap;
         this.orderMap = orderMap;
@@ -40,32 +37,26 @@ public class StorageImpl implements Storage
         this.areaMap = areaMap;
         this.templateMap = templateMap;
     }
-
-    public void setCustomerMap(HashMap customerMap)
+    public  void setCustomerMap(HashMap customerMap)
     {
         this.customerMap = customerMap;
     }
-
-    public void setOrderMap(HashMap orderMap)
+    public  void setOrderMap (HashMap orderMap)
     {
         this.orderMap = orderMap;
     }
-
-    public void setServiceMap(HashMap serviceMap)
+    public void  setServiceMap (HashMap serviceMap)
     {
         this.serviceMap = serviceMap;
     }
-
     public void setAdminMap(HashMap adminMap)
     {
         this.adminMap = adminMap;
     }
-
     public void setAreaMap(HashMap areaMap)
     {
         this.areaMap = areaMap;
     }
-
     public void setTemplateMap(HashMap templateMap)
     {
         this.templateMap = templateMap;
