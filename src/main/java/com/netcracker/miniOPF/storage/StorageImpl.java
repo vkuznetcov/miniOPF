@@ -9,6 +9,7 @@ import com.netcracker.miniOPF.service.ServiceImpl;
 import com.netcracker.miniOPF.storage.Storage;
 import com.netcracker.miniOPF.template.Template;
 import com.netcracker.miniOPF.utils.storageUtils.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -20,12 +21,12 @@ import java.util.Map;
 @Scope("singleton")
 public class StorageImpl implements Storage
 {
-    private Map<Integer, Customer> customerMap;
-    private Map<Integer, Order> orderMap;
-    private Map<Integer, Service> serviceMap;
-    private Map<Integer, Admin> adminMap;
-    private Map<Integer, Area> areaMap;
-    private Map<Integer, Template> templateMap;
+    private HashMap<Integer, Customer> customerMap;
+    private HashMap<Integer, Order> orderMap;
+    private HashMap<Integer, Service> serviceMap;
+    private HashMap<Integer, Admin> adminMap;
+    private HashMap<Integer, Area> areaMap;
+    private HashMap<Integer, Template> templateMap;
     private int id;
 
     public StorageImpl(HashMap customerMap,HashMap orderMap,HashMap serviceMap,HashMap adminMap,HashMap areaMap,HashMap templateMap)
