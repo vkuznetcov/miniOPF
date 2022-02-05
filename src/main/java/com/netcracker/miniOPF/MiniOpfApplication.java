@@ -3,6 +3,7 @@ package com.netcracker.miniOPF;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.netcracker.miniOPF.admin.Admin;
 import com.netcracker.miniOPF.admin.AdminImpl;
+import com.netcracker.miniOPF.customer.CustomerImpl;
 import com.netcracker.miniOPF.jsonHanlder.JsonHandler;
 import com.netcracker.miniOPF.storage.ConvertMapAndFiles;
 import com.netcracker.miniOPF.storage.Storage;
@@ -61,8 +62,11 @@ public class MiniOpfApplication
 //
 //
 //        JsonHandler.serializeJson(admin, PathConsts.ADMIN_PATH);
-      //  SpringApplication.run(MiniOpfApplication.class, args);
+        SpringApplication.run(MiniOpfApplication.class, args);
         StorageImpl storage = ConvertMapAndFiles.readFile();
+        CustomerImpl customer = new CustomerImpl();
+        customer.setName("Ivan");
+        storage.createCustomer(customer);
         ConvertMapAndFiles.writeFile(storage);
     }
 

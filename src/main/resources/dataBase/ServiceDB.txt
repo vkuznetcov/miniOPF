@@ -1,0 +1,4 @@
+{"type":"service","id":5,"name":"Услуги связи","price":0.0}
+{"type":"service","id":6,"name":"Услуги связи","price":0.0}
+{"type":"service","id":7,"name":"Услуги связи","price":0.0}
+{"type":"service","id":8,"name":"Услуги связи","price":0.0}

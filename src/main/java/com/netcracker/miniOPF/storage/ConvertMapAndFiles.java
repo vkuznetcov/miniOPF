@@ -102,8 +102,10 @@ public class ConvertMapAndFiles
 
     public static void writeFile(StorageImpl storage)
     {
-        try(Writer out = new FileWriter(PathConsts.ADMIN_PATH, true))
+        try
         {
+            new File(PathConsts.ADMIN_PATH).delete();
+            Writer out = new FileWriter(PathConsts.ADMIN_PATH, true);
             List<Admin> listAdmin = storage.getAdminValues();
             for(Admin admin : listAdmin){
                 out.write(new ObjectMapper().writeValueAsString(admin) + "\n");
@@ -114,11 +116,12 @@ public class ConvertMapAndFiles
         {
             e.printStackTrace();
         }
-        try(Writer out = new FileWriter(PathConsts.AREA_PATH, true))
+        try
         {
+            new File(PathConsts.AREA_PATH).delete();
+            Writer out = new FileWriter(PathConsts.AREA_PATH, true);
             List<Area> listArea = storage.getAreaValues();
             for(Area area : listArea){
-                //System.out.println(admin);
                 out.write(new ObjectMapper().writeValueAsString(area) + "\n");
             }
             out.flush();
@@ -127,11 +130,12 @@ public class ConvertMapAndFiles
         {
             e.printStackTrace();
         }
-        try(Writer out = new FileWriter(PathConsts.CUSTOMER_PATH, true))
+        try
         {
+            new File(PathConsts.CUSTOMER_PATH).delete();
+            Writer out = new FileWriter(PathConsts.CUSTOMER_PATH, true);
             List<Customer> listCustomer = storage.getCustomerValues();
             for(Customer customer : listCustomer){
-                //System.out.println(admin);
                 out.write(new ObjectMapper().writeValueAsString(customer) + "\n");
             }
             out.flush();
@@ -140,11 +144,12 @@ public class ConvertMapAndFiles
         {
             e.printStackTrace();
         }
-        try(Writer out = new FileWriter(PathConsts.ORDER_PATH, true))
+        try
         {
+            new File(PathConsts.ORDER_PATH).delete();
+            Writer out = new FileWriter(PathConsts.ORDER_PATH, true);
             List<Order> listOrder = storage.getOrderValues();
             for(Order order : listOrder){
-                //System.out.println(admin);
                 out.write(new ObjectMapper().writeValueAsString(order) + "\n");
             }
             out.flush();
@@ -153,8 +158,10 @@ public class ConvertMapAndFiles
         {
             e.printStackTrace();
         }
-        try(Writer out = new FileWriter(PathConsts.SERVICE_PATH, true))
+        try
         {
+            new File(PathConsts.SERVICE_PATH).delete();
+            Writer out = new FileWriter(PathConsts.SERVICE_PATH, true);
             List<Service> listService = storage.getServiceValues();
             for(Service service : listService){
                 //System.out.println(admin);
@@ -166,8 +173,10 @@ public class ConvertMapAndFiles
         {
             e.printStackTrace();
         }
-        try(Writer out = new FileWriter(PathConsts.TEMPLATE_PATH, true))
+        try
         {
+            new File(PathConsts.TEMPLATE_PATH).delete();
+            Writer out = new FileWriter(PathConsts.TEMPLATE_PATH, true);
             List<Template> listTemplete = storage.getTemplateValues();
             for(Template templete : listTemplete){
                 //System.out.println(admin);
