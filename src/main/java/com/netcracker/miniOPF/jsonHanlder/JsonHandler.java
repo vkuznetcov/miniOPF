@@ -25,7 +25,7 @@ public class JsonHandler
 
     public static <T> void serializeJson(T value, String path)
     {
-        try(Writer out = new FileWriter(path, true))
+        try (Writer out = new FileWriter(path, true))
         {
             out.write(new ObjectMapper().writeValueAsString(value) + "\n");
             out.flush();

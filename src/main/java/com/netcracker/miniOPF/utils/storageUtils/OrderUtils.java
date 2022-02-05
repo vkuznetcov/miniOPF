@@ -12,7 +12,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @Component
-public class OrderHandler
+public class OrderUtils
 {
 
     public List<Order> sortOrdersByID(List<Order> values)
@@ -71,20 +71,29 @@ public class OrderHandler
         return values.stream().sorted((o1, o2) -> o2.getAction().compareTo(o1.getAction())).toList();
     }
 
-    public List<Order> searchOrderByID(List<Order> values, int id)
+    public Order searchOrderByID(List<Order> values, int id)
     {
-        List<Order> list = new ArrayList<>();
+//        List<Order> list = new ArrayList<>();
+//        for (Order cur : values)
+//        {
+//            if (cur.getID() == id)
+//            {
+//                list.add(cur);
+//            }
+//        }
+//        return list;
+
         for (Order cur : values)
         {
             if (cur.getID() == id)
             {
-                list.add(cur);
+                return cur;
             }
         }
-        return list;
+        return null;
     }
 
-    public List<Order> searchOrderByAdmin(List<Order> values, Admin admin)
+    public List<Order> searchOrdersByAdmin(List<Order> values, Admin admin)
     {
         List<Order> list = new ArrayList<>();
         for (Order cur : values)
@@ -97,7 +106,7 @@ public class OrderHandler
         return list;
     }
 
-    public List<Order> searchOrderByService(List<Order> values, Service service)
+    public List<Order> searchOrdersByService(List<Order> values, Service service)
     {
         List<Order> list = new ArrayList<>();
         for (Order cur : values)
@@ -110,7 +119,7 @@ public class OrderHandler
         return list;
     }
 
-    public List<Order> searchOrderByStatus(List<Order> values, OrderStatus status)
+    public List<Order> searchOrdersByStatus(List<Order> values, OrderStatus status)
     {
         List<Order> list = new ArrayList<>();
         for (Order cur : values)
@@ -123,7 +132,7 @@ public class OrderHandler
         return list;
     }
 
-    public List<Order> searchOrderByAction(List<Order> values, OrderAction action)
+    public List<Order> searchOrdersByAction(List<Order> values, OrderAction action)
     {
         List<Order> list = new ArrayList<>();
         for (Order cur : values)

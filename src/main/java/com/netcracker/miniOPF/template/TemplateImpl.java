@@ -3,7 +3,6 @@ package com.netcracker.miniOPF.template;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.netcracker.miniOPF.area.Area;
-import com.netcracker.miniOPF.template.Template;
 
 
 @JsonTypeName("template")

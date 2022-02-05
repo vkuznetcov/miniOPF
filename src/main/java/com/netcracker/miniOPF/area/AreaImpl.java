@@ -1,9 +1,7 @@
 package com.netcracker.miniOPF.area;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.netcracker.miniOPF.area.Area;
 
 
 @JsonTypeName("area")

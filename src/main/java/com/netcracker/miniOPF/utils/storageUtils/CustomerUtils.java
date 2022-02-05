@@ -8,7 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @Component
-public class CustomerHandler
+public class CustomerUtils
 {
 
     public List<Customer> sortCustomersByLogin(List<Customer> values)
@@ -95,20 +95,29 @@ public class CustomerHandler
         return values.stream().sorted((o1, o2) -> o2.getID() - o1.getID()).toList();
     }
 
-    public List<Customer> searchCustomerByLogin(List<Customer> values, String login)
+    public Customer searchCustomerByLogin(List<Customer> values, String login)
     {
-        List<Customer> list = new ArrayList<>();
+//        List<Customer> list = new ArrayList<>();
+//        for (Customer cur : values)
+//        {
+//            if (cur.getLogin().equals(login))
+//            {
+//                list.add(cur);
+//            }
+//        }
+//        return list;
+
         for (Customer cur : values)
         {
             if (cur.getLogin().equals(login))
             {
-                list.add(cur);
+                return cur;
             }
         }
-        return list;
+        return null;
     }
 
-    public List<Customer> searchCustomerByPassword(List<Customer> values, String password)
+    public List<Customer> searchCustomersByPassword(List<Customer> values, String password)
     {
         List<Customer> list = new ArrayList<>();
         for (Customer cur : values)
@@ -121,7 +130,7 @@ public class CustomerHandler
         return list;
     }
 
-    public List<Customer> searchCustomerByBalance(List<Customer> values, double balance)
+    public List<Customer> searchCustomersByBalance(List<Customer> values, double balance)
     {
         List<Customer> list = new ArrayList<>();
         for (Customer cur : values)
@@ -134,7 +143,7 @@ public class CustomerHandler
         return list;
     }
 
-    public List<Customer> searchCustomerByName(List<Customer> values, String name)
+    public List<Customer> searchCustomersByName(List<Customer> values, String name)
     {
         List<Customer> list = new ArrayList<>();
         for (Customer cur : values)
@@ -147,16 +156,25 @@ public class CustomerHandler
         return list;
     }
 
-    public List<Customer> searchCustomerByID(List<Customer> values, int id)
+    public Customer searchCustomerByID(List<Customer> values, int id)
     {
-        List<Customer> list = new ArrayList<>();
+//        List<Customer> list = new ArrayList<>();
+//        for (Customer cur : values)
+//        {
+//            if (cur.getID() == id)
+//            {
+//                list.add(cur);
+//            }
+//        }
+//        return list;
+
         for (Customer cur : values)
         {
             if (cur.getID() == id)
             {
-                list.add(cur);
+                return cur;
             }
         }
-        return list;
+        return null;
     }
 }

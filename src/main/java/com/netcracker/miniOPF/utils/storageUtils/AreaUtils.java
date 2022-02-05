@@ -8,7 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @Component
-public class AreaHandler
+public class AreaUtils
 {
     public List<Area> sortAreasByID(List<Area> values)
     {
@@ -43,30 +43,48 @@ public class AreaHandler
                 .toList();
     }
 
-    public List<Area> searchAreasByID(List<Area> values, int id)
+    public Area searchAreaByID(List<Area> values, int id)
     {
-        List<Area> list = new ArrayList<>();
+//        List<Area> list = new ArrayList<>();
+//        for (Area cur : values)
+//        {
+//            if (cur.getID() == id)
+//            {
+//                list.add(cur);
+//            }
+//        }
+//        return list;
+
         for (Area cur : values)
         {
             if (cur.getID() == id)
             {
-                list.add(cur);
+                return cur;
             }
         }
-        return list;
+        return null;
     }
 
-    public List<Area> searchAreasByName(List<Area> values, String name)
+    public Area searchAreaByName(List<Area> values, String name)
     {
-        List<Area> list = new ArrayList<>();
+//        List<Area> list = new ArrayList<>();
+//        for (Area cur : values)
+//        {
+//            if (cur.getName().equals(name))
+//            {
+//                list.add(cur);
+//            }
+//        }
+//        return list;
+
         for (Area cur : values)
         {
             if (cur.getName().equals(name))
             {
-                list.add(cur);
+                return cur;
             }
         }
-        return list;
+        return null;
     }
 
     public List<Area> searchAreasByDescription(List<Area> values, String description)

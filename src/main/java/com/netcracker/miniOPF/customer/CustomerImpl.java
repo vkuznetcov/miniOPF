@@ -4,7 +4,6 @@ package com.netcracker.miniOPF.customer;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.netcracker.miniOPF.customer.Customer;
 import com.netcracker.miniOPF.service.Service;
 
 import java.util.ArrayList;

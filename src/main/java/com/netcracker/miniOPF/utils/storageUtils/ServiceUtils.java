@@ -11,7 +11,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @Component
-public class ServiceHandler
+public class ServiceUtils
 {
 
     public List<Service> sortServicesByID(List<Service> values)
@@ -130,20 +130,29 @@ public class ServiceHandler
                 .toList();
     }
 
-    public List<Service> searchServiceByID(List<Service> values, int id)
+    public Service searchServiceByID(List<Service> values, int id)
     {
-        List<Service> list = new ArrayList<>();
+//        List<Service> list = new ArrayList<>();
+//        for (Service cur : values)
+//        {
+//            if (cur.getID() == id)
+//            {
+//                list.add(cur);
+//            }
+//        }
+//        return list;
+
         for (Service cur : values)
         {
             if (cur.getID() == id)
             {
-                list.add(cur);
+                return cur;
             }
         }
-        return list;
+        return null;
     }
 
-    public List<Service> searchServiceByName(List<Service> values, String name)
+    public List<Service> searchServicesByName(List<Service> values, String name)
     {
         List<Service> list = new ArrayList<>();
         for (Service cur : values)
@@ -156,7 +165,7 @@ public class ServiceHandler
         return list;
     }
 
-    public List<Service> searchServiceByDescription(List<Service> values, String description)
+    public List<Service> searchServicesByDescription(List<Service> values, String description)
     {
         List<Service> list = new ArrayList<>();
         for (Service cur : values)
@@ -169,7 +178,7 @@ public class ServiceHandler
         return list;
     }
 
-    public List<Service> searchServiceByPrice(List<Service> values, double price)
+    public List<Service> searchServicesByPrice(List<Service> values, double price)
     {
         List<Service> list = new ArrayList<>();
         for (Service cur : values)
@@ -182,7 +191,7 @@ public class ServiceHandler
         return list;
     }
 
-    public List<Service> searchServiceByTemplate(List<Service> values, Template template)
+    public List<Service> searchServicesByTemplate(List<Service> values, Template template)
     {
         List<Service> list = new ArrayList<>();
         for (Service cur : values)
@@ -195,7 +204,7 @@ public class ServiceHandler
         return list;
     }
 
-    public List<Service> searchServiceByCustomer(List<Service> values, Customer customer)
+    public List<Service> searchServicesByCustomer(List<Service> values, Customer customer)
     {
         List<Service> list = new ArrayList<>();
         for (Service cur : values)
@@ -208,7 +217,7 @@ public class ServiceHandler
         return list;
     }
 
-    public List<Service> searchServiceByStatus(List<Service> values, ServiceStatus status)
+    public List<Service> searchServicesByStatus(List<Service> values, ServiceStatus status)
     {
         List<Service> list = new ArrayList<>();
         for (Service cur : values)

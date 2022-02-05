@@ -5,7 +5,7 @@ import com.netcracker.miniOPF.service.Service;
 import com.netcracker.miniOPF.service.enums.ServiceStatus;
 import com.netcracker.miniOPF.storage.Storage;
 import com.netcracker.miniOPF.template.Template;
-import com.netcracker.miniOPF.utils.storageUtils.ServiceHandler;
+import com.netcracker.miniOPF.utils.storageUtils.ServiceUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,15 +16,15 @@ import java.util.List;
 public class ServiceController
 {
     private final Storage storage;
-    private final ServiceHandler serviceHandler;
+    private final ServiceUtils serviceUtils;
 
     @Autowired
     public ServiceController(Storage storage,
-                             ServiceHandler serviceHandler
+                             ServiceUtils serviceUtils
                             )
     {
         this.storage = storage;
-        this.serviceHandler = serviceHandler;
+        this.serviceUtils = serviceUtils;
     }
 
     public void suspendService(int id)
@@ -51,114 +51,114 @@ public class ServiceController
 
     public List<Service> sortServicesByID()
     {
-        return serviceHandler.sortServicesByID(storage.getServiceValues());
+        return serviceUtils.sortServicesByID(storage.getServiceValues());
     }
 
     public List<Service> sortServicesByIDReversed()
     {
-        return serviceHandler.sortServicesByIDReversed(storage.getServiceValues());
+        return serviceUtils.sortServicesByIDReversed(storage.getServiceValues());
     }
 
     public List<Service> sortServicesByName()
     {
-        return serviceHandler.sortServicesByName(storage.getServiceValues());
+        return serviceUtils.sortServicesByName(storage.getServiceValues());
     }
 
     public List<Service> sortServicesByNameReversed()
     {
-        return serviceHandler.sortServicesByNameReversed(storage.getServiceValues());
+        return serviceUtils.sortServicesByNameReversed(storage.getServiceValues());
     }
 
     public List<Service> sortServicesByDescription()
     {
-        return serviceHandler.sortServicesByDescription(storage.getServiceValues());
+        return serviceUtils.sortServicesByDescription(storage.getServiceValues());
     }
 
     public List<Service> sortServicesByDescriptionReversed()
     {
-        return serviceHandler.sortServicesByDescriptionReversed(storage.getServiceValues());
+        return serviceUtils.sortServicesByDescriptionReversed(storage.getServiceValues());
     }
 
     public List<Service> sortServicesByPrice()
     {
-        return serviceHandler.sortServicesByPrice(storage.getServiceValues());
+        return serviceUtils.sortServicesByPrice(storage.getServiceValues());
     }
 
     public List<Service> sortServicesByPriceReversed()
     {
-        return serviceHandler.sortServicesByPriceReversed(storage.getServiceValues());
+        return serviceUtils.sortServicesByPriceReversed(storage.getServiceValues());
     }
 
     public List<Service> sortServicesByTemplateName()
     {
-        return serviceHandler.sortServicesByTemplateName(storage.getServiceValues());
+        return serviceUtils.sortServicesByTemplateName(storage.getServiceValues());
     }
 
     public List<Service> sortServicesByTemplateNameReversed()
     {
-        return serviceHandler.sortServicesByTemplateNameReversed(storage.getServiceValues());
+        return serviceUtils.sortServicesByTemplateNameReversed(storage.getServiceValues());
     }
 
     public List<Service> sortServicesByCustomerLogin()
     {
-        return serviceHandler.sortServicesByCustomerLogin(storage.getServiceValues());
+        return serviceUtils.sortServicesByCustomerLogin(storage.getServiceValues());
     }
 
     public List<Service> sortServicesByCustomerLoginReversed()
     {
-        return serviceHandler.sortServicesByCustomerLoginReversed(storage.getServiceValues());
+        return serviceUtils.sortServicesByCustomerLoginReversed(storage.getServiceValues());
     }
 
     public List<Service> sortServicesByStatus()
     {
-        return serviceHandler.sortServicesByStatus(storage.getServiceValues());
+        return serviceUtils.sortServicesByStatus(storage.getServiceValues());
     }
 
     public List<Service> sortServicesByStatusReversed()
     {
-        return serviceHandler.sortServicesByStatusReversed(storage.getServiceValues());
+        return serviceUtils.sortServicesByStatusReversed(storage.getServiceValues());
     }
 
-    public List<Service> searchServiceByID(
+    public Service searchServiceByID(
             int id)
     {
-        return serviceHandler.searchServiceByID(storage.getServiceValues(), id);
+        return serviceUtils.searchServiceByID(storage.getServiceValues(), id);
     }
 
-    public List<Service> searchServiceByName(
+    public List<Service> searchServicesByName(
             String name)
     {
-        return serviceHandler.searchServiceByName(storage.getServiceValues(), name);
+        return serviceUtils.searchServicesByName(storage.getServiceValues(), name);
     }
 
-    public List<Service> searchServiceByDescription(
+    public List<Service> searchServicesByDescription(
             String description)
     {
-        return serviceHandler.searchServiceByDescription(storage.getServiceValues(), description);
+        return serviceUtils.searchServicesByDescription(storage.getServiceValues(), description);
     }
 
-    public List<Service> searchServiceByPrice(
+    public List<Service> searchServicesByPrice(
             double price)
     {
-        return serviceHandler.searchServiceByPrice(storage.getServiceValues(), price);
+        return serviceUtils.searchServicesByPrice(storage.getServiceValues(), price);
     }
 
     public List<Service> searchServiceByTemplate(
             Template template)
     {
-        return serviceHandler.searchServiceByTemplate(storage.getServiceValues(), template);
+        return serviceUtils.searchServicesByTemplate(storage.getServiceValues(), template);
     }
 
-    public List<Service> searchServiceByCustomer(
+    public List<Service> searchServicesByCustomer(
             Customer customer)
     {
-        return serviceHandler.searchServiceByCustomer(storage.getServiceValues(), customer);
+        return serviceUtils.searchServicesByCustomer(storage.getServiceValues(), customer);
     }
 
-    public List<Service> searchServiceByStatus(
+    public List<Service> searchServicesByStatus(
             ServiceStatus status)
     {
-        return serviceHandler.searchServiceByStatus(storage.getServiceValues(), status);
+        return serviceUtils.searchServicesByStatus(storage.getServiceValues(), status);
     }
 
     public Service getService(int id)
