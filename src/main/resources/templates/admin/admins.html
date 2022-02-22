@@ -45,7 +45,45 @@
 </header>
 <table>
     <tr>
-        <th class="header">
+        <td style="border: none">
+            <form>
+                <label>
+                    ID to search: <input type="text" name="valueToSearch"/>
+                    <input type="hidden" name="type" value="id"/>
+                    <input type="submit" value="Search"/>
+                </label>
+            </form>
+        </td>
+        <td style="border: none">
+            <form>
+                <label>
+                    Name to search: <input type="text" name="valueToSearch"/>
+                    <input type="hidden" name="type" value="name"/>
+                    <input type="submit" value="Search"/>
+                </label>
+            </form>
+        </td>
+        <td style="border: none">
+            <form>
+                <label>
+                    Login to search: <input type="text" name="valueToSearch"/>
+                    <input type="hidden" name="type" value="login"/>
+                    <input type="submit" value="Search"/>
+                </label>
+            </form>
+        </td>
+        <td style="border: none">
+            <form>
+                <label>
+                    Password to search: <input type="text" name="valueToSearch"/>
+                    <input type="hidden" name="type" value="password"/>
+                    <input type="submit" value="Search"/>
+                </label>
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <td class="header">
             <!--            <div th:switch="${sort}">-->
             <!--                <a th:case="'desc'" th:href="@{/admin/customers(sort='asc', type='id')}">index</a>-->
             <!--                <a th:case="'asc'" th:href="@{/admin/customers(sort='desc', type='id')}">index</a>-->
@@ -57,17 +95,17 @@
                 </li>
                 <li style="display: inline">
                     <a th:href="@{/admin/admins(sort='asc', type='id')}">
-                        <img src="../../static/images/arrowUp.png"  th:src="@{/images/arrowUp.png}" alt="index"/>
+                        <img src="../../static/images/arrowUp.png" th:src="@{/images/arrowUp.png}" alt="index"/>
                     </a>
                 </li>
                 <li style="display: inline">
                     <a th:href="@{/admin/admins(sort='desc', type='id')}">
-                        <img src="../../static/images/arrowDown.png"  th:src="@{/images/arrowDown.png}" alt="index"/>
+                        <img src="../../static/images/arrowDown.png" th:src="@{/images/arrowDown.png}" alt="index"/>
                     </a>
                 </li>
             </ul>
-        </th>
-        <th class="header">
+        </td>
+        <td class="header">
             <!--            <div th:switch="${sort}">-->
             <!--                <a th:case="'desc'" th:href="@{/admin/customers(sort='asc', type='name')}">name</a>-->
             <!--                <a th:case="'asc'" th:href="@{/admin/customers(sort='desc', type='name')}">name</a>-->
@@ -79,17 +117,17 @@
                 </li>
                 <li style="display: inline">
                     <a th:href="@{/admin/admins(sort='asc', type='name')}">
-                        <img src="../../static/images/arrowUp.png"  th:src="@{/images/arrowUp.png}" alt="name"/>
+                        <img src="../../static/images/arrowUp.png" th:src="@{/images/arrowUp.png}" alt="name"/>
                     </a>
                 </li>
                 <li style="display: inline">
                     <a th:href="@{/admin/admins(sort='desc', type='name')}">
-                        <img src="../../static/images/arrowDown.png"  th:src="@{/images/arrowDown.png}" alt="name"/>
+                        <img src="../../static/images/arrowDown.png" th:src="@{/images/arrowDown.png}" alt="name"/>
                     </a>
                 </li>
             </ul>
-        </th>
-        <th class="header">
+        </td>
+        <td class="header">
             <!--            <div th:switch="${sort}">-->
             <!--                <a th:case="'desc'" th:href="@{/admin/customers(sort='asc', type='login')}">login</a>-->
             <!--                <a th:case="'asc'" th:href="@{/admin/customers(sort='desc', type='login')}">login</a>-->
@@ -101,17 +139,17 @@
                 </li>
                 <li style="display: inline">
                     <a th:href="@{/admin/admins(sort='asc', type='login')}">
-                        <img src="../../static/images/arrowUp.png"  th:src="@{/images/arrowUp.png}" alt="login"/>
+                        <img src="../../static/images/arrowUp.png" th:src="@{/images/arrowUp.png}" alt="login"/>
                     </a>
                 </li>
                 <li style="display: inline">
                     <a th:href="@{/admin/admins(sort='desc', type='login')}">
-                        <img src="../../static/images/arrowDown.png"  th:src="@{/images/arrowDown.png}" alt="login"/>
+                        <img src="../../static/images/arrowDown.png" th:src="@{/images/arrowDown.png}" alt="login"/>
                     </a>
                 </li>
             </ul>
-        </th>
-        <th class="header">
+        </td>
+        <td class="header">
             <!--            <div th:switch="${sort}">-->
             <!--                <a th:case="'desc'" th:href="@{/admin/customers(sort='asc', type='password')}">password</a>-->
             <!--                <a th:case="'asc'" th:href="@{/admin/customers(sort='desc', type='password')}">password</a>-->
@@ -123,16 +161,16 @@
                 </li>
                 <li style="display: inline">
                     <a th:href="@{/admin/admins(sort='asc', type='password')}">
-                        <img src="../../static/images/arrowUp.png"  th:src="@{/images/arrowUp.png}" alt="password"/>
+                        <img src="../../static/images/arrowUp.png" th:src="@{/images/arrowUp.png}" alt="password"/>
                     </a>
                 </li>
                 <li style="display: inline">
                     <a th:href="@{/admin/admins(sort='desc', type='password')}">
-                        <img src="../../static/images/arrowDown.png"  th:src="@{/images/arrowDown.png}" alt="password"/>
+                        <img src="../../static/images/arrowDown.png" th:src="@{/images/arrowDown.png}" alt="password"/>
                     </a>
                 </li>
             </ul>
-        </th>
+        </td>
     </tr>
     <tr th:each="admin : ${table}">
         <td class="cell" th:utext="${admin.getID()}">index</td>

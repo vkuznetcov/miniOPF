@@ -45,8 +45,55 @@
 </header>
 <table>
     <tr>
+        <td style="border: none">
+            <form>
+                <label>
+                    ID to search: <input type="text" name="valueToSearch"/>
+                    <input type="hidden" name="type" value="id"/>
+                    <input type="submit" value="Search"/>
+                </label>
+            </form>
+        </td>
+        <td style="border: none">
+            <form>
+                <label>
+                    Name to search: <input type="text" name="valueToSearch"/>
+                    <input type="hidden" name="type" value="name"/>
+                    <input type="submit" value="Search"/>
+                </label>
+            </form>
+        </td>
+        <td style="border: none">
+            <form>
+                <label>
+                    Login to search: <input type="text" name="valueToSearch"/>
+                    <input type="hidden" name="type" value="login"/>
+                    <input type="submit" value="Search"/>
+                </label>
+            </form>
+        </td>
+        <td style="border: none">
+            <form>
+                <label>
+                    Password to search: <input type="text" name="valueToSearch"/>
+                    <input type="hidden" name="type" value="password"/>
+                    <input type="submit" value="Search"/>
+                </label>
+            </form>
+        </td>
+        <td style="border: none">
+            <form>
+                <label>
+                    Balance to search: <input type="text" name="valueToSearch"/>
+                    <input type="hidden" name="type" value="balance"/>
+                    <input type="submit" value="Search"/>
+                </label>
+            </form>
+        </td>
+    </tr>
+    <tr>
         <!--        <th class = "header"><a th:href="@{/admin/customers(sort='asc', type='id')}">index</a></th>-->
-        <th class="header">
+        <td class="header">
 <!--            <div th:switch="${sort}">-->
 <!--                <a th:case="'desc'" th:href="@{/admin/customers(sort='asc', type='id')}">index</a>-->
 <!--                <a th:case="'asc'" th:href="@{/admin/customers(sort='desc', type='id')}">index</a>-->
@@ -67,8 +114,8 @@
                     </a>
                 </li>
             </ul>
-        </th>
-        <th class="header">
+        </td>
+        <td class="header">
 <!--            <div th:switch="${sort}">-->
 <!--                <a th:case="'desc'" th:href="@{/admin/customers(sort='asc', type='name')}">name</a>-->
 <!--                <a th:case="'asc'" th:href="@{/admin/customers(sort='desc', type='name')}">name</a>-->
@@ -89,8 +136,8 @@
                     </a>
                 </li>
             </ul>
-        </th>
-        <th class="header">
+        </td>
+        <td class="header">
 <!--            <div th:switch="${sort}">-->
 <!--                <a th:case="'desc'" th:href="@{/admin/customers(sort='asc', type='login')}">login</a>-->
 <!--                <a th:case="'asc'" th:href="@{/admin/customers(sort='desc', type='login')}">login</a>-->
@@ -111,8 +158,8 @@
                     </a>
                 </li>
             </ul>
-        </th>
-        <th class="header">
+        </td>
+        <td class="header">
 <!--            <div th:switch="${sort}">-->
 <!--                <a th:case="'desc'" th:href="@{/admin/customers(sort='asc', type='password')}">password</a>-->
 <!--                <a th:case="'asc'" th:href="@{/admin/customers(sort='desc', type='password')}">password</a>-->
@@ -133,8 +180,8 @@
                     </a>
                 </li>
             </ul>
-        </th>
-        <th class="header">
+        </td>
+        <td class="header">
 <!--            <div th:switch="${sort}">-->
 <!--                <a th:case="'desc'" th:href="@{/admin/customers(sort='asc', type='balance')}">balance</a>-->
 <!--                <a th:case="'asc'" th:href="@{/admin/customers(sort='desc', type='balance')}">balance</a>-->
@@ -155,7 +202,7 @@
                     </a>
                 </li>
             </ul>
-        </th>
+        </td>
     </tr>
     <tr th:each="customer : ${table}">
         <td class="cell" th:utext="${customer.getID()}">index</td>

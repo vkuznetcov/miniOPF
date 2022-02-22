@@ -67,7 +67,7 @@ public class AuthorizationController
             {
                 model.addAttribute("name", admin.getName());
                 model.addAttribute("admin", admin);
-                return "redirect:/admin/home?id=" + admin.getID();
+                return "redirect:/admin/customers?id=" + admin.getID() + "&sort=none";
             }
             else
             {

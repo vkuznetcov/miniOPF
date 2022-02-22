@@ -8,17 +8,26 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Objects;
+
 @Controller
 @RequestMapping("/admin")
 public class AdministratorController
 {
 
-    AdminController adminController;
-    AreaController areaController;
-    CustomerController customerController;
-    OrderController orderController;
-    ServiceController serviceController;
-    TemplateController templateController;
+    AdminController     adminController;
+    AreaController      areaController;
+    CustomerController  customerController;
+    OrderController     orderController;
+    ServiceController   serviceController;
+    TemplateController  templateController;
+
+    private static abstract class FormParams{
+        public static final String TYPE         = "type";
+        public static final String SORT_ORDER   = "sort";
+        public static final String SEARCH_VALUE = "valueToSearch";
+        public static final String ID           = "id";
+    }
 
     @Autowired
     public AdministratorController(AdminController adminController,
@@ -28,28 +37,38 @@ public class AdministratorController
                                    ServiceController serviceController,
                                    TemplateController templateController)
     {
-        this.adminController = adminController;
-        this.areaController = areaController;
+        this.adminController    = adminController;
+        this.areaController     = areaController;
         this.customerController = customerController;
-        this.orderController = orderController;
-        this.serviceController = serviceController;
+        this.orderController    = orderController;
+        this.serviceController  = serviceController;
         this.templateController = templateController;
     }
 
-    @GetMapping("/home")
-    public String showHome(@RequestParam(value = "id") int id, Model model){
-        model.addAttribute("name", adminController.getAdmin(id).getName());
-        model.addAttribute("user", adminController.getAdmin(id));
-        return "admin/home";
-    }
     @GetMapping("/customers")
-    public String showCustomers(@RequestParam(value = "type", required = false) String type,
-                                @RequestParam(value = "sort") String sort,Model model){
+    public String showCustomers(@RequestParam(value = FormParams.TYPE, required = false) String type,
+                                @RequestParam(value = FormParams.SORT_ORDER, required = false) String sort,
+                                @RequestParam(value = FormParams.SEARCH_VALUE, required = false) String value,
+                                @RequestParam(value = FormParams.ID, required = false) Integer id, Model model){
+        if(Objects.nonNull(id)){
+            model.addAttribute("userId", id);
+        }
+        if(Objects.nonNull(value)){
+            switch(type){
+                case "id"       -> model.addAttribute("table", customerController.searchCustomerByID(Integer.parseInt(value)));
+                case "name"     -> model.addAttribute("table", customerController.searchCustomersByName(value));
+                case "login"    -> model.addAttribute("table", customerController.searchCustomerByLogin(value));
+                case "password" -> model.addAttribute("table", customerController.searchCustomersByPassword(value));
+                case "balance"  -> model.addAttribute("table", customerController.searchCustomersByBalance(Double.parseDouble(value)));
+            }
+            return "admin/customers";
+        }
         switch (sort)
         {
             case "none" -> {
                 model.addAttribute("table", customerController.getCustomerValues());
                 model.addAttribute("sort", "none");
+                return "admin/customers";
             }
             case "asc" -> {
                 model.addAttribute("sort", "asc");
@@ -79,13 +98,24 @@ public class AdministratorController
     }
 
     @GetMapping("/admins")
-    public String showAdmins(@RequestParam(value = "type", required = false) String type,
-                             @RequestParam(value = "sort") String sort,Model model){
+    public String showAdmins(@RequestParam(value = FormParams.TYPE, required = false) String type,
+                             @RequestParam(value = FormParams.SORT_ORDER, required = false) String sort,
+                             @RequestParam(value = FormParams.SEARCH_VALUE, required = false) String value, Model model){
+        if(Objects.nonNull(value)){
+            switch(type){
+                case "id"       -> model.addAttribute("table", adminController.searchAdminByID(Integer.parseInt(value)));
+                case "name"     -> model.addAttribute("table", adminController.searchAdminsByName(value));
+                case "login"    -> model.addAttribute("table", adminController.searchAdminByLogin(value));
+                case "password" -> model.addAttribute("table", adminController.searchAdminsByPassword(value));
+            }
+            return "admin/admins";
+        }
         switch (sort)
         {
             case "none" -> {
                 model.addAttribute("table", adminController.getAdminValues());
                 model.addAttribute("sort", "none");
+                return "admin/admins";
             }
             case "asc" -> {
                 model.addAttribute("sort", "asc");
