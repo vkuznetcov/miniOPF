@@ -77,4 +77,38 @@ public class AdministratorController
 
         return "admin/customers";
     }
+
+    @GetMapping("/admins")
+    public String showAdmins(@RequestParam(value = "type", required = false) String type,
+                             @RequestParam(value = "sort") String sort,Model model){
+        switch (sort)
+        {
+            case "none" -> {
+                model.addAttribute("table", adminController.getAdminValues());
+                model.addAttribute("sort", "none");
+            }
+            case "asc" -> {
+                model.addAttribute("sort", "asc");
+                switch (type)
+                {
+                    case "id"       -> model.addAttribute("table", adminController.sortAdminsByID());
+                    case "name"     -> model.addAttribute("table", adminController.sortAdminsByName());
+                    case "login"    -> model.addAttribute("table", adminController.sortAdminsByLogin());
+                    case "password" -> model.addAttribute("table", adminController.sortAdminsByPassword());
+                }
+            }
+            case "desc" -> {
+                model.addAttribute("sort", "desc");
+                switch (type)
+                {
+                    case "id"       -> model.addAttribute("table", adminController.sortAdminsByIDReversed());
+                    case "name"     -> model.addAttribute("table", adminController.sortAdminsByNameReversed());
+                    case "login"    -> model.addAttribute("table", adminController.sortAdminsByLoginReversed());
+                    case "password" -> model.addAttribute("table", adminController.sortAdminsByPasswordReversed());
+                }
+            }
+        }
+
+        return "admin/admins";
+    }
 }
