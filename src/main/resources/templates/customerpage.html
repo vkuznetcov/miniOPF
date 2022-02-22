@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer page</title>
+</head>
+<body>
+<table>
+    <tr>
+        <td  style="vertical-align: center; text-align: center;">
+            <td th:text="'Hello,' + ${name} + '!'"> </td>
+            <td style="width: 1500px"></td>
+            <td th:text="${balance}"> </td>
+            <td > <input type="submit" value="Settings"/></td>
+            <td > <input type="submit" value="Exit"/></td>
+        </td>
+    </tr>
+</table>
+<table>
+    <tr>
+        <td style="height: 50px; vertical-align: center; text-align: center; width: 100px">
+        <th th:action="@{/active services}" method="get">Active Services</th>
+        <th th:href="@{/avaible services}">Avaible Services</th>
+        </td>
+    </tr>
+    <tr>
+        <td style="height: 200px; vertical-align: center; text-align: center; width: 100px">
+             <a th:text="${services}"></a>
+         </td>
+     </tr>
+ </table>
+ </body>
+ </html>

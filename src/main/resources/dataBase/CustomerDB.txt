@@ -1,3 +1,6 @@
 {"type":"customer","balance":0.0,"id":3}
 {"type":"customer","balance":0.0,"id":4}
-{"type":"customer","balance":0.0,"name":"Ivan","id":9}
+{"type":"customer","balance":1000.0,"name":"Ivan","id":5}
+{"type":"customer","balance":30.0,"name":"Ivan","id":6}
+{"type":"customer","balance":20.0,"name":"Ivan","id":7}
+{"type":"customer","balance":10.0,"name":"Ivan","id":13}

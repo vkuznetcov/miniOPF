@@ -28,9 +28,10 @@ public class ConvertMapAndFiles
 {
     public static StorageImpl readFile()
     {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-        ObjectMapper objectMapper = new ObjectMapper();
-        StorageImpl storage = context.getBean("storage", StorageImpl.class);
+        //ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        //ObjectMapper objectMapper = new ObjectMapper();
+        //StorageImpl storage = context.getBean("storage", StorageImpl.class);
+        StorageImpl storage = new StorageImpl(new HashMap<>(),new HashMap<>(),new HashMap<>(),new HashMap<>(),new HashMap<>(),new HashMap<>());
         try (Reader in = new FileReader(PathConsts.ADMIN_PATH);
              Scanner scanner = new Scanner(in))
         {

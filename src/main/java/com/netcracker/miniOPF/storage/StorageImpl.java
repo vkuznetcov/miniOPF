@@ -29,6 +29,7 @@ public class StorageImpl implements Storage
     private HashMap<Integer, Template> templateMap;
     private int id;
 
+    @Autowired
     public StorageImpl(HashMap customerMap,HashMap orderMap,HashMap serviceMap,HashMap adminMap,HashMap areaMap,HashMap templateMap)
     {
         this.customerMap = customerMap;
