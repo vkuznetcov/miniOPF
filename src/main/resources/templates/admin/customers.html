@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../../static/css/admintables.css" th:href="@{/css/admintables.css}"/>
+</head>
+
+<body>
+<header>
+    <ul class="setex">
+        <li>
+            <a th:href="@{/admin/home}"> Settings</a>
+        </li>
+        <li>
+            <a th:href="@{/authorization}"> Exit</a>
+        </li>
+    </ul>
+    <nav class="panel">
+        <ul>
+            <li>
+                <a th:href="@{/admin/adminorders}">My orders</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/customers(sort='none')}">Customers</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/services}">Services</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/areas}">Areas</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/orders}">Orders</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/admins}">Admins</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/templates}">Templates</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<table>
+    <tr>
+        <!--        <th class = "header"><a th:href="@{/admin/customers(sort='asc', type='id')}">index</a></th>-->
+        <th class="header">
+            <div th:switch="${sort}">
+                <a th:case="'desc'" th:href="@{/admin/customers(sort='asc', type='id')}">index</a>
+                <a th:case="'asc'" th:href="@{/admin/customers(sort='desc', type='id')}">index</a>
+                <a th:case="'none'" th:href="@{/admin/customers(sort='asc', type='id')}">index</a>
+            </div>
+        </th>
+        <th class="header">
+            <div th:switch="${sort}">
+                <a th:case="'desc'" th:href="@{/admin/customers(sort='asc', type='name')}">name</a>
+                <a th:case="'asc'" th:href="@{/admin/customers(sort='desc', type='name')}">name</a>
+                <a th:case="'none'" th:href="@{/admin/customers(sort='asc', type='name')}">name</a>
+            </div>
+        </th>
+        <th class="header">
+            <div th:switch="${sort}">
+                <a th:case="'desc'" th:href="@{/admin/customers(sort='asc', type='login')}">login</a>
+                <a th:case="'asc'" th:href="@{/admin/customers(sort='desc', type='login')}">login</a>
+                <a th:case="'none'" th:href="@{/admin/customers(sort='asc', type='login')}">login</a>
+            </div>
+        </th>
+        <th class="header">
+            <div th:switch="${sort}">
+                <a th:case="'desc'" th:href="@{/admin/customers(sort='asc', type='password')}">password</a>
+                <a th:case="'asc'" th:href="@{/admin/customers(sort='desc', type='password')}">password</a>
+                <a th:case="'none'" th:href="@{/admin/customers(sort='asc', type='password')}">password</a>
+            </div>
+        </th>
+        <th class="header">
+            <div th:switch="${sort}">
+                <a th:case="'desc'" th:href="@{/admin/customers(sort='asc', type='balance')}">balance</a>
+                <a th:case="'asc'" th:href="@{/admin/customers(sort='desc', type='balance')}">balance</a>
+                <a th:case="'none'" th:href="@{/admin/customers(sort='asc', type='balance')}">balance</a>
+            </div>
+        </th>
+    </tr>
+    <tr th:each="customer : ${table}">
+        <td class="cell" th:utext="${customer.getID()}">index</td>
+        <td class="cell" th:utext="${customer.getName()}">name</td>
+        <td class="cell" th:utext="${customer.getLogin()}">login</td>
+        <td class="cell" th:utext="${customer.getPassword()}">password</td>
+        <td class="cell" th:utext="${customer.getBalance()}">balance</td>
+    </tr>
+</table>
+</body>
+</html>

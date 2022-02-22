@@ -26,6 +26,7 @@ public class CustomerImpl implements Customer
     public CustomerImpl()
     {
         services = new ArrayList<>();
+        balance = 0;
     }
 
     public CustomerImpl(List<Service> services)

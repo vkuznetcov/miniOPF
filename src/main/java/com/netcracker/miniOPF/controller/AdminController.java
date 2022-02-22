@@ -89,10 +89,18 @@ public class AdminController
         return storage.getAdmin(id);
     }
 
+    public void deleteAdmin(int id)
+    {
+        storage.deleteAdmin(id);
+    }
+
     public List<Admin> getAdminValues()
     {
         return storage.getAdminValues();
     }
 
-
+    public void createAdmin(Admin admin)
+    {
+        storage.createAdmin(admin);
+    }
 }

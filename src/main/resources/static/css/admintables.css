@@ -1,0 +1,38 @@
+ul.setex{
+    font-size: 18px;
+    text-align: right;
+    letter-spacing: 1px;
+}
+ul.setex li{
+    display: inline;
+    margin: 10px;
+}
+nav.panel {
+    margin-top: 30px;
+    font-size: 22px;
+    letter-spacing: 1px;
+}
+nav.panel ul {
+    display: flex;
+}
+nav.panel ul li{
+    list-style-type: none;
+    flex-basis: auto;
+    flex-grow: 1;
+    text-align: center;
+}
+nav.panel ul li a{
+    padding: 20px 0;
+    display: block;
+}
+
+table {
+    margin: 10px;
+    width: 1500px;
+    border-collapse: collapse; /* Отображать двойные линии как одинарные */
+}
+td, th {
+    border: 1px solid #000000; /* Параметры границы */
+    padding: 4px; /* Поля в ячейках */
+    text-align: center;
+}

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home page</title>
+</head>
+<style>
+    ul.setex{
+        font-size: 18px;
+        text-align: right;
+        letter-spacing: 1px;
+    }
+    ul.setex li{
+        display: inline;
+        margin: 10px;
+    }
+    nav.panel {
+        margin-top: 30px;
+        font-size: 22px;
+        letter-spacing: 1px;
+    }
+    nav.panel ul {
+        display: flex;
+    }
+    nav.panel ul li{
+        list-style-type: none;
+        flex-basis: auto;
+        flex-grow: 1;
+        text-align: center;
+    }
+    nav.panel ul li a{
+        padding: 20px 0;
+        display: block;
+    }
+</style>
+<body>
+<header>
+    <ul class = "setex">
+        <li>
+            <a th:href = "@{/admin/home}"> Settings</a>
+        </li>
+        <li>
+            <a th:href = "@{/authorization}"> Exit</a>
+        </li>
+    </ul>
+    <nav class = "panel">
+        <ul>
+            <li>
+                <a th:href="@{/admin/adminorders}">My orders</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/customers(sort='none')}">Customers</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/services}">Services</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/areas}">Areas</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/orders}">Orders</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/admins}">Admins</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/templates}">Templates</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<p style="font-size: 30px">Hello, <p style="font-size: 30px" th:text = "${name}"></p>
+
+</body>
+</html>
