@@ -1,7 +1,19 @@
 package com.netcracker.miniOPF;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.netcracker.miniOPF.admin.Admin;
+import com.netcracker.miniOPF.admin.AdminImpl;
+import com.netcracker.miniOPF.area.AreaImpl;
+import com.netcracker.miniOPF.customer.CustomerImpl;
+import com.netcracker.miniOPF.jsonHanlder.JsonHandler;
+import com.netcracker.miniOPF.storage.ConvertMapAndFiles;
+import com.netcracker.miniOPF.storage.Storage;
+import com.netcracker.miniOPF.storage.StorageImpl;
+import com.netcracker.miniOPF.template.TemplateImpl;
+import com.netcracker.miniOPF.utils.consts.PathConsts;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 
@@ -52,8 +64,18 @@ public class MiniOpfApplication
 //
 //
 //        JsonHandler.serializeJson(admin, PathConsts.ADMIN_PATH);
-
+//        StorageImpl storage = ConvertMapAndFiles.readFile();
+//        CustomerImpl customer = new CustomerImpl();
+//        customer.setName("Ivan");
+//        storage.createCustomer(customer);
+//        TemplateImpl template = new TemplateImpl();
+//        AreaImpl area = new AreaImpl();
+//        area.setName("Россия");
+//        template.setArea(area);
+//        storage.createTemplate(template);
+//        ConvertMapAndFiles.writeFile(storage);
         SpringApplication.run(MiniOpfApplication.class, args);
+
     }
 
 }

@@ -1,6 +1,2 @@
 {"type":"admin","password":"abcd","name":"James","login":"admin1","id":1}
-{"type":"admin","password":"abcd","name":"James","login":"admin1","id":1}
-{"type":"admin","password":"abcd","name":"James","login":"admin1","id":1}
-{"type":"admin","password":"abcd","name":"biba","login":"admin1","id":1}
-{"type":"admin","password":"abcd","name":"James","login":"admin1","id":1}
-{"type":"admin","password":"abcd","name":"biba","login":"admin1","id":1}
+{"type":"admin","password":"abcd","name":"James","login":"admin1","id":2}

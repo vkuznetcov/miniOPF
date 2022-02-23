@@ -1,0 +1,2 @@
+{"type":"template","id":12,"price":0.0,"area":{"type":"area","id":0,"name":"Россия"}}
+{"type":"template","id":14,"price":0.0,"area":{"type":"area","id":0,"name":"Россия"}}
