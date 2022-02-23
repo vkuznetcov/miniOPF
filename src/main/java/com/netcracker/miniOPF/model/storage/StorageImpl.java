@@ -7,6 +7,7 @@ import com.netcracker.miniOPF.model.order.Order;
 import com.netcracker.miniOPF.model.service.Service;
 import com.netcracker.miniOPF.model.service.ServiceImpl;
 import com.netcracker.miniOPF.model.template.Template;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +27,7 @@ public class StorageImpl implements Storage
     private Map<Integer, Template> templateMap;
     private int id;
 
+    @Autowired
     public StorageImpl(HashMap customerMap,
                        HashMap orderMap,
                        HashMap serviceMap,
