@@ -1,6 +1,6 @@
 package com.netcracker.miniOPF.springmvc;
 
-import com.netcracker.miniOPF.controller.*;
+import com.netcracker.miniOPF.utils.controller.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

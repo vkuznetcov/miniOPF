@@ -1,6 +1,6 @@
 package com.netcracker.miniOPF.utils.storageUtils;
 
-import com.netcracker.miniOPF.area.Area;
+import com.netcracker.miniOPF.model.area.Area;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

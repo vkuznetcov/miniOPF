@@ -28,7 +28,7 @@
     </bean>
 
     <bean id="storage"
-          class="com.netcracker.miniOPF.storage.StorageImpl">
+          class="com.netcracker.miniOPF.model.storage.StorageImpl">
         <constructor-arg ref="customerMap"/>
         <constructor-arg ref="orderMap"/>
         <constructor-arg ref="serviceMap"/>
@@ -38,7 +38,7 @@
     </bean>
 
     <bean id="controller"
-          class="com.netcracker.miniOPF.controller.TemplateController">
+          class="com.netcracker.miniOPF.utils.controller.TemplateController">
         <constructor-arg ref="storage"/>
     </bean>
 

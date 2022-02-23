@@ -1,9 +1,9 @@
 package com.netcracker.miniOPF.utils.storageUtils;
 
-import com.netcracker.miniOPF.customer.Customer;
-import com.netcracker.miniOPF.service.Service;
-import com.netcracker.miniOPF.service.enums.ServiceStatus;
-import com.netcracker.miniOPF.template.Template;
+import com.netcracker.miniOPF.model.customer.Customer;
+import com.netcracker.miniOPF.model.service.Service;
+import com.netcracker.miniOPF.model.service.enums.ServiceStatus;
+import com.netcracker.miniOPF.model.template.Template;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

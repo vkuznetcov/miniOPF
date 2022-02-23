@@ -1,6 +1,6 @@
 package com.netcracker.miniOPF.utils.storageUtils;
 
-import com.netcracker.miniOPF.customer.Customer;
+import com.netcracker.miniOPF.model.customer.Customer;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

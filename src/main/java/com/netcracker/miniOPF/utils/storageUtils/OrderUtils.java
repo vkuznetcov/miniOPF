@@ -1,10 +1,10 @@
 package com.netcracker.miniOPF.utils.storageUtils;
 
-import com.netcracker.miniOPF.admin.Admin;
-import com.netcracker.miniOPF.order.Order;
-import com.netcracker.miniOPF.order.enums.OrderAction;
-import com.netcracker.miniOPF.order.enums.OrderStatus;
-import com.netcracker.miniOPF.service.Service;
+import com.netcracker.miniOPF.model.admin.Admin;
+import com.netcracker.miniOPF.model.order.Order;
+import com.netcracker.miniOPF.model.order.enums.OrderAction;
+import com.netcracker.miniOPF.model.order.enums.OrderStatus;
+import com.netcracker.miniOPF.model.service.Service;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
