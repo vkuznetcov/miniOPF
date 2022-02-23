@@ -1,10 +1,12 @@
 package com.netcracker.miniOPF.springmvc;
 
-import com.netcracker.miniOPF.controller.CustomerController;
-import com.netcracker.miniOPF.customer.Customer;
-import com.netcracker.miniOPF.customer.CustomerImpl;
+import com.netcracker.miniOPF.model.admin.Admin;
+import com.netcracker.miniOPF.model.admin.AdminImpl;
+import com.netcracker.miniOPF.utils.controller.AdminController;
+import com.netcracker.miniOPF.utils.controller.CustomerController;
+import com.netcracker.miniOPF.model.customer.Customer;
+import com.netcracker.miniOPF.model.customer.CustomerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,11 +18,14 @@ public class RegistrationController
 {
 
     CustomerController customerController;
+    AdminController adminController;
 
     @Autowired
-    public RegistrationController(CustomerController customerController)
+    public RegistrationController(CustomerController customerController,
+                                  AdminController adminController)
     {
         this.customerController = customerController;
+        this.adminController = adminController;
     }
 
     @GetMapping("/registration")
@@ -43,17 +48,31 @@ public class RegistrationController
     {
 
 
-        if(password.equals(passConfirm))
+        if (password.equals(passConfirm))
         {
-            Customer customer = new CustomerImpl();
-            customer.setName(name);
-            customer.setLogin(login);
-            customer.setPassword(password);
-            customerController.createCustomer(customer);
-            model.addAttribute("customer", customer);
-            return "redirect:/authorization";
+            if (login.contains("admin"))
+            {
+                Admin admin = new AdminImpl();
+                admin.setName(name);
+                admin.setLogin(login);
+                admin.setPassword(password);
+                adminController.createAdmin(admin);
+                model.addAttribute("admin", admin);
+                return "redirect:/authorization";
+            }
+            else
+            {
+                Customer customer = new CustomerImpl();
+                customer.setName(name);
+                customer.setLogin(login);
+                customer.setPassword(password);
+                customerController.createCustomer(customer);
+                model.addAttribute("customer", customer);
+                return "redirect:/authorization";
+            }
         }
-        else {
+        else
+        {
             model.addAttribute("errorMessage", "Passwords are not equal");
             model.addAttribute("username", name);
             model.addAttribute("login", login);
