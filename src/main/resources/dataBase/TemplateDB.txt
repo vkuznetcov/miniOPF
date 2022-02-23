@@ -1,2 +1,7 @@
-{"type":"template","id":12,"price":0.0,"area":{"type":"area","id":0,"name":"Россия"}}
-{"type":"template","id":14,"price":0.0,"area":{"type":"area","id":0,"name":"Россия"}}
+{"type":"template","id":5,"price":0.0,"area":{"type":"area","id":0,"name":"Россия"}}
+{"type":"template","id":6,"price":0.0,"area":{"type":"area","id":0,"name":"Россия"}}
+{"type":"template","id":8,"price":0.0,"area":{"type":"area","id":0,"name":"Россия"}}
+{"type":"template","id":6,"price":0.0,"area":{"type":"area","id":0,"name":"Россия"}}
+{"type":"template","id":7,"price":0.0,"area":{"type":"area","id":0,"name":"Россия"}}
+{"type":"template","id":8,"price":0.0,"area":{"type":"area","id":0,"name":"Россия"}}
+{"type":"template","id":10,"price":0.0,"area":{"type":"area","id":0,"name":"Россия"}}
