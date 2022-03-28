@@ -1,24 +1,23 @@
-package com.netcracker.miniOPF.utils.controllers;
+package com.netcracker.miniOPF.utils.repos;
 
 import com.netcracker.miniOPF.model.area.Area;
 import com.netcracker.miniOPF.model.storage.Storage;
 import com.netcracker.miniOPF.model.template.Template;
 import com.netcracker.miniOPF.utils.storageUtils.TemplateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@org.springframework.stereotype.Service
-@Component
-public class TemplateController
+@Repository
+public class TemplateRepo
 {
     private final Storage storage;
     private final TemplateUtils templateUtils;
 
     @Autowired
-    public TemplateController(Storage storage,
-                              TemplateUtils templateUtils)
+    public TemplateRepo(Storage storage,
+                        TemplateUtils templateUtils)
     {
         this.storage = storage;
         this.templateUtils = templateUtils;

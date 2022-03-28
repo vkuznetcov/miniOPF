@@ -2,8 +2,8 @@ package com.netcracker.miniOPF.springmvc;
 
 import com.netcracker.miniOPF.model.admin.Admin;
 import com.netcracker.miniOPF.model.admin.AdminImpl;
-import com.netcracker.miniOPF.utils.controllers.AdminController;
-import com.netcracker.miniOPF.utils.controllers.CustomerController;
+import com.netcracker.miniOPF.utils.repos.AdminRepo;
+import com.netcracker.miniOPF.utils.repos.CustomerRepo;
 import com.netcracker.miniOPF.model.customer.Customer;
 import com.netcracker.miniOPF.model.customer.CustomerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class RegistrationController
 {
 
-    CustomerController customerController;
-    AdminController adminController;
+    CustomerRepo customerController;
+    AdminRepo adminController;
 
     @Autowired
-    public RegistrationController(CustomerController customerController,
-                                  AdminController adminController)
+    public RegistrationController(CustomerRepo customerController,
+                                  AdminRepo adminController)
     {
         this.customerController = customerController;
         this.adminController = adminController;

@@ -1,4 +1,4 @@
-package com.netcracker.miniOPF.utils.controllers;
+package com.netcracker.miniOPF.utils.repos;
 
 import com.netcracker.miniOPF.model.admin.Admin;
 import com.netcracker.miniOPF.model.order.Order;
@@ -8,20 +8,19 @@ import com.netcracker.miniOPF.model.service.Service;
 import com.netcracker.miniOPF.model.storage.Storage;
 import com.netcracker.miniOPF.utils.storageUtils.OrderUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@org.springframework.stereotype.Service
-@Component
-public class OrderController
+@Repository
+public class OrderRepo
 {
     private final Storage storage;
     private final OrderUtils orderUtils;
 
     @Autowired
-    public OrderController(Storage storage,
-                           OrderUtils orderUtils)
+    public OrderRepo(Storage storage,
+                     OrderUtils orderUtils)
     {
         this.storage = storage;
         this.orderUtils = orderUtils;

@@ -38,7 +38,7 @@
     </bean>
 
     <bean id="controller"
-          class="com.netcracker.miniOPF.utils.controllers.TemplateController">
+          class="com.netcracker.miniOPF.utils.repos.TemplateRepo">
         <constructor-arg ref="storage"/>
     </bean>
 

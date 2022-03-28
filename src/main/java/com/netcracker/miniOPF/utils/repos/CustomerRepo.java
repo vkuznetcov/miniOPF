@@ -1,23 +1,22 @@
-package com.netcracker.miniOPF.utils.controllers;
+package com.netcracker.miniOPF.utils.repos;
 
 import com.netcracker.miniOPF.model.customer.Customer;
 import com.netcracker.miniOPF.model.storage.Storage;
 import com.netcracker.miniOPF.utils.storageUtils.CustomerUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@org.springframework.stereotype.Service
-@Component
-public class CustomerController
+@Repository
+public class CustomerRepo
 {
     private final Storage storage;
     private final CustomerUtils customerUtils;
 
     @Autowired
-    public CustomerController(Storage storage,
-                              CustomerUtils customerUtils)
+    public CustomerRepo(Storage storage,
+                        CustomerUtils customerUtils)
     {
         this.storage = storage;
         this.customerUtils = customerUtils;

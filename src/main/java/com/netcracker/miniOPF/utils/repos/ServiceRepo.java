@@ -1,4 +1,4 @@
-package com.netcracker.miniOPF.utils.controllers;
+package com.netcracker.miniOPF.utils.repos;
 
 import com.netcracker.miniOPF.model.customer.Customer;
 import com.netcracker.miniOPF.model.service.Service;
@@ -7,21 +7,20 @@ import com.netcracker.miniOPF.model.storage.Storage;
 import com.netcracker.miniOPF.model.template.Template;
 import com.netcracker.miniOPF.utils.storageUtils.ServiceUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@org.springframework.stereotype.Service
-@Component
-public class ServiceController
+@Repository
+public class ServiceRepo
 {
     private final Storage storage;
     private final ServiceUtils serviceUtils;
 
     @Autowired
-    public ServiceController(Storage storage,
-                             ServiceUtils serviceUtils
-                            )
+    public ServiceRepo(Storage storage,
+                       ServiceUtils serviceUtils
+                      )
     {
         this.storage = storage;
         this.serviceUtils = serviceUtils;

@@ -1,8 +1,8 @@
 package com.netcracker.miniOPF.springmvc;
 
 import com.netcracker.miniOPF.model.admin.Admin;
-import com.netcracker.miniOPF.utils.controllers.AdminController;
-import com.netcracker.miniOPF.utils.controllers.CustomerController;
+import com.netcracker.miniOPF.utils.repos.AdminRepo;
+import com.netcracker.miniOPF.utils.repos.CustomerRepo;
 import com.netcracker.miniOPF.model.customer.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class AuthorizationController
 {
-    CustomerController customerController;
-    AdminController adminController;
+    CustomerRepo customerController;
+    AdminRepo adminController;
 
     @Autowired
-    public AuthorizationController(CustomerController customerController,
-                                   AdminController adminController)
+    public AuthorizationController(CustomerRepo customerController,
+                                   AdminRepo adminController)
     {
         this.customerController = customerController;
         this.adminController = adminController;
