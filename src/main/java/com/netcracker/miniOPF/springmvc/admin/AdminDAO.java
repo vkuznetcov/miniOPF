@@ -1,25 +1,21 @@
-package com.netcracker.miniOPF.springmvc;
+package com.netcracker.miniOPF.springmvc.admin;
 
 import com.netcracker.miniOPF.model.order.enums.OrderAction;
 import com.netcracker.miniOPF.model.order.enums.OrderStatus;
 import com.netcracker.miniOPF.model.service.enums.ServiceStatus;
-import com.netcracker.miniOPF.utils.controller.*;
+import com.netcracker.miniOPF.utils.controllers.*;
 import com.netcracker.miniOPF.utils.storageUtils.OrderUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Locale;
 import java.util.Objects;
 
-@Controller
-@RequestMapping("/admin")
-public class AdministratorController
+@Service
+public class AdminDAO
 {
-
     AdminController adminController;
     AreaController areaController;
     CustomerController customerController;
@@ -27,8 +23,17 @@ public class AdministratorController
     ServiceController serviceController;
     TemplateController templateController;
 
+    public static class FormParams
+    {
+        public static final String TYPE = "type";
+        public static final String SORT_ORDER = "sort";
+        public static final String SEARCH_VALUE = "valueToSearch";
+        public static final String ID = "id";
+    }
+
+
     @Autowired
-    public AdministratorController(AdminController adminController,
+    public AdminDAO(AdminController adminController,
                                    AreaController areaController,
                                    CustomerController customerController,
                                    OrderController orderController,
@@ -43,7 +48,6 @@ public class AdministratorController
         this.templateController = templateController;
     }
 
-    @GetMapping("/customers")
     public String showCustomers(@RequestParam(value = FormParams.TYPE, required = false) String type,
                                 @RequestParam(value = FormParams.SORT_ORDER, required = false) String sort,
                                 @RequestParam(value = FormParams.SEARCH_VALUE, required = false) String value,
@@ -100,10 +104,9 @@ public class AdministratorController
         return "admin/customers";
     }
 
-    @GetMapping("/admins")
-    public String showAdmins(@RequestParam(value = FormParams.TYPE, required = false) String type,
-                             @RequestParam(value = FormParams.SORT_ORDER, required = false) String sort,
-                             @RequestParam(value = FormParams.SEARCH_VALUE, required = false) String value, Model model)
+    public String showAdmins(@RequestParam(value = AdminDAO.FormParams.TYPE, required = false) String type,
+                             @RequestParam(value = AdminDAO.FormParams.SORT_ORDER, required = false) String sort,
+                             @RequestParam(value = AdminDAO.FormParams.SEARCH_VALUE, required = false) String value, Model model)
     {
         if (Objects.nonNull(value))
         {
@@ -145,10 +148,9 @@ public class AdministratorController
         return "admin/admins";
     }
 
-    @GetMapping("/areas")
-    public String showAreas(@RequestParam(value = FormParams.TYPE, required = false) String type,
-                            @RequestParam(value = FormParams.SORT_ORDER, required = false) String sort,
-                            @RequestParam(value = FormParams.SEARCH_VALUE, required = false) String value, Model model)
+    public String showAreas(@RequestParam(value = AdminDAO.FormParams.TYPE, required = false) String type,
+                            @RequestParam(value = AdminDAO.FormParams.SORT_ORDER, required = false) String sort,
+                            @RequestParam(value = AdminDAO.FormParams.SEARCH_VALUE, required = false) String value, Model model)
     {
         if (Objects.nonNull(value))
         {
@@ -187,10 +189,9 @@ public class AdministratorController
         return "admin/areas";
     }
 
-    @GetMapping("/services")
-    public String showServices(@RequestParam(value = FormParams.TYPE, required = false) String type,
-                               @RequestParam(value = FormParams.SORT_ORDER, required = false) String sort,
-                               @RequestParam(value = FormParams.SEARCH_VALUE, required = false) String value,
+    public String showServices(@RequestParam(value = AdminDAO.FormParams.TYPE, required = false) String type,
+                               @RequestParam(value = AdminDAO.FormParams.SORT_ORDER, required = false) String sort,
+                               @RequestParam(value = AdminDAO.FormParams.SEARCH_VALUE, required = false) String value,
                                Model model)
     {
         if (Objects.nonNull(value))
@@ -252,10 +253,9 @@ public class AdministratorController
         return "admin/services";
     }
 
-    @GetMapping("/orders")
-    public String showOrders(@RequestParam(value = FormParams.TYPE, required = false) String type,
-                             @RequestParam(value = FormParams.SORT_ORDER, required = false) String sort,
-                             @RequestParam(value = FormParams.SEARCH_VALUE, required = false) String value, Model model)
+    public String showOrders(@RequestParam(value = AdminDAO.FormParams.TYPE, required = false) String type,
+                             @RequestParam(value = AdminDAO.FormParams.SORT_ORDER, required = false) String sort,
+                             @RequestParam(value = AdminDAO.FormParams.SEARCH_VALUE, required = false) String value, Model model)
     {
         if (Objects.nonNull(value))
         {
@@ -316,10 +316,9 @@ public class AdministratorController
         return "admin/orders";
     }
 
-    @GetMapping("/templates")
-    public String showTemplates(@RequestParam(value = FormParams.TYPE, required = false) String type,
-                                @RequestParam(value = FormParams.SORT_ORDER, required = false) String sort,
-                                @RequestParam(value = FormParams.SEARCH_VALUE, required = false) String value,
+    public String showTemplates(@RequestParam(value = AdminDAO.FormParams.TYPE, required = false) String type,
+                                @RequestParam(value = AdminDAO.FormParams.SORT_ORDER, required = false) String sort,
+                                @RequestParam(value = AdminDAO.FormParams.SEARCH_VALUE, required = false) String value,
                                 Model model)
     {
         if (Objects.nonNull(value))
@@ -379,10 +378,10 @@ public class AdministratorController
         return "admin/templates";
     }
 
-    @GetMapping("/myorders")
-    String showMyOrders(@RequestParam(value = FormParams.TYPE, required = false) String type,
-                        @RequestParam(value = FormParams.SORT_ORDER, required = false) String sort,
-                        @RequestParam(value = FormParams.SEARCH_VALUE, required = false) String value, Model model)
+    //TODO
+    String showMyOrders(@RequestParam(value = AdminDAO.FormParams.TYPE, required = false) String type,
+                        @RequestParam(value = AdminDAO.FormParams.SORT_ORDER, required = false) String sort,
+                        @RequestParam(value = AdminDAO.FormParams.SEARCH_VALUE, required = false) String value, Model model)
     {
         OrderUtils orderUtils = new OrderUtils();
         if (Objects.nonNull(value))
@@ -446,13 +445,5 @@ public class AdministratorController
         }
 
         return "admin/orders";
-    }
-
-    private static abstract class FormParams
-    {
-        public static final String TYPE = "type";
-        public static final String SORT_ORDER = "sort";
-        public static final String SEARCH_VALUE = "valueToSearch";
-        public static final String ID = "id";
     }
 }

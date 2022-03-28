@@ -1,8 +1,8 @@
 package com.netcracker.miniOPF.springmvc;
 
 import com.netcracker.miniOPF.model.admin.Admin;
-import com.netcracker.miniOPF.utils.controller.AdminController;
-import com.netcracker.miniOPF.utils.controller.CustomerController;
+import com.netcracker.miniOPF.utils.controllers.AdminController;
+import com.netcracker.miniOPF.utils.controllers.CustomerController;
 import com.netcracker.miniOPF.model.customer.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

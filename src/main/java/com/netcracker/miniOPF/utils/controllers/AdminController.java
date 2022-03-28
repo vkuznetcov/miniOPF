@@ -1,4 +1,4 @@
-package com.netcracker.miniOPF.utils.controller;
+package com.netcracker.miniOPF.utils.controllers;
 
 import com.netcracker.miniOPF.model.admin.Admin;
 import com.netcracker.miniOPF.model.storage.Storage;
