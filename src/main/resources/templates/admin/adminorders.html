@@ -1,10 +1,195 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../../static/css/admintables.css" th:href="@{/css/admintables.css}"/>
 </head>
-<body>
 
+<body>
+<header>
+    <ul class="setex">
+        <li>
+            <a th:href="@{/admin/home}"> Settings</a>
+        </li>
+        <li>
+            <a th:href="@{/authorization}"> Exit</a>
+        </li>
+    </ul>
+    <nav class="panel">
+        <ul>
+            <li>
+                <a th:href="@{/admin/adminorders}">My orders</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/customers(sort='none')}">Customers</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/services(sort='none')}">Services</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/areas(sort='none')}">Areas</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/orders(sort='none')}">Orders</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/admins(sort='none')}">Admins</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/templates(sort='none')}">Templates</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<table style="width: 1420px">
+    <tr>
+        <td style="border: none">
+            <form>
+                <label>
+                    ID to search: <input type="text" name="valueToSearch"/>
+                    <input type="hidden" name="type" value="id"/>
+                    <input type="submit" value="Search"/>
+                </label>
+            </form>
+        </td>
+        <td style="border: none">
+            <form>
+                <label>
+                    Admin ID to search: <input type="text" name="valueToSearch"/>
+                    <input type="hidden" name="type" value="admin"/>
+                    <input type="submit" value="Search"/>
+                </label>
+            </form>
+        </td>
+        <td style="border: none">
+            <form>
+                <label>
+                    Service ID to search: <input type="text" name="valueToSearch"/>
+                    <input type="hidden" name="type" value="service"/>
+                    <input type="submit" value="Search"/>
+                </label>
+            </form>
+        </td>
+        <td style="border: none">
+            <form>
+                <label>
+                    Status to search: <input type="text" name="valueToSearch"/>
+                    <input type="hidden" name="type" value="status"/>
+                    <input type="submit" value="Search"/>
+                </label>
+            </form>
+        </td>
+        <td style="border: none">
+            <form>
+                <label>
+                    Action to search: <input type="text" name="valueToSearch"/>
+                    <input type="hidden" name="type" value="action"/>
+                    <input type="submit" value="Search"/>
+                </label>
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <td class="header">
+            <ul>
+                <li style="display: inline">
+                    index
+                </li>
+                <li style="display: inline">
+                    <a th:href="@{/admin/orders(sort='asc', type='id')}">
+                        <img src="../../static/images/arrowUp.png" th:src="@{/images/arrowUp.png}" alt="index"/>
+                    </a>
+                </li>
+                <li style="display: inline">
+                    <a th:href="@{/admin/orders(sort='desc', type='id')}">
+                        <img src="../../static/images/arrowDown.png" th:src="@{/images/arrowDown.png}" alt="index"/>
+                    </a>
+                </li>
+            </ul>
+        </td>
+        <td class="header">
+            <ul>
+                <li style="display: inline">
+                    admin ID
+                </li>
+                <li style="display: inline">
+                    <a th:href="@{/admin/orders(sort='asc', type='admin')}">
+                        <img src="../../static/images/arrowUp.png" th:src="@{/images/arrowUp.png}" alt="name"/>
+                    </a>
+                </li>
+                <li style="display: inline">
+                    <a th:href="@{/admin/orders(sort='desc', type='admin')}">
+                        <img src="../../static/images/arrowDown.png" th:src="@{/images/arrowDown.png}" alt="name"/>
+                    </a>
+                </li>
+            </ul>
+        </td>
+        <td class="header">
+            <ul>
+                <li style="display: inline">
+                    service ID
+                </li>
+                <li style="display: inline">
+                    <a th:href="@{/admin/services(sort='asc', type='service')}">
+                        <img src="../../static/images/arrowUp.png" th:src="@{/images/arrowUp.png}" alt="login"/>
+                    </a>
+                </li>
+                <li style="display: inline">
+                    <a th:href="@{/admin/services(sort='desc', type='service')}">
+                        <img src="../../static/images/arrowDown.png" th:src="@{/images/arrowDown.png}" alt="login"/>
+                    </a>
+                </li>
+            </ul>
+        </td>
+        <td class="header">
+            <ul>
+                <li style="display: inline">
+                    status
+                </li>
+                <li style="display: inline">
+                    <a th:href="@{/admin/services(sort='asc', type='status')}">
+                        <img src="../../static/images/arrowUp.png" th:src="@{/images/arrowUp.png}" alt="login"/>
+                    </a>
+                </li>
+                <li style="display: inline">
+                    <a th:href="@{/admin/services(sort='desc', type='status')}">
+                        <img src="../../static/images/arrowDown.png" th:src="@{/images/arrowDown.png}" alt="login"/>
+                    </a>
+                </li>
+            </ul>
+        </td>
+        <td class="header">
+            <ul>
+                <li style="display: inline">
+                    action
+                </li>
+                <li style="display: inline">
+                    <a th:href="@{/admin/services(sort='asc', type='action')}">
+                        <img src="../../static/images/arrowUp.png" th:src="@{/images/arrowUp.png}" alt="login"/>
+                    </a>
+                </li>
+                <li style="display: inline">
+                    <a th:href="@{/admin/services(sort='desc', type='action')}">
+                        <img src="../../static/images/arrowDown.png" th:src="@{/images/arrowDown.png}" alt="login"/>
+                    </a>
+                </li>
+            </ul>
+        </td>
+    </tr>
+<!--    <tr th:each="order : ${table}">-->
+<!--        <td class="cell" th:utext="${order.getID()}">index</td>-->
+<!--        <td class="cell" th:utext="${order.getAdmin().getID()}">admin ID</td>-->
+<!--        <td class="cell" th:utext="${order.getService().getID()}">service ID</td>-->
+<!--        <td class="cell" th:utext="${order.getStatus().toString()}">status</td>-->
+<!--        <td class="cell" th:utext="${order.getAction().toString()}">action</td>-->
+<!--        <td class="cell">-->
+            <!--            TODO create edit and delete-->
+            <a th:href="@{admin/edit}">edit</a>
+            <a th:href="@{admin/delete}">delete</a>
+        </td>
+    </tr>
+</table>
 </body>
 </html>

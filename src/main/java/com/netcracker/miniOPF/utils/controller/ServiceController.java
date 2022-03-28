@@ -39,7 +39,7 @@ public class ServiceController
 
     public void disconnectService(int id)
     {
-        storage.getService(id).setStatus(ServiceStatus.DISCONNECCTED);
+        storage.getService(id).setStatus(ServiceStatus.DISCONNECTED);
         storage.deleteService(id);
     }
 
