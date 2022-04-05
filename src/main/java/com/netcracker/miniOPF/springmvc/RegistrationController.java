@@ -17,15 +17,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class RegistrationController
 {
 
-    CustomerRepo customerController;
-    AdminRepo adminController;
+    CustomerRepo customerRepo;
+    AdminRepo adminRepo;
 
     @Autowired
     public RegistrationController(CustomerRepo customerController,
                                   AdminRepo adminController)
     {
-        this.customerController = customerController;
-        this.adminController = adminController;
+        this.customerRepo = customerController;
+        this.adminRepo = adminController;
     }
 
     @GetMapping("/registration")
@@ -56,7 +56,7 @@ public class RegistrationController
                 admin.setName(name);
                 admin.setLogin(login);
                 admin.setPassword(password);
-                adminController.createAdmin(admin);
+                adminRepo.createAdmin(admin);
                 model.addAttribute("admin", admin);
                 return "redirect:/authorization";
             }
@@ -66,7 +66,7 @@ public class RegistrationController
                 customer.setName(name);
                 customer.setLogin(login);
                 customer.setPassword(password);
-                customerController.createCustomer(customer);
+                customerRepo.createCustomer(customer);
                 model.addAttribute("customer", customer);
                 return "redirect:/authorization";
             }

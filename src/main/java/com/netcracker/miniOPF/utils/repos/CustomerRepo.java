@@ -1,119 +1,785 @@
 package com.netcracker.miniOPF.utils.repos;
 
 import com.netcracker.miniOPF.model.customer.Customer;
+import com.netcracker.miniOPF.model.customer.CustomerImpl;
+import com.netcracker.miniOPF.model.service.Service;
 import com.netcracker.miniOPF.model.storage.Storage;
+import com.netcracker.miniOPF.springmvc.services.ServiceService;
 import com.netcracker.miniOPF.utils.storageUtils.CustomerUtils;
+import com.netcracker.miniOPF.utils.storageUtils.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class CustomerRepo
 {
+    private static final String URL = "jdbc:postgresql://localhost:5432/miniOPF";
+    private static final String USERNAME = "postgres";
+    private static final String PASSWORD = "3961";
+    private static Connection connection;
+
+    static
+    {
+        try
+        {
+            Class.forName("org.postgresql.Driver");
+        }
+        catch (ClassNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+
+        try
+        {
+            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private final ServiceRepo serviceRepo;
     private final Storage storage;
     private final CustomerUtils customerUtils;
 
     @Autowired
     public CustomerRepo(Storage storage,
-                        CustomerUtils customerUtils)
+                        CustomerUtils customerUtils,
+                        ServiceRepo serviceRepo)
     {
+
+        this.serviceRepo = serviceRepo;
         this.storage = storage;
         this.customerUtils = customerUtils;
     }
 
     public List<Customer> sortCustomersByLogin()
     {
-        return customerUtils.sortCustomersByLogin(storage.getCustomerValues());
+        List<Customer> customers = new ArrayList<>();
+
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM customer ORDER BY customer_login ASC");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                Customer customer = new CustomerImpl();
+
+                customer.setID(resultSet.getInt("customer_id"));
+                customer.setName(resultSet.getString("customer_name"));
+                customer.setLogin(resultSet.getString("customer_login"));
+                customer.setPassword(resultSet.getString("customer_password"));
+                customer.setBalance(resultSet.getDouble("customer_balance"));
+//                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
+                List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
+                List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
+                for (int i = 0; i < pairs.size(); i++)
+                {
+
+                    com.netcracker.miniOPF.model.service.Service service = pairs.get(i).getRightValue();
+                    service.setCustomer(customer);
+                    services.add(service);
+                }
+                customer.setServices(services);
+
+                customers.add(customer);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return customers;
     }
 
     public List<Customer> sortCustomersByLoginReversed()
     {
-        return customerUtils.sortCustomersByLoginReversed(storage.getCustomerValues());
+        List<Customer> customers = new ArrayList<>();
+
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM customer ORDER BY customer_login DESC");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                Customer customer = new CustomerImpl();
+
+                customer.setID(resultSet.getInt("customer_id"));
+                customer.setName(resultSet.getString("customer_name"));
+                customer.setLogin(resultSet.getString("customer_login"));
+                customer.setPassword(resultSet.getString("customer_password"));
+                customer.setBalance(resultSet.getDouble("customer_balance"));
+//                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
+                List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
+                List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
+                for (int i = 0; i < pairs.size(); i++)
+                {
+
+                    com.netcracker.miniOPF.model.service.Service service = pairs.get(i).getRightValue();
+                    service.setCustomer(customer);
+                    services.add(service);
+                }
+                customer.setServices(services);
+
+                customers.add(customer);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return customers;
     }
 
     public List<Customer> sortCustomersByPassword()
     {
-        return customerUtils.sortCustomersByPassword(storage.getCustomerValues());
+        List<Customer> customers = new ArrayList<>();
+
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM customer ORDER BY customer_password ASC");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                Customer customer = new CustomerImpl();
+
+                customer.setID(resultSet.getInt("customer_id"));
+                customer.setName(resultSet.getString("customer_name"));
+                customer.setLogin(resultSet.getString("customer_login"));
+                customer.setPassword(resultSet.getString("customer_password"));
+                customer.setBalance(resultSet.getDouble("customer_balance"));
+//                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
+                List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
+                List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
+                for (int i = 0; i < pairs.size(); i++)
+                {
+
+                    com.netcracker.miniOPF.model.service.Service service = pairs.get(i).getRightValue();
+                    service.setCustomer(customer);
+                    services.add(service);
+                }
+                customer.setServices(services);
+
+                customers.add(customer);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return customers;
     }
 
     public List<Customer> sortCustomersByPasswordReversed()
     {
-        return customerUtils.sortCustomersByPasswordReversed(storage.getCustomerValues());
+        List<Customer> customers = new ArrayList<>();
+
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM customer ORDER BY customer_password DESC");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                Customer customer = new CustomerImpl();
+
+                customer.setID(resultSet.getInt("customer_id"));
+                customer.setName(resultSet.getString("customer_name"));
+                customer.setLogin(resultSet.getString("customer_login"));
+                customer.setPassword(resultSet.getString("customer_password"));
+                customer.setBalance(resultSet.getDouble("customer_balance"));
+//                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
+                List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
+                List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
+                for (int i = 0; i < pairs.size(); i++)
+                {
+
+                    com.netcracker.miniOPF.model.service.Service service = pairs.get(i).getRightValue();
+                    service.setCustomer(customer);
+                    services.add(service);
+                }
+                customer.setServices(services);
+
+                customers.add(customer);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return customers;
     }
 
     public List<Customer> sortCustomersByBalance()
     {
-        return customerUtils.sortCustomersByBalance(storage.getCustomerValues());
+        List<Customer> customers = new ArrayList<>();
+
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM customer ORDER BY customer_balance ASC");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                Customer customer = new CustomerImpl();
+
+                customer.setID(resultSet.getInt("customer_id"));
+                customer.setName(resultSet.getString("customer_name"));
+                customer.setLogin(resultSet.getString("customer_login"));
+                customer.setPassword(resultSet.getString("customer_password"));
+                customer.setBalance(resultSet.getDouble("customer_balance"));
+//                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
+                List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
+                List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
+                for (int i = 0; i < pairs.size(); i++)
+                {
+
+                    com.netcracker.miniOPF.model.service.Service service = pairs.get(i).getRightValue();
+                    service.setCustomer(customer);
+                    services.add(service);
+                }
+                customer.setServices(services);
+
+                customers.add(customer);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return customers;
     }
 
     public List<Customer> sortCustomersByBalanceReversed()
     {
-        return customerUtils.sortCustomersByBalanceReversed(storage.getCustomerValues());
+        List<Customer> customers = new ArrayList<>();
+
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM customer ORDER BY customer_balance DESC");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                Customer customer = new CustomerImpl();
+
+                customer.setID(resultSet.getInt("customer_id"));
+                customer.setName(resultSet.getString("customer_name"));
+                customer.setLogin(resultSet.getString("customer_login"));
+                customer.setPassword(resultSet.getString("customer_password"));
+                customer.setBalance(resultSet.getDouble("customer_balance"));
+//                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
+                List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
+                List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
+                for (int i = 0; i < pairs.size(); i++)
+                {
+
+                    com.netcracker.miniOPF.model.service.Service service = pairs.get(i).getRightValue();
+                    service.setCustomer(customer);
+                    services.add(service);
+                }
+                customer.setServices(services);
+
+                customers.add(customer);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return customers;
     }
 
     public List<Customer> sortCustomersByName()
     {
-        return customerUtils.sortCustomersByName(storage.getCustomerValues());
+        List<Customer> customers = new ArrayList<>();
+
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM customer ORDER BY customer_name ASC");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                Customer customer = new CustomerImpl();
+
+                customer.setID(resultSet.getInt("customer_id"));
+                customer.setName(resultSet.getString("customer_name"));
+                customer.setLogin(resultSet.getString("customer_login"));
+                customer.setPassword(resultSet.getString("customer_password"));
+                customer.setBalance(resultSet.getDouble("customer_balance"));
+//                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
+                List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
+                List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
+                for (int i = 0; i < pairs.size(); i++)
+                {
+
+                    com.netcracker.miniOPF.model.service.Service service = pairs.get(i).getRightValue();
+                    service.setCustomer(customer);
+                    services.add(service);
+                }
+                customer.setServices(services);
+
+                customers.add(customer);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return customers;
     }
 
     public List<Customer> sortCustomersByNameReversed()
     {
-        return customerUtils.sortCustomersByNameReversed(storage.getCustomerValues());
+        List<Customer> customers = new ArrayList<>();
+
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM customer ORDER BY customer_name DESC");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                Customer customer = new CustomerImpl();
+
+                customer.setID(resultSet.getInt("customer_id"));
+                customer.setName(resultSet.getString("customer_name"));
+                customer.setLogin(resultSet.getString("customer_login"));
+                customer.setPassword(resultSet.getString("customer_password"));
+                customer.setBalance(resultSet.getDouble("customer_balance"));
+//                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
+                List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
+                List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
+                for (int i = 0; i < pairs.size(); i++)
+                {
+
+                    com.netcracker.miniOPF.model.service.Service service = pairs.get(i).getRightValue();
+                    service.setCustomer(customer);
+                    services.add(service);
+                }
+                customer.setServices(services);
+
+                customers.add(customer);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return customers;
     }
 
     public List<Customer> sortCustomersByID()
     {
-        return customerUtils.sortCustomersByID(storage.getCustomerValues());
+        List<Customer> customers = new ArrayList<>();
+
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM customer ORDER BY customer_id ASC");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                Customer customer = new CustomerImpl();
+
+                customer.setID(resultSet.getInt("customer_id"));
+                customer.setName(resultSet.getString("customer_name"));
+                customer.setLogin(resultSet.getString("customer_login"));
+                customer.setPassword(resultSet.getString("customer_password"));
+                customer.setBalance(resultSet.getDouble("customer_balance"));
+//                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
+                List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
+                List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
+                for (int i = 0; i < pairs.size(); i++)
+                {
+
+                    com.netcracker.miniOPF.model.service.Service service = pairs.get(i).getRightValue();
+                    service.setCustomer(customer);
+                    services.add(service);
+                }
+                customer.setServices(services);
+
+                customers.add(customer);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return customers;
     }
 
     public List<Customer> sortCustomersByIDReversed()
     {
-        return customerUtils.sortCustomersByIDReversed(storage.getCustomerValues());
+        List<Customer> customers = new ArrayList<>();
+
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM customer ORDER BY customer_id DESC");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                Customer customer = new CustomerImpl();
+
+                customer.setID(resultSet.getInt("customer_id"));
+                customer.setName(resultSet.getString("customer_name"));
+                customer.setLogin(resultSet.getString("customer_login"));
+                customer.setPassword(resultSet.getString("customer_password"));
+                customer.setBalance(resultSet.getDouble("customer_balance"));
+//                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
+                List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
+                List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
+                for (int i = 0; i < pairs.size(); i++)
+                {
+
+                    com.netcracker.miniOPF.model.service.Service service = pairs.get(i).getRightValue();
+                    service.setCustomer(customer);
+                    services.add(service);
+                }
+                customer.setServices(services);
+
+
+                customers.add(customer);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return customers;
     }
 
     public Customer searchCustomerByLogin(
             String login)
     {
-        return customerUtils.searchCustomerByLogin(storage.getCustomerValues(), login);
+        Customer customer = null;
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM customer WHERE customer_login=?");
+            preparedStatement.setString(1, login);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                customer = new CustomerImpl();
+
+                customer.setID(resultSet.getInt("customer_id"));
+                customer.setName(resultSet.getString("customer_name"));
+                customer.setLogin(resultSet.getString("customer_login"));
+                customer.setPassword(resultSet.getString("customer_password"));
+                customer.setBalance(resultSet.getDouble("customer_balance"));
+//                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
+                List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
+                List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
+                for (int i = 0; i < pairs.size(); i++)
+                {
+
+                    com.netcracker.miniOPF.model.service.Service service = pairs.get(i).getRightValue();
+                    service.setCustomer(customer);
+                    services.add(service);
+                }
+                customer.setServices(services);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return customer;
     }
 
     public List<Customer> searchCustomersByPassword(
             String password)
     {
-        return customerUtils.searchCustomersByPassword(storage.getCustomerValues(), password);
+        List<Customer> customers = new ArrayList<>();
+
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM customer WHERE customer_password=?");
+            preparedStatement.setString(1, password);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                Customer customer = new CustomerImpl();
+
+                customer.setID(resultSet.getInt("customer_id"));
+                customer.setName(resultSet.getString("customer_name"));
+                customer.setLogin(resultSet.getString("customer_login"));
+                customer.setPassword(resultSet.getString("customer_password"));
+                customer.setBalance(resultSet.getDouble("customer_balance"));
+//                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
+                List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
+                List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
+                for (int i = 0; i < pairs.size(); i++)
+                {
+
+                    com.netcracker.miniOPF.model.service.Service service = pairs.get(i).getRightValue();
+                    service.setCustomer(customer);
+                    services.add(service);
+                }
+                customer.setServices(services);
+
+                customers.add(customer);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return customers;
     }
 
     public List<Customer> searchCustomersByBalance(
             double balance)
     {
-        return customerUtils.searchCustomersByBalance(storage.getCustomerValues(), balance);
+        List<Customer> customers = new ArrayList<>();
+
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM customer WHERE customer_balance=?");
+            preparedStatement.setDouble(1, balance);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                Customer customer = new CustomerImpl();
+
+                customer.setID(resultSet.getInt("customer_id"));
+                customer.setName(resultSet.getString("customer_name"));
+                customer.setLogin(resultSet.getString("customer_login"));
+                customer.setPassword(resultSet.getString("customer_password"));
+                customer.setBalance(resultSet.getDouble("customer_balance"));
+//                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
+                List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
+                List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
+                for (int i = 0; i < pairs.size(); i++)
+                {
+
+                    com.netcracker.miniOPF.model.service.Service service = pairs.get(i).getRightValue();
+                    service.setCustomer(customer);
+                    services.add(service);
+                }
+                customer.setServices(services);
+
+                customers.add(customer);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return customers;
     }
 
     public List<Customer> searchCustomersByName(
             String name)
     {
-        return customerUtils.searchCustomersByName(storage.getCustomerValues(), name);
-    }
+        List<Customer> customers = new ArrayList<>();
 
-    public Customer searchCustomerByID(
-            int id)
-    {
-        return customerUtils.searchCustomerByID(storage.getCustomerValues(), id);
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM customer WHERE customer_name=?");
+            preparedStatement.setString(1, name);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                Customer customer = new CustomerImpl();
+
+                customer.setID(resultSet.getInt("customer_id"));
+                customer.setName(resultSet.getString("customer_name"));
+                customer.setLogin(resultSet.getString("customer_login"));
+                customer.setPassword(resultSet.getString("customer_password"));
+                customer.setBalance(resultSet.getDouble("customer_balance"));
+//                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
+                List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
+                List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
+                for (int i = 0; i < pairs.size(); i++)
+                {
+
+                    com.netcracker.miniOPF.model.service.Service service = pairs.get(i).getRightValue();
+                    service.setCustomer(customer);
+                    services.add(service);
+                }
+                customer.setServices(services);
+
+                customers.add(customer);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return customers;
     }
 
     public Customer getCustomer(int id)
     {
-        return storage.getCustomer(id);
+        Customer customer = null;
+
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM customer WHERE customer_id=?");
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                customer = new CustomerImpl();
+
+                customer.setID(resultSet.getInt("customer_id"));
+                customer.setName(resultSet.getString("customer_name"));
+                customer.setLogin(resultSet.getString("customer_login"));
+                customer.setPassword(resultSet.getString("customer_password"));
+                customer.setBalance(resultSet.getDouble("customer_balance"));
+//                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
+                List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
+                List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
+                for (int i = 0; i < pairs.size(); i++)
+                {
+
+                    com.netcracker.miniOPF.model.service.Service service = pairs.get(i).getRightValue();
+                    service.setCustomer(customer);
+                    services.add(service);
+                }
+                customer.setServices(services);
+
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return customer;
     }
 
     public List<Customer> getCustomerValues()
     {
-        return storage.getCustomerValues();
+        List<Customer> customers = new ArrayList<>();
+
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM customer");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next())
+            {
+                Customer customer = new CustomerImpl();
+
+                customer.setID(resultSet.getInt("customer_id"));
+                customer.setName(resultSet.getString("customer_name"));
+                customer.setLogin(resultSet.getString("customer_login"));
+                customer.setPassword(resultSet.getString("customer_password"));
+                customer.setBalance(resultSet.getDouble("customer_balance"));
+//                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
+                List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
+                List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
+                for (int i = 0; i < pairs.size(); i++)
+                {
+
+                    com.netcracker.miniOPF.model.service.Service service = pairs.get(i).getRightValue();
+                    service.setCustomer(customer);
+                    services.add(service);
+                }
+                customer.setServices(services);
+                customers.add(customer);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return customers;
     }
 
     public void createCustomer(Customer customer)
     {
-        storage.createCustomer(customer);
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "INSERT INTO customer VALUES((select max(customer_id)+1 from customer), ?, ?, ?, ?)");
+            preparedStatement.setString(1, customer.getLogin());
+            preparedStatement.setString(2, customer.getPassword());
+            preparedStatement.setString(3, customer.getName());
+            preparedStatement.setDouble(4, customer.getBalance());
+
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteCustomer(int id)
+    {
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM customer WHERE customer_id=?");
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateCustomer(int id, Customer customer)
+    {
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "UPDATE customer SET customer_login=?, customer_password=?, customer_name=?, customer_balance=? WHERE customer_id=?");
+            preparedStatement.setString(1, customer.getLogin());
+            preparedStatement.setString(2, customer.getPassword());
+            preparedStatement.setString(3, customer.getName());
+            preparedStatement.setDouble(4, customer.getBalance());
+            preparedStatement.setInt(5, id);
+
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
     }
 }

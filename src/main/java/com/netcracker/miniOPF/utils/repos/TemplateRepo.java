@@ -1,115 +1,594 @@
 package com.netcracker.miniOPF.utils.repos;
 
-import com.netcracker.miniOPF.model.area.Area;
 import com.netcracker.miniOPF.model.storage.Storage;
 import com.netcracker.miniOPF.model.template.Template;
+import com.netcracker.miniOPF.model.template.TemplateImpl;
 import com.netcracker.miniOPF.utils.storageUtils.TemplateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class TemplateRepo
 {
+
+    private static final String URL = "jdbc:postgresql://localhost:5432/miniOPF";
+    private static final String USERNAME = "postgres";
+    private static final String PASSWORD = "3961";
+    private static Connection connection;
+
+    static
+    {
+        try
+        {
+            Class.forName("org.postgresql.Driver");
+        }
+        catch (ClassNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+
+        try
+        {
+            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
     private final Storage storage;
     private final TemplateUtils templateUtils;
+    AreaRepo areaRepo;
 
     @Autowired
     public TemplateRepo(Storage storage,
-                        TemplateUtils templateUtils)
+                        TemplateUtils templateUtils,
+                        AreaRepo areaRepo)
     {
+        this.areaRepo = areaRepo;
         this.storage = storage;
         this.templateUtils = templateUtils;
     }
 
     public List<Template> sortTemplatesByID()
     {
-        return templateUtils.sortTemplatesByID(storage.getTemplateValues());
+        List<Template> templates = new ArrayList<>();
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM template ORDER BY template_id ASC");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                Template template = new TemplateImpl();
+
+                template.setID(resultSet.getInt("template_id"));
+                template.setName(resultSet.getString("template_name"));
+                template.setDescription(resultSet.getString("template_description"));
+                template.setPrice(resultSet.getDouble("template_price"));
+                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
+
+                templates.add(template);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return templates;
     }
 
     public List<Template> sortTemplatesByIDReversed()
     {
-        return templateUtils.sortTemplatesByIDReversed(storage.getTemplateValues());
+        List<Template> templates = new ArrayList<>();
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM template ORDER BY template_id DESC");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                Template template = new TemplateImpl();
+
+                template.setID(resultSet.getInt("template_id"));
+                template.setName(resultSet.getString("template_name"));
+                template.setDescription(resultSet.getString("template_description"));
+                template.setPrice(resultSet.getDouble("template_price"));
+                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
+
+                templates.add(template);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return templates;
     }
 
     public List<Template> sortTemplatesByName()
     {
-        return templateUtils.sortTemplatesByName(storage.getTemplateValues());
+        List<Template> templates = new ArrayList<>();
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM template ORDER BY template_name ASC");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                Template template = new TemplateImpl();
+
+                template.setID(resultSet.getInt("template_id"));
+                template.setName(resultSet.getString("template_name"));
+                template.setDescription(resultSet.getString("template_description"));
+                template.setPrice(resultSet.getDouble("template_price"));
+                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
+
+                templates.add(template);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return templates;
     }
 
     public List<Template> sortTemplatesByNameReversed()
     {
-        return templateUtils.sortTemplatesByNameReversed(storage.getTemplateValues());
+        List<Template> templates = new ArrayList<>();
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM template ORDER BY template_name DESC");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                Template template = new TemplateImpl();
+
+                template.setID(resultSet.getInt("template_id"));
+                template.setName(resultSet.getString("template_name"));
+                template.setDescription(resultSet.getString("template_description"));
+                template.setPrice(resultSet.getDouble("template_price"));
+                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
+
+                templates.add(template);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return templates;
     }
 
     public List<Template> sortTemplatesByDescription()
     {
-        return templateUtils.sortTemplatesByDescription(storage.getTemplateValues());
+        List<Template> templates = new ArrayList<>();
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM template ORDER BY template_description ASC");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                Template template = new TemplateImpl();
+
+                template.setID(resultSet.getInt("template_id"));
+                template.setName(resultSet.getString("template_name"));
+                template.setDescription(resultSet.getString("template_description"));
+                template.setPrice(resultSet.getDouble("template_price"));
+                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
+
+                templates.add(template);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return templates;
     }
 
     public List<Template> sortTemplatesByDescriptionReversed()
     {
-        return templateUtils.sortTemplatesByDescriptionReversed(storage.getTemplateValues());
+        List<Template> templates = new ArrayList<>();
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM template ORDER BY template_description DESC");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                Template template = new TemplateImpl();
+
+                template.setID(resultSet.getInt("template_id"));
+                template.setName(resultSet.getString("template_name"));
+                template.setDescription(resultSet.getString("template_description"));
+                template.setPrice(resultSet.getDouble("template_price"));
+                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
+
+                templates.add(template);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return templates;
     }
 
     public List<Template> sortTemplatesByPrice()
     {
-        return templateUtils.sortTemplatesByPrice(storage.getTemplateValues());
+        List<Template> templates = new ArrayList<>();
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM template ORDER BY template_price ASC");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                Template template = new TemplateImpl();
+
+                template.setID(resultSet.getInt("template_id"));
+                template.setName(resultSet.getString("template_name"));
+                template.setDescription(resultSet.getString("template_description"));
+                template.setPrice(resultSet.getDouble("template_price"));
+                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
+
+                templates.add(template);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return templates;
     }
 
     public List<Template> sortTemplatesByPriceReversed()
     {
-        return templateUtils.sortTemplatesByPriceReversed(storage.getTemplateValues());
+        List<Template> templates = new ArrayList<>();
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM template ORDER BY template_price DESC");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                Template template = new TemplateImpl();
+
+                template.setID(resultSet.getInt("template_id"));
+                template.setName(resultSet.getString("template_name"));
+                template.setDescription(resultSet.getString("template_description"));
+                template.setPrice(resultSet.getDouble("template_price"));
+                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
+
+                templates.add(template);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return templates;
     }
 
-    public List<Template> sortTemplatesByAreaName()
+    public List<Template> sortTemplatesByAreaID()
     {
-        return templateUtils.sortTemplatesByAreaName(storage.getTemplateValues());
+        List<Template> templates = new ArrayList<>();
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM template ORDER BY area_id ASC");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                Template template = new TemplateImpl();
+
+                template.setID(resultSet.getInt("template_id"));
+                template.setName(resultSet.getString("template_name"));
+                template.setDescription(resultSet.getString("template_description"));
+                template.setPrice(resultSet.getDouble("template_price"));
+                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
+
+                templates.add(template);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return templates;
     }
 
-    public List<Template> sortTemplatesByAreaNameReversed()
+    public List<Template> sortTemplatesByAreaIDReversed()
     {
-        return templateUtils.sortTemplatesByAreaNameReversed(storage.getTemplateValues());
-    }
+        List<Template> templates = new ArrayList<>();
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM template ORDER BY area_id DESC");
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-    public Template searchTemplateByID(
-            int id)
-    {
-        return templateUtils.searchTemplateByID(storage.getTemplateValues(), id);
+            while (resultSet.next())
+            {
+                Template template = new TemplateImpl();
+
+                template.setID(resultSet.getInt("template_id"));
+                template.setName(resultSet.getString("template_name"));
+                template.setDescription(resultSet.getString("template_description"));
+                template.setPrice(resultSet.getDouble("template_price"));
+                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
+
+                templates.add(template);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return templates;
     }
 
     public Template searchTemplateByName(
             String name)
     {
-        return templateUtils.searchTemplateByName(storage.getTemplateValues(), name);
+        Template template = null;
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM template WHERE template_name=?");
+            preparedStatement.setString(1, name);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                template = new TemplateImpl();
+
+                template.setID(resultSet.getInt("template_id"));
+                template.setName(resultSet.getString("template_name"));
+                template.setDescription(resultSet.getString("template_description"));
+                template.setPrice(resultSet.getDouble("template_price"));
+                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return template;
     }
 
-    public Template searchTemplateByDescription(
+    public List<Template> searchTemplatesByDescription(
             String description)
     {
-        return templateUtils.searchTemplateByDescription(storage.getTemplateValues(), description);
+        List<Template> templates = new ArrayList<>();
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM template WHERE template_description=?");
+            preparedStatement.setString(1, description);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                Template template = new TemplateImpl();
+
+                template.setID(resultSet.getInt("template_id"));
+                template.setName(resultSet.getString("template_name"));
+                template.setDescription(resultSet.getString("template_description"));
+                template.setPrice(resultSet.getDouble("template_price"));
+                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
+
+                templates.add(template);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return templates;
     }
 
     public List<Template> searchTemplatesByPrice(
             double price)
     {
-        return templateUtils.searchTemplatesByPrice(storage.getTemplateValues(), price);
+        List<Template> templates = new ArrayList<>();
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM template WHERE template_price=?");
+            preparedStatement.setDouble(1, price);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                Template template = new TemplateImpl();
+
+                template.setID(resultSet.getInt("template_id"));
+                template.setName(resultSet.getString("template_name"));
+                template.setDescription(resultSet.getString("template_description"));
+                template.setPrice(resultSet.getDouble("template_price"));
+                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
+
+                templates.add(template);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return templates;
     }
 
     public List<Template> searchTemplatesByArea(
-            Area area)
+            int areaID)
     {
-        return templateUtils.searchTemplatesByArea(storage.getTemplateValues(), area);
+        List<Template> templates = new ArrayList<>();
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM template WHERE area_id=?");
+            preparedStatement.setInt(1, areaID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                Template template = new TemplateImpl();
+
+                template.setID(resultSet.getInt("template_id"));
+                template.setName(resultSet.getString("template_name"));
+                template.setDescription(resultSet.getString("template_description"));
+                template.setPrice(resultSet.getDouble("template_price"));
+                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
+
+                templates.add(template);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return templates;
     }
 
     public Template getTemplate(int id)
     {
-        return storage.getTemplate(id);
+        Template template = null;
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM template WHERE template_id=?");
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                template = new TemplateImpl();
+
+                template.setID(resultSet.getInt("template_id"));
+                template.setName(resultSet.getString("template_name"));
+                template.setDescription(resultSet.getString("template_description"));
+                template.setPrice(resultSet.getDouble("template_price"));
+                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return template;
     }
 
     public List<Template> getTemplateValues()
     {
-        return storage.getTemplateValues();
+        List<Template> templates = new ArrayList<>();
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM template");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                Template template = new TemplateImpl();
+
+                template.setID(resultSet.getInt("template_id"));
+                template.setName(resultSet.getString("template_name"));
+                template.setDescription(resultSet.getString("template_description"));
+                template.setPrice(resultSet.getDouble("template_price"));
+                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
+
+                templates.add(template);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return templates;
+    }
+
+    public void updateTemplate(int id, Template template)
+    {
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "UPDATE template SET template_name=?, template_description=?, template_price=?, template.area_id=? WHERE template_id=?");
+            preparedStatement.setString(1, template.getName());
+            preparedStatement.setString(2, template.getDescription());
+            preparedStatement.setDouble(3, template.getPrice());
+            preparedStatement.setInt(4, template.getArea().getID());
+            preparedStatement.setInt(5, id);
+
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteTemplate(int id)
+    {
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM template WHERE template_id=?");
+            preparedStatement.setInt(1, id);
+
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void createTemplate(Template template){
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO template VALUES((SELECT max(template_id)+1 from template), ?, ?, ?, ?)");
+            preparedStatement.setString(1, template.getName());
+            preparedStatement.setString(2, template.getDescription());
+            preparedStatement.setDouble(3, template.getPrice());
+            preparedStatement.setInt(4, template.getArea().getID());
+
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
     }
 }

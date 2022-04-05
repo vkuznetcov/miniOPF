@@ -1,5 +1,6 @@
 package com.netcracker.miniOPF.springmvc.admin;
 
+import com.netcracker.miniOPF.springmvc.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,16 +8,33 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Objects;
+
 @Controller
 @RequestMapping("/admin")
 public class AdministratorController
 {
-    AdminService adminDAO;
+    AdminService adminService;
+    AreaService areaService;
+    CustomerService customerService;
+    OrderService orderService;
+    ServiceService serviceService;
+    TemplateService templateService;
 
     @Autowired
-    public AdministratorController(AdminService adminDAO)
+    public AdministratorController(AdminService adminService,
+                                   AreaService areaService,
+                                   CustomerService customerService,
+                                   OrderService orderService,
+                                   ServiceService serviceService,
+                                   TemplateService templateService)
     {
-        this.adminDAO = adminDAO;
+        this.adminService = adminService;
+        this.areaService = areaService;
+        this.customerService = customerService;
+        this.orderService = orderService;
+        this.serviceService = serviceService;
+        this.templateService = templateService;
     }
 
     @GetMapping("/customers")
@@ -25,7 +43,11 @@ public class AdministratorController
                                 @RequestParam(value = AdminService.FormParams.SEARCH_VALUE, required = false) String value,
                                 @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id, Model model)
     {
-        return adminDAO.showCustomers(type, sort, value, id, model);
+        if (Objects.nonNull(id))
+        {
+            model.addAttribute("userId", id);
+        }
+        return customerService.showCustomers(type, sort, value, model);
     }
 
     @GetMapping("/admins")
@@ -34,7 +56,7 @@ public class AdministratorController
                              @RequestParam(value = AdminService.FormParams.SEARCH_VALUE, required = false) String value,
                              Model model)
     {
-        return adminDAO.showAdmins(type, sort, value, model);
+        return adminService.showAdmins(type, sort, value, model);
     }
 
     @GetMapping("/areas")
@@ -43,7 +65,7 @@ public class AdministratorController
                             @RequestParam(value = AdminService.FormParams.SEARCH_VALUE, required = false) String value,
                             Model model)
     {
-        return adminDAO.showAreas(type, sort, value, model);
+        return areaService.showAreas(type, sort, value, model);
     }
 
     @GetMapping("/services")
@@ -52,7 +74,7 @@ public class AdministratorController
                                @RequestParam(value = AdminService.FormParams.SEARCH_VALUE, required = false) String value,
                                Model model)
     {
-        return adminDAO.showServices(type, sort, value, model);
+        return serviceService.showServices(type, sort, value, model);
     }
 
     @GetMapping("/orders")
@@ -61,7 +83,7 @@ public class AdministratorController
                              @RequestParam(value = AdminService.FormParams.SEARCH_VALUE, required = false) String value,
                              Model model)
     {
-        return adminDAO.showOrders(type, sort, value, model);
+        return orderService.showOrders(type, sort, value, model);
     }
 
     @GetMapping("/templates")
@@ -70,7 +92,7 @@ public class AdministratorController
                                 @RequestParam(value = AdminService.FormParams.SEARCH_VALUE, required = false) String value,
                                 Model model)
     {
-        return adminDAO.showTemplates(type, sort, value, model);
+        return templateService.showTemplates(type, sort, value, model);
     }
 
     @GetMapping("/myorders")
@@ -79,7 +101,7 @@ public class AdministratorController
                         @RequestParam(value = AdminService.FormParams.SEARCH_VALUE, required = false) String value,
                         Model model)
     {
-        return adminDAO.showMyOrders(type, sort, value, model);
+        return orderService.showMyOrders(type, sort, value, model);
     }
 
 
