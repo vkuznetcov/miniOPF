@@ -1,8 +1,8 @@
 package com.netcracker.miniOPF.springmvc;
 
 import com.netcracker.miniOPF.model.admin.Admin;
-import com.netcracker.miniOPF.utils.controller.AdminController;
-import com.netcracker.miniOPF.utils.controller.CustomerController;
+import com.netcracker.miniOPF.utils.repos.AdminRepo;
+import com.netcracker.miniOPF.utils.repos.CustomerRepo;
 import com.netcracker.miniOPF.model.customer.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,15 +14,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class AuthorizationController
 {
-    CustomerController customerController;
-    AdminController adminController;
+    CustomerRepo customerRepo;
+    AdminRepo adminRepo;
 
     @Autowired
-    public AuthorizationController(CustomerController customerController,
-                                   AdminController adminController)
+    public AuthorizationController(CustomerRepo customerRepo,
+                                   AdminRepo adminRepo)
     {
-        this.customerController = customerController;
-        this.adminController = adminController;
+        this.customerRepo = customerRepo;
+        this.adminRepo = adminRepo;
     }
 
     @GetMapping("/authorization")
@@ -38,8 +38,8 @@ public class AuthorizationController
                             @RequestParam(name = "login") String login,
                             @RequestParam(name = "password") String password)
     {
-        Customer customer = customerController.searchCustomerByLogin(login);
-        Admin admin = adminController.searchAdminByLogin(login);
+        Customer customer = customerRepo.searchCustomerByLogin(login);
+        Admin admin = adminRepo.searchAdminByLogin(login);
         if (customer == null && admin == null)
         {
             model.addAttribute("errorMessage", "There is no such user!");

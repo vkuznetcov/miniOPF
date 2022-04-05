@@ -84,11 +84,6 @@
     </tr>
     <tr>
         <td class="header">
-            <!--            <div th:switch="${sort}">-->
-            <!--                <a th:case="'desc'" th:href="@{/admin/customers(sort='asc', type='id')}">index</a>-->
-            <!--                <a th:case="'asc'" th:href="@{/admin/customers(sort='desc', type='id')}">index</a>-->
-            <!--                <a th:case="'none'" th:href="@{/admin/customers(sort='asc', type='id')}">index</a>-->
-            <!--            </div>-->
             <ul>
                 <li style="display: inline">
                     index
@@ -106,11 +101,6 @@
             </ul>
         </td>
         <td class="header">
-            <!--            <div th:switch="${sort}">-->
-            <!--                <a th:case="'desc'" th:href="@{/admin/customers(sort='asc', type='name')}">name</a>-->
-            <!--                <a th:case="'asc'" th:href="@{/admin/customers(sort='desc', type='name')}">name</a>-->
-            <!--                <a th:case="'none'" th:href="@{/admin/customers(sort='asc', type='name')}">name</a>-->
-            <!--            </div>-->
             <ul>
                 <li style="display: inline">
                     name
@@ -128,11 +118,6 @@
             </ul>
         </td>
         <td class="header">
-            <!--            <div th:switch="${sort}">-->
-            <!--                <a th:case="'desc'" th:href="@{/admin/customers(sort='asc', type='login')}">login</a>-->
-            <!--                <a th:case="'asc'" th:href="@{/admin/customers(sort='desc', type='login')}">login</a>-->
-            <!--                <a th:case="'none'" th:href="@{/admin/customers(sort='asc', type='login')}">login</a>-->
-            <!--            </div>-->
             <ul>
                 <li style="display: inline">
                     login
@@ -150,11 +135,6 @@
             </ul>
         </td>
         <td class="header">
-            <!--            <div th:switch="${sort}">-->
-            <!--                <a th:case="'desc'" th:href="@{/admin/customers(sort='asc', type='password')}">password</a>-->
-            <!--                <a th:case="'asc'" th:href="@{/admin/customers(sort='desc', type='password')}">password</a>-->
-            <!--                <a th:case="'none'" th:href="@{/admin/customers(sort='asc', type='password')}">password</a>-->
-            <!--            </div>-->
             <ul>
                 <li style="display: inline">
                     password
@@ -177,6 +157,11 @@
         <td class="cell" th:utext="${admin.getName()}">name</td>
         <td class="cell" th:utext="${admin.getLogin()}">login</td>
         <td class="cell" th:utext="${admin.getPassword()}">password</td>
+        <td class="cell">
+<!--            TODO create edit and delete-->
+            <a th:href="@{admin/edit}">edit</a>
+            <a th:href="@{admin/delete}">delete</a>
+        </td>
     </tr>
 </table>
 </body>

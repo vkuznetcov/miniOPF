@@ -5,5 +5,5 @@ public enum ServiceStatus
     ENTERING,
     ACTIVE,
     SUSPENDED,
-    DISCONNECCTED
+    DISCONNECTED
 }

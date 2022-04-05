@@ -104,6 +104,10 @@ public class CustomerImpl implements Customer
     public void setServices(List<Service> services)
     {
         this.services = services;
+
+        for(int i = 0;i < services.size(); i++){
+            this.services.get(i).setCustomer(this);
+        }
     }
 
     @Override
