@@ -1,7 +1,6 @@
 package com.netcracker.miniOPF.springmvc.services;
 
-import com.netcracker.miniOPF.model.order.enums.OrderAction;
-import com.netcracker.miniOPF.model.order.enums.OrderStatus;
+import com.netcracker.miniOPF.model.order.Order;
 import com.netcracker.miniOPF.utils.repos.AdminRepo;
 import com.netcracker.miniOPF.utils.repos.OrderRepo;
 import com.netcracker.miniOPF.utils.storageUtils.OrderUtils;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -33,7 +33,8 @@ public class OrderService
 
     public String showOrders(@RequestParam(value = AdminService.FormParams.TYPE, required = false) String type,
                              @RequestParam(value = AdminService.FormParams.SORT_ORDER, required = false) String sort,
-                             @RequestParam(value = AdminService.FormParams.SEARCH_VALUE, required = false) String value, Model model)
+                             @RequestParam(value = AdminService.FormParams.SEARCH_VALUE, required = false) String value,
+                             Model model)
     {
         if (Objects.nonNull(value))
         {
@@ -41,8 +42,7 @@ public class OrderService
             {
                 case "id" -> model.addAttribute("table", orderRepo.getOrder(Integer.parseInt(value)));
                 case "admin" -> model.addAttribute("table",
-                                                   orderRepo.searchOrdersByAdminID(adminRepo.getAdmin(Integer.parseInt(
-                                                           value))));
+                                                   orderRepo.searchOrdersByAdminID(Integer.parseInt(value)));
                 case "service" -> model.addAttribute("table",
                                                      orderRepo.searchOrdersByServiceID(Integer.parseInt(value)));
                 case "status" -> model.addAttribute("table",
@@ -94,63 +94,63 @@ public class OrderService
     //TODO
     public String showMyOrders(@RequestParam(value = AdminService.FormParams.TYPE, required = false) String type,
                                @RequestParam(value = AdminService.FormParams.SORT_ORDER, required = false) String sort,
-                               @RequestParam(value = AdminService.FormParams.SEARCH_VALUE, required = false) String value, Model model)
+                               @RequestParam(value = AdminService.FormParams.SEARCH_VALUE, required = false) String value,
+                               Model model,
+                               int userID)
     {
         OrderUtils orderUtils = new OrderUtils();
+        List<Order> myOrders = orderRepo.searchOrdersByAdminID(userID);
         if (Objects.nonNull(value))
         {
             switch (type)
             {
-                case "id" -> model.addAttribute("table", orderRepo.getOrder(Integer.parseInt(value)));
+                case "id" -> model.addAttribute("table", orderUtils.searchOrderByID(myOrders, Integer.parseInt(value)));
                 case "admin" -> model.addAttribute("table",
-                                                   orderRepo.searchOrdersByAdminID(adminRepo.getAdmin(Integer.parseInt(
-                                                           value))));
+                                                   orderUtils.searchOrdersByAdminID(myOrders, Integer.parseInt(value)));
                 case "service" -> model.addAttribute("table",
-                                                     orderRepo.searchOrdersByServiceID(Integer.parseInt(value)));
+                                                     orderUtils.searchOrdersByServiceID(myOrders, Integer.parseInt(value)));
                 case "status" -> model.addAttribute("table",
-                                                    orderRepo.searchOrdersByStatus(value.toUpperCase(Locale.ROOT)));
+                                                    orderUtils.searchOrdersByStatus(myOrders, value));
                 case "action" -> model.addAttribute("table",
-                                                    orderRepo.searchOrdersByAction(value.toUpperCase(Locale.ROOT)));
+                                                    orderUtils.searchOrdersByAction(myOrders, value));
             }
-            return "admin/orders";
+            return "admin/adminorders";
         }
         switch (sort)
         {
             case "none" -> {
-                model.addAttribute("table",
-                                   orderRepo.searchOrdersByAdminID(adminRepo.getAdmin(Integer.parseInt(
-                                           Objects.requireNonNull(model.getAttribute("userId")).toString()))));
-                return "admin/orders";
+                model.addAttribute("table", myOrders);
+                return "admin/adminorders";
             }
             case "asc" -> {
                 switch (type)
                 {
 
-                    case "id" -> model.addAttribute("table", orderUtils.sortOrdersByID(orderRepo.searchOrdersByAdminID(
-                            adminRepo.getAdmin(Integer.parseInt(
-                                    Objects.requireNonNull(model.getAttribute("userId")).toString())))));
+                    case "id" -> model.addAttribute("table",
+                                                    orderUtils.sortOrdersByID(myOrders));
                     case "admin" -> model.addAttribute("table",
-                                                       orderRepo.sortOrdersByAdminID());
+                                                       orderUtils.sortOrdersByAdminID(myOrders));
                     case "service" -> model.addAttribute("table",
-                                                         orderRepo.sortOrdersByServiceID());
+                                                         orderUtils.sortOrdersByServiceID(myOrders));
                     case "status" -> model.addAttribute("table",
-                                                        orderRepo.sortOrdersByStatus());
+                                                        orderUtils.sortOrdersByStatus(myOrders));
                     case "action" -> model.addAttribute("table",
-                                                        orderRepo.sortOrdersByAction());
+                                                        orderUtils.sortOrdersByAction(myOrders));
                 }
             }
             case "desc" -> {
                 switch (type)
                 {
-                    case "id" -> model.addAttribute("table", orderRepo.sortOrdersByIDReversed());
+                    case "id" -> model.addAttribute("table",
+                                                    orderUtils.sortOrdersByIDReversed(myOrders));
                     case "admin" -> model.addAttribute("table",
-                                                       orderRepo.sortOrdersByAdminIDReversed());
+                                                       orderUtils.sortOrdersByAdminIDReversed(myOrders));
                     case "service" -> model.addAttribute("table",
-                                                         orderRepo.sortOrdersByServiceIDReversed());
+                                                         orderUtils.sortOrdersByServiceIDReversed(myOrders));
                     case "status" -> model.addAttribute("table",
-                                                        orderRepo.sortOrdersByStatusReversed());
+                                                        orderUtils.sortOrdersByStatusReversed(myOrders));
                     case "action" -> model.addAttribute("table",
-                                                        orderRepo.sortOrdersByActionReversed());
+                                                        orderUtils.sortOrdersByActionReversed(myOrders));
                 }
             }
         }
