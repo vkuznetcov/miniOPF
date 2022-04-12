@@ -1,11 +1,9 @@
 package com.netcracker.miniOPF.utils.repos;
 
-import com.netcracker.miniOPF.model.admin.Admin;
 import com.netcracker.miniOPF.model.order.Order;
 import com.netcracker.miniOPF.model.order.OrderImpl;
 import com.netcracker.miniOPF.model.order.enums.OrderAction;
 import com.netcracker.miniOPF.model.order.enums.OrderStatus;
-import com.netcracker.miniOPF.model.service.Service;
 import com.netcracker.miniOPF.model.storage.Storage;
 import com.netcracker.miniOPF.springmvc.services.ServiceService;
 import com.netcracker.miniOPF.utils.storageUtils.OrderUtils;
@@ -375,14 +373,14 @@ public class OrderRepo
     }
 
     public List<Order> searchOrdersByAdminID(
-            Admin admin)
+            int id)
     {
         List<Order> orders = new ArrayList<>();
 
         try
         {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM \"order\" WHERE admin_id=?");
-            preparedStatement.setInt(1, admin.getID());
+            preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next())

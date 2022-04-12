@@ -21,6 +21,8 @@ public class AdministratorController
     ServiceService serviceService;
     TemplateService templateService;
 
+    int userID;
+
     @Autowired
     public AdministratorController(AdminService adminService,
                                    AreaService areaService,
@@ -43,10 +45,7 @@ public class AdministratorController
                                 @RequestParam(value = AdminService.FormParams.SEARCH_VALUE, required = false) String value,
                                 @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id, Model model)
     {
-        if (Objects.nonNull(id))
-        {
-            model.addAttribute("userId", id);
-        }
+        userID = id;
         return customerService.showCustomers(type, sort, value, model);
     }
 
@@ -101,7 +100,7 @@ public class AdministratorController
                         @RequestParam(value = AdminService.FormParams.SEARCH_VALUE, required = false) String value,
                         Model model)
     {
-        return orderService.showMyOrders(type, sort, value, model);
+        return orderService.showMyOrders(type, sort, value, model, userID);
     }
 
 
