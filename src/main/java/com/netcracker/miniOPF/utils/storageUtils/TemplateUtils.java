@@ -14,12 +14,12 @@ public class TemplateUtils
 
     public List<Template> sortTemplatesByID(List<Template> values)
     {
-        return values.stream().sorted(Comparator.comparingInt(Template::getID)).toList();
+        return values.stream().sorted(Comparator.comparingInt(Template::getId)).toList();
     }
 
     public List<Template> sortTemplatesByIDReversed(List<Template> values)
     {
-        return values.stream().sorted((o1, o2) -> o2.getID() - o1.getID()).toList();
+        return values.stream().sorted((o1, o2) -> o2.getId() - o1.getId()).toList();
     }
 
     public List<Template> sortTemplatesByName(List<Template> values)
@@ -110,7 +110,7 @@ public class TemplateUtils
 
         for (Template cur : values)
         {
-            if (cur.getID() == id)
+            if (cur.getId() == id)
             {
                 return cur;
             }

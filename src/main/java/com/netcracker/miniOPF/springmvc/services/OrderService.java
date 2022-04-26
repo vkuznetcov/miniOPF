@@ -1,14 +1,19 @@
 package com.netcracker.miniOPF.springmvc.services;
 
 import com.netcracker.miniOPF.model.order.Order;
+import com.netcracker.miniOPF.model.order.OrderImpl;
+import com.netcracker.miniOPF.model.order.enums.OrderAction;
+import com.netcracker.miniOPF.model.order.enums.OrderStatus;
 import com.netcracker.miniOPF.utils.repos.AdminRepo;
 import com.netcracker.miniOPF.utils.repos.OrderRepo;
 import com.netcracker.miniOPF.utils.storageUtils.OrderUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -36,6 +41,18 @@ public class OrderService
                              @RequestParam(value = AdminService.FormParams.SEARCH_VALUE, required = false) String value,
                              Model model)
     {
+        List<String> actions = new ArrayList<>();
+        actions.add("CONNECT");
+        actions.add("DISCONNECT");
+        actions.add("RESUME");
+        model.addAttribute("actions", actions);
+
+        List<String> statuses = new ArrayList<>();
+        statuses.add("ENTERING");
+        statuses.add("IN_PROGRESS");
+        statuses.add("COMPLETED");
+        model.addAttribute("statuses", statuses);
+
         if (Objects.nonNull(value))
         {
             switch (type)
@@ -91,13 +108,91 @@ public class OrderService
         return "admin/orders";
     }
 
-    //TODO
+    private boolean checkParams(String adminId,
+                                String serviceId,
+                                StringBuilder errorMessage)
+    {
+
+        boolean error = false;
+        if (adminRepo.getAdmin(Integer.parseInt(adminId)) == null)
+        {
+            errorMessage.append("There is no such admin! ");
+            error = true;
+        }
+        if (serviceService.getService(Integer.parseInt(serviceId)) == null)
+        {
+            errorMessage.append("There is no such service! ");
+            error = true;
+        }
+        return error;
+    }
+
+    public String updateOrders(OrderImpl order,
+                               String adminId,
+                               String serviceId,
+                               String status,
+                               String action,
+                               Model model)
+    {
+        String errorMessage = "";
+        StringBuilder stringBuilder = new StringBuilder(errorMessage);
+        if (checkParams(adminId, serviceId, stringBuilder))
+        {
+            stringBuilder.append("Error index: ").append(order.getId());
+            model.addAttribute("errorMessage", stringBuilder.toString());
+        }
+        else
+        {
+            order.setAdmin(adminRepo.getAdmin(Integer.parseInt(adminId)));
+            order.setService(serviceService.getService(Integer.parseInt(serviceId)));
+            order.setAction(OrderAction.valueOf(action.toUpperCase(Locale.ROOT)));
+            order.setStatus(OrderStatus.valueOf(status.toUpperCase(Locale.ROOT)));
+            orderRepo.updateOrder(order.getId(), order);
+        }
+        return this.showOrders(null, "none", null, model);
+    }
+
+    public String createOrder(OrderImpl order,
+                              String adminId,
+                              String serviceId,
+                              String status,
+                              String action,
+                              Model model){
+        String errorMessage = "";
+        StringBuilder stringBuilder = new StringBuilder(errorMessage);
+        if (checkParams(adminId, serviceId, stringBuilder))
+        {
+            stringBuilder.append("Error index: new object creation");
+            model.addAttribute("errorMessage", stringBuilder.toString());
+        }
+        else
+        {
+            order.setAdmin(adminRepo.getAdmin(Integer.parseInt(adminId)));
+            order.setService(serviceService.getService(Integer.parseInt(serviceId)));
+            order.setAction(OrderAction.valueOf(action.toUpperCase(Locale.ROOT)));
+            order.setStatus(OrderStatus.valueOf(status.toUpperCase(Locale.ROOT)));
+            orderRepo.createOrder(order);
+        }
+        return this.showOrders(null, "none", null, model);
+    }
+
     public String showMyOrders(@RequestParam(value = AdminService.FormParams.TYPE, required = false) String type,
                                @RequestParam(value = AdminService.FormParams.SORT_ORDER, required = false) String sort,
                                @RequestParam(value = AdminService.FormParams.SEARCH_VALUE, required = false) String value,
                                Model model,
                                int userID)
     {
+        List<String> actions = new ArrayList<>();
+        actions.add("CONNECT");
+        actions.add("DISCONNECT");
+        actions.add("RESUME");
+        model.addAttribute("actions", actions);
+
+        List<String> statuses = new ArrayList<>();
+        statuses.add("ENTERING");
+        statuses.add("IN_PROGRESS");
+        statuses.add("COMPLETED");
+        model.addAttribute("statuses", statuses);
         OrderUtils orderUtils = new OrderUtils();
         List<Order> myOrders = orderRepo.searchOrdersByAdminID(userID);
         if (Objects.nonNull(value))
@@ -108,7 +203,8 @@ public class OrderService
                 case "admin" -> model.addAttribute("table",
                                                    orderUtils.searchOrdersByAdminID(myOrders, Integer.parseInt(value)));
                 case "service" -> model.addAttribute("table",
-                                                     orderUtils.searchOrdersByServiceID(myOrders, Integer.parseInt(value)));
+                                                     orderUtils.searchOrdersByServiceID(myOrders,
+                                                                                        Integer.parseInt(value)));
                 case "status" -> model.addAttribute("table",
                                                     orderUtils.searchOrdersByStatus(myOrders, value));
                 case "action" -> model.addAttribute("table",
@@ -156,5 +252,130 @@ public class OrderService
         }
 
         return "admin/adminorders";
+    }
+
+    public String updateMyOrders(OrderImpl order,
+                                 String adminId,
+                                 String serviceId,
+                                 String status,
+                                 String action,
+                                 Model model, int userID)
+    {
+        String errorMessage = "";
+        StringBuilder stringBuilder = new StringBuilder(errorMessage);
+        if (checkParams(adminId, serviceId, stringBuilder))
+        {
+            stringBuilder.append("Error index: ").append(order.getId());
+            model.addAttribute("errorMessage", stringBuilder.toString());
+        }
+        else
+        {
+            order.setAdmin(adminRepo.getAdmin(Integer.parseInt(adminId)));
+            order.setService(serviceService.getService(Integer.parseInt(serviceId)));
+            order.setAction(OrderAction.valueOf(action.toUpperCase(Locale.ROOT)));
+            order.setStatus(OrderStatus.valueOf(status.toUpperCase(Locale.ROOT)));
+            orderRepo.updateOrder(order.getId(), order);
+        }
+        return this.showMyOrders(null, "none", null, model, userID);
+    }
+
+    public void suspendOrder(int id)
+    {
+        orderRepo.suspendOrder(id);
+    }
+
+    public void resumeOrder(int id)
+    {
+        orderRepo.resumeOrder(id);
+    }
+
+    public List<Order> sortOrdersByID()
+    {
+        return orderRepo.sortOrdersByID();
+    }
+
+    public List<Order> sortOrdersByIDReversed()
+    {
+        return orderRepo.sortOrdersByIDReversed();
+    }
+
+    public List<Order> sortOrdersByAdminID()
+    {
+        return orderRepo.sortOrdersByAdminID();
+    }
+
+    public List<Order> sortOrdersByAdminIDReversed()
+    {
+        return orderRepo.sortOrdersByAdminIDReversed();
+    }
+
+    public List<Order> sortOrdersByServiceID()
+    {
+        return orderRepo.sortOrdersByServiceID();
+    }
+
+    public List<Order> sortOrdersByServiceIDReversed()
+    {
+        return orderRepo.sortOrdersByServiceIDReversed();
+    }
+
+    public List<Order> sortOrdersByStatus()
+    {
+        return orderRepo.sortOrdersByStatus();
+    }
+
+    public List<Order> sortOrdersByStatusReversed()
+    {
+        return orderRepo.sortOrdersByStatusReversed();
+    }
+
+    public List<Order> sortOrdersByAction()
+    {
+        return orderRepo.sortOrdersByAction();
+    }
+
+    public List<Order> sortOrdersByActionReversed()
+    {
+        return orderRepo.sortOrdersByActionReversed();
+    }
+
+    public List<Order> searchOrdersByAdminID(int id)
+    {
+        return orderRepo.searchOrdersByAdminID(id);
+    }
+
+    public List<Order> searchOrdersByServiceID(int serviceID)
+    {
+        return orderRepo.searchOrdersByServiceID(serviceID);
+    }
+
+    public List<Order> searchOrdersByStatus(String status)
+    {
+        return orderRepo.searchOrdersByStatus(status);
+    }
+
+    public List<Order> searchOrdersByAction(String action)
+    {
+        return orderRepo.searchOrdersByAction(action);
+    }
+
+    public Order getOrder(int id)
+    {
+        return orderRepo.getOrder(id);
+    }
+
+    public List<Order> getOrderValues()
+    {
+        return orderRepo.getOrderValues();
+    }
+
+    public void updateOrderWithCheck(int id, Order order)
+    {
+        orderRepo.updateOrder(id, order);
+    }
+
+    public void deleteOrder(int id)
+    {
+        orderRepo.deleteOrder(id);
     }
 }

@@ -154,7 +154,7 @@ public class ServiceRepo
             {
                 Service service = new ServiceImpl();
 
-                service.setID(resultSet.getInt("service_id"));
+                service.setId(resultSet.getInt("service_id"));
                 service.setName(resultSet.getString("service_name"));
                 service.setDescription(resultSet.getString("service_description"));
                 service.setPrice(resultSet.getDouble("service_price"));
@@ -193,7 +193,7 @@ public class ServiceRepo
             {
                 Service service = new ServiceImpl();
 
-                service.setID(resultSet.getInt("service_id"));
+                service.setId(resultSet.getInt("service_id"));
                 service.setName(resultSet.getString("service_name"));
                 service.setDescription(resultSet.getString("service_description"));
                 service.setPrice(resultSet.getDouble("service_price"));
@@ -230,7 +230,7 @@ public class ServiceRepo
             {
                 Service service = new ServiceImpl();
 
-                service.setID(resultSet.getInt("service_id"));
+                service.setId(resultSet.getInt("service_id"));
                 service.setName(resultSet.getString("service_name"));
                 service.setDescription(resultSet.getString("service_description"));
                 service.setPrice(resultSet.getDouble("service_price"));
@@ -267,7 +267,7 @@ public class ServiceRepo
             {
                 Service service = new ServiceImpl();
 
-                service.setID(resultSet.getInt("service_id"));
+                service.setId(resultSet.getInt("service_id"));
                 service.setName(resultSet.getString("service_name"));
                 service.setDescription(resultSet.getString("service_description"));
                 service.setPrice(resultSet.getDouble("service_price"));
@@ -304,7 +304,7 @@ public class ServiceRepo
             {
                 Service service = new ServiceImpl();
 
-                service.setID(resultSet.getInt("service_id"));
+                service.setId(resultSet.getInt("service_id"));
                 service.setName(resultSet.getString("service_name"));
                 service.setDescription(resultSet.getString("service_description"));
                 service.setPrice(resultSet.getDouble("service_price"));
@@ -341,7 +341,7 @@ public class ServiceRepo
             {
                 Service service = new ServiceImpl();
 
-                service.setID(resultSet.getInt("service_id"));
+                service.setId(resultSet.getInt("service_id"));
                 service.setName(resultSet.getString("service_name"));
                 service.setDescription(resultSet.getString("service_description"));
                 service.setPrice(resultSet.getDouble("service_price"));
@@ -378,7 +378,7 @@ public class ServiceRepo
             {
                 Service service = new ServiceImpl();
 
-                service.setID(resultSet.getInt("service_id"));
+                service.setId(resultSet.getInt("service_id"));
                 service.setName(resultSet.getString("service_name"));
                 service.setDescription(resultSet.getString("service_description"));
                 service.setPrice(resultSet.getDouble("service_price"));
@@ -415,7 +415,7 @@ public class ServiceRepo
             {
                 Service service = new ServiceImpl();
 
-                service.setID(resultSet.getInt("service_id"));
+                service.setId(resultSet.getInt("service_id"));
                 service.setName(resultSet.getString("service_name"));
                 service.setDescription(resultSet.getString("service_description"));
                 service.setPrice(resultSet.getDouble("service_price"));
@@ -452,7 +452,7 @@ public class ServiceRepo
             {
                 Service service = new ServiceImpl();
 
-                service.setID(resultSet.getInt("service_id"));
+                service.setId(resultSet.getInt("service_id"));
                 service.setName(resultSet.getString("service_name"));
                 service.setDescription(resultSet.getString("service_description"));
                 service.setPrice(resultSet.getDouble("service_price"));
@@ -489,7 +489,7 @@ public class ServiceRepo
             {
                 Service service = new ServiceImpl();
 
-                service.setID(resultSet.getInt("service_id"));
+                service.setId(resultSet.getInt("service_id"));
                 service.setName(resultSet.getString("service_name"));
                 service.setDescription(resultSet.getString("service_description"));
                 service.setPrice(resultSet.getDouble("service_price"));
@@ -526,7 +526,7 @@ public class ServiceRepo
             {
                 Service service = new ServiceImpl();
 
-                service.setID(resultSet.getInt("service_id"));
+                service.setId(resultSet.getInt("service_id"));
                 service.setName(resultSet.getString("service_name"));
                 service.setDescription(resultSet.getString("service_description"));
                 service.setPrice(resultSet.getDouble("service_price"));
@@ -563,7 +563,7 @@ public class ServiceRepo
             {
                 Service service = new ServiceImpl();
 
-                service.setID(resultSet.getInt("service_id"));
+                service.setId(resultSet.getInt("service_id"));
                 service.setName(resultSet.getString("service_name"));
                 service.setDescription(resultSet.getString("service_description"));
                 service.setPrice(resultSet.getDouble("service_price"));
@@ -600,7 +600,7 @@ public class ServiceRepo
             {
                 Service service = new ServiceImpl();
 
-                service.setID(resultSet.getInt("service_id"));
+                service.setId(resultSet.getInt("service_id"));
                 service.setName(resultSet.getString("service_name"));
                 service.setDescription(resultSet.getString("service_description"));
                 service.setPrice(resultSet.getDouble("service_price"));
@@ -637,7 +637,7 @@ public class ServiceRepo
             {
                 Service service = new ServiceImpl();
 
-                service.setID(resultSet.getInt("service_id"));
+                service.setId(resultSet.getInt("service_id"));
                 service.setName(resultSet.getString("service_name"));
                 service.setDescription(resultSet.getString("service_description"));
                 service.setPrice(resultSet.getDouble("service_price"));
@@ -676,7 +676,7 @@ public class ServiceRepo
             {
                 Service service = new ServiceImpl();
 
-                service.setID(resultSet.getInt("service_id"));
+                service.setId(resultSet.getInt("service_id"));
                 service.setName(resultSet.getString("service_name"));
                 service.setDescription(resultSet.getString("service_description"));
                 service.setPrice(resultSet.getDouble("service_price"));
@@ -715,7 +715,7 @@ public class ServiceRepo
             {
                 Service service = new ServiceImpl();
 
-                service.setID(resultSet.getInt("service_id"));
+                service.setId(resultSet.getInt("service_id"));
                 service.setName(resultSet.getString("service_name"));
                 service.setDescription(resultSet.getString("service_description"));
                 service.setPrice(resultSet.getDouble("service_price"));
@@ -754,7 +754,7 @@ public class ServiceRepo
             {
                 Service service = new ServiceImpl();
 
-                service.setID(resultSet.getInt("service_id"));
+                service.setId(resultSet.getInt("service_id"));
                 service.setName(resultSet.getString("service_name"));
                 service.setDescription(resultSet.getString("service_description"));
                 service.setPrice(resultSet.getDouble("service_price"));
@@ -792,7 +792,7 @@ public class ServiceRepo
             {
                 Service service = new ServiceImpl();
 
-                service.setID(resultSet.getInt("service_id"));
+                service.setId(resultSet.getInt("service_id"));
                 service.setName(resultSet.getString("service_name"));
                 service.setDescription(resultSet.getString("service_description"));
                 service.setPrice(resultSet.getDouble("service_price"));
@@ -831,7 +831,7 @@ public class ServiceRepo
             {
                 Service service = new ServiceImpl();
 
-                service.setID(resultSet.getInt("service_id"));
+                service.setId(resultSet.getInt("service_id"));
                 service.setName(resultSet.getString("service_name"));
                 service.setDescription(resultSet.getString("service_description"));
                 service.setPrice(resultSet.getDouble("service_price"));
@@ -870,7 +870,7 @@ public class ServiceRepo
             {
                 Service service = new ServiceImpl();
 
-                service.setID(resultSet.getInt("service_id"));
+                service.setId(resultSet.getInt("service_id"));
                 service.setName(resultSet.getString("service_name"));
                 service.setDescription(resultSet.getString("service_description"));
                 service.setPrice(resultSet.getDouble("service_price"));
@@ -907,7 +907,7 @@ public class ServiceRepo
             {
                 Service service = new ServiceImpl();
 
-                service.setID(resultSet.getInt("service_id"));
+                service.setId(resultSet.getInt("service_id"));
                 service.setName(resultSet.getString("service_name"));
                 service.setDescription(resultSet.getString("service_description"));
                 service.setPrice(resultSet.getDouble("service_price"));
@@ -942,7 +942,7 @@ public class ServiceRepo
             {
                 Service service = new ServiceImpl();
 
-                service.setID(resultSet.getInt("service_id"));
+                service.setId(resultSet.getInt("service_id"));
                 service.setName(resultSet.getString("service_name"));
                 service.setDescription(resultSet.getString("service_description"));
                 service.setPrice(resultSet.getDouble("service_price"));
@@ -973,8 +973,8 @@ public class ServiceRepo
             preparedStatement.setString(2, service.getDescription());
             preparedStatement.setDouble(3, service.getPrice());
             preparedStatement.setString(4, service.getStatus().toString());
-            preparedStatement.setInt(5, service.getTemplate().getID());
-            preparedStatement.setInt(6, service.getCustomer().getID());
+            preparedStatement.setInt(5, service.getTemplate().getId());
+            preparedStatement.setInt(6, service.getCustomer().getId());
 
             preparedStatement.executeUpdate();
         }
@@ -995,8 +995,9 @@ public class ServiceRepo
             preparedStatement.setString(2, service.getDescription());
             preparedStatement.setDouble(3, service.getPrice());
             preparedStatement.setString(4, service.getStatus().toString());
-            preparedStatement.setInt(5, service.getTemplate().getID());
-            preparedStatement.setInt(6, service.getCustomer().getID());
+            preparedStatement.setInt(5, service.getTemplate().getId());
+            preparedStatement.setInt(6, service.getCustomer().getId());
+            preparedStatement.setInt(7, service.getId());
 
             preparedStatement.executeUpdate();
         }

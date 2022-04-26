@@ -16,12 +16,12 @@ public class ServiceUtils
 
     public List<Service> sortServicesByID(List<Service> values)
     {
-        return values.stream().sorted(Comparator.comparingInt(Service::getID)).toList();
+        return values.stream().sorted(Comparator.comparingInt(Service::getId)).toList();
     }
 
     public List<Service> sortServicesByIDReversed(List<Service> values)
     {
-        return values.stream().sorted((o1, o2) -> o2.getID() - o1.getID()).toList();
+        return values.stream().sorted((o1, o2) -> o2.getId() - o1.getId()).toList();
     }
 
     public List<Service> sortServicesByName(List<Service> values)
@@ -144,7 +144,7 @@ public class ServiceUtils
 
         for (Service cur : values)
         {
-            if (cur.getID() == id)
+            if (cur.getId() == id)
             {
                 return cur;
             }

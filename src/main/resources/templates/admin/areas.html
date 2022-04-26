@@ -126,15 +126,53 @@
             </ul>
         </td>
     </tr>
-    <tr th:each="area : ${table}">
-        <td class="cell" th:utext="${area.getID()}">index</td>
-        <td class="cell" th:utext="${area.getName()}">name</td>
-        <td class="cell" th:utext="${area.getDescription()}">login</td>
-        <td class="cell">
-            <!--            TODO create edit and delete-->
-            <a th:href="@{admin/edit}">edit</a>
-            <a th:href="@{admin/delete}">delete</a>
+
+    <tr th:each="areaValue : ${table}">
+        <form th:method="POST" th:action="@{/admin/areas}" th:object="${area}">
+            <td>
+                <label>
+                    <input style = "border: none" type="text" th:name="id" th:id="id" th:value="${areaValue.getId()}" readonly>
+                </label>
+            </td>
+            <td>
+                <!--            <form th:method="POST" th:action="@{/admin/areas}" th:object="${area}">-->
+                <label>
+                    <input type="text" th:name="name" th:id="name"
+                           th:value="${areaValue.getName()}">
+                </label>
+            </td>
+            <td>
+                <!--            <form th:method="POST" th:action="@{/admin/areas}" th:object="${area}">-->
+                <label>
+                    <input type="text" th:name="description" th:id="description"
+                           th:value="${areaValue.getDescription()}">
+                </label>
+            </td>
+            <td>
+                <!--            TODO create edit and delete-->
+                <input type="submit" value="edit"/>
+                <input type="submit" th:formaction="@{/admin/areas/delete}" value="delete"/>
+        </form>
         </td>
+    </tr>
+    <tr>
+        <form th:method="POST" th:action="@{/admin/areas/create}" th:object="${area}">
+            <td>
+            </td>
+            <td>
+                <label>
+                    <input type="text" th:id="name" field="*{name}" th:name="name">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="text" th:id="description" field="*{description}" th:name="description">
+                </label>
+            </td>
+            <td>
+                <input type="submit" value="create"/>
+            </td>
+        </form>
     </tr>
 </table>
 </body>

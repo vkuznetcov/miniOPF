@@ -52,13 +52,13 @@ public class CustomerImpl implements Customer
     }
 
     @Override
-    public int getID()
+    public int getId()
     {
         return id;
     }
 
     @Override
-    public void setID(int id)
+    public void setId(int id)
     {
         this.id = id;
     }
@@ -127,7 +127,7 @@ public class CustomerImpl implements Customer
         int len = services.size();
         for (int index = 0; index < len; index++)
         {
-            if (services.get(index).getID() == id)
+            if (services.get(index).getId() == id)
             {
                 services.remove(index);
             }

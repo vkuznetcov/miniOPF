@@ -31,8 +31,14 @@ table {
     width: 1500px;
     border-collapse: collapse; /* Отображать двойные линии как одинарные */
 }
+tr{
+    display: table-row;
+}
 td, th {
     border: 1px solid #000000; /* Параметры границы */
     padding: 4px; /* Поля в ячейках */
+    text-align: center;
+}
+input{
     text-align: center;
 }

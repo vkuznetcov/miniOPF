@@ -14,12 +14,12 @@ public class OrderUtils
 
     public List<Order> sortOrdersByID(List<Order> values)
     {
-        return values.stream().sorted(Comparator.comparingInt(Order::getID)).toList();
+        return values.stream().sorted(Comparator.comparingInt(Order::getId)).toList();
     }
 
     public List<Order> sortOrdersByIDReversed(List<Order> values)
     {
-        return values.stream().sorted((o1, o2) -> o2.getID() - o1.getID()).toList();
+        return values.stream().sorted((o1, o2) -> o2.getId() - o1.getId()).toList();
     }
 
     public List<Order> sortOrdersByAdminID(List<Order> values)
@@ -30,7 +30,7 @@ public class OrderUtils
             @Override
             public int compare(Order o1, Order o2)
             {
-                return o1.getAdmin().getID() - o2.getAdmin().getID();
+                return o1.getAdmin().getId() - o2.getAdmin().getId();
             }
         }).toList();
 
@@ -43,7 +43,7 @@ public class OrderUtils
             @Override
             public int compare(Order o1, Order o2)
             {
-                return o2.getAdmin().getID() - o1.getAdmin().getID();
+                return o2.getAdmin().getId() - o1.getAdmin().getId();
             }
         }).toList();
     }
@@ -55,7 +55,7 @@ public class OrderUtils
             @Override
             public int compare(Order o1, Order o2)
             {
-                return o1.getService().getID() - o2.getService().getID();
+                return o1.getService().getId() - o2.getService().getId();
             }
         }).toList();
     }
@@ -67,7 +67,7 @@ public class OrderUtils
             @Override
             public int compare(Order o1, Order o2)
             {
-                return o2.getService().getID() - o1.getService().getID();
+                return o2.getService().getId() - o1.getService().getId();
             }
         }).toList();
     }
@@ -106,7 +106,7 @@ public class OrderUtils
 
         for (Order cur : values)
         {
-            if (cur.getID() == id)
+            if (cur.getId() == id)
             {
                 return cur;
             }
@@ -119,7 +119,7 @@ public class OrderUtils
         List<Order> list = new ArrayList<>();
         for (Order cur : values)
         {
-            if (cur.getAdmin().getID() == id)
+            if (cur.getAdmin().getId() == id)
             {
                 list.add(cur);
             }
@@ -132,7 +132,7 @@ public class OrderUtils
         List<Order> list = new ArrayList<>();
         for (Order cur : values)
         {
-            if (cur.getService().getID() == id)
+            if (cur.getService().getId() == id)
             {
                 list.add(cur);
             }

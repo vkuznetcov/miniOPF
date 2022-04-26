@@ -85,7 +85,7 @@ public class OrderRepo
             while (resultSet.next())
             {
                 Order order = new OrderImpl();
-                order.setID(resultSet.getInt("order_id"));
+                order.setId(resultSet.getInt("order_id"));
                 order.setAdmin(adminRepo.getAdmin(resultSet.getInt("admin_id")));
                 order.setStatus(OrderStatus.valueOf(resultSet.getString("order_status")));
                 order.setAction(OrderAction.valueOf(resultSet.getString("order_action")));
@@ -115,7 +115,7 @@ public class OrderRepo
             while (resultSet.next())
             {
                 Order order = new OrderImpl();
-                order.setID(resultSet.getInt("order_id"));
+                order.setId(resultSet.getInt("order_id"));
                 order.setAdmin(adminRepo.getAdmin(resultSet.getInt("admin_id")));
                 order.setStatus(OrderStatus.valueOf(resultSet.getString("order_status")));
                 order.setAction(OrderAction.valueOf(resultSet.getString("order_action")));
@@ -145,7 +145,7 @@ public class OrderRepo
             while (resultSet.next())
             {
                 Order order = new OrderImpl();
-                order.setID(resultSet.getInt("order_id"));
+                order.setId(resultSet.getInt("order_id"));
                 order.setAdmin(adminRepo.getAdmin(resultSet.getInt("admin_id")));
                 order.setStatus(OrderStatus.valueOf(resultSet.getString("order_status")));
                 order.setAction(OrderAction.valueOf(resultSet.getString("order_action")));
@@ -175,7 +175,7 @@ public class OrderRepo
             while (resultSet.next())
             {
                 Order order = new OrderImpl();
-                order.setID(resultSet.getInt("order_id"));
+                order.setId(resultSet.getInt("order_id"));
                 order.setAdmin(adminRepo.getAdmin(resultSet.getInt("admin_id")));
                 order.setStatus(OrderStatus.valueOf(resultSet.getString("order_status")));
                 order.setAction(OrderAction.valueOf(resultSet.getString("order_action")));
@@ -205,7 +205,7 @@ public class OrderRepo
             while (resultSet.next())
             {
                 Order order = new OrderImpl();
-                order.setID(resultSet.getInt("order_id"));
+                order.setId(resultSet.getInt("order_id"));
                 order.setAdmin(adminRepo.getAdmin(resultSet.getInt("admin_id")));
                 order.setStatus(OrderStatus.valueOf(resultSet.getString("order_status")));
                 order.setAction(OrderAction.valueOf(resultSet.getString("order_action")));
@@ -235,7 +235,7 @@ public class OrderRepo
             while (resultSet.next())
             {
                 Order order = new OrderImpl();
-                order.setID(resultSet.getInt("order_id"));
+                order.setId(resultSet.getInt("order_id"));
                 order.setAdmin(adminRepo.getAdmin(resultSet.getInt("admin_id")));
                 order.setStatus(OrderStatus.valueOf(resultSet.getString("order_status")));
                 order.setAction(OrderAction.valueOf(resultSet.getString("order_action")));
@@ -265,7 +265,7 @@ public class OrderRepo
             while (resultSet.next())
             {
                 Order order = new OrderImpl();
-                order.setID(resultSet.getInt("order_id"));
+                order.setId(resultSet.getInt("order_id"));
                 order.setAdmin(adminRepo.getAdmin(resultSet.getInt("admin_id")));
                 order.setStatus(OrderStatus.valueOf(resultSet.getString("order_status")));
                 order.setAction(OrderAction.valueOf(resultSet.getString("order_action")));
@@ -295,7 +295,7 @@ public class OrderRepo
             while (resultSet.next())
             {
                 Order order = new OrderImpl();
-                order.setID(resultSet.getInt("order_id"));
+                order.setId(resultSet.getInt("order_id"));
                 order.setAdmin(adminRepo.getAdmin(resultSet.getInt("admin_id")));
                 order.setStatus(OrderStatus.valueOf(resultSet.getString("order_status")));
                 order.setAction(OrderAction.valueOf(resultSet.getString("order_action")));
@@ -325,7 +325,7 @@ public class OrderRepo
             while (resultSet.next())
             {
                 Order order = new OrderImpl();
-                order.setID(resultSet.getInt("order_id"));
+                order.setId(resultSet.getInt("order_id"));
                 order.setAdmin(adminRepo.getAdmin(resultSet.getInt("admin_id")));
                 order.setStatus(OrderStatus.valueOf(resultSet.getString("order_status")));
                 order.setAction(OrderAction.valueOf(resultSet.getString("order_action")));
@@ -355,7 +355,7 @@ public class OrderRepo
             while (resultSet.next())
             {
                 Order order = new OrderImpl();
-                order.setID(resultSet.getInt("order_id"));
+                order.setId(resultSet.getInt("order_id"));
                 order.setAdmin(adminRepo.getAdmin(resultSet.getInt("admin_id")));
                 order.setStatus(OrderStatus.valueOf(resultSet.getString("order_status")));
                 order.setAction(OrderAction.valueOf(resultSet.getString("order_action")));
@@ -386,7 +386,7 @@ public class OrderRepo
             while (resultSet.next())
             {
                 Order order = new OrderImpl();
-                order.setID(resultSet.getInt("order_id"));
+                order.setId(resultSet.getInt("order_id"));
                 order.setAdmin(adminRepo.getAdmin(resultSet.getInt("admin_id")));
                 order.setStatus(OrderStatus.valueOf(resultSet.getString("order_status")));
                 order.setAction(OrderAction.valueOf(resultSet.getString("order_action")));
@@ -418,7 +418,7 @@ public class OrderRepo
             while (resultSet.next())
             {
                 Order order = new OrderImpl();
-                order.setID(resultSet.getInt("order_id"));
+                order.setId(resultSet.getInt("order_id"));
                 order.setAdmin(adminRepo.getAdmin(resultSet.getInt("admin_id")));
                 order.setStatus(OrderStatus.valueOf(resultSet.getString("order_status")));
                 order.setAction(OrderAction.valueOf(resultSet.getString("order_action")));
@@ -450,7 +450,7 @@ public class OrderRepo
             while (resultSet.next())
             {
                 Order order = new OrderImpl();
-                order.setID(resultSet.getInt("order_id"));
+                order.setId(resultSet.getInt("order_id"));
                 order.setAdmin(adminRepo.getAdmin(resultSet.getInt("admin_id")));
                 order.setStatus(OrderStatus.valueOf(resultSet.getString("order_status")));
                 order.setAction(OrderAction.valueOf(resultSet.getString("order_action")));
@@ -482,7 +482,7 @@ public class OrderRepo
             while (resultSet.next())
             {
                 Order order = new OrderImpl();
-                order.setID(resultSet.getInt("order_id"));
+                order.setId(resultSet.getInt("order_id"));
                 order.setAdmin(adminRepo.getAdmin(resultSet.getInt("admin_id")));
                 order.setStatus(OrderStatus.valueOf(resultSet.getString("order_status")));
                 order.setAction(OrderAction.valueOf(resultSet.getString("order_action")));
@@ -512,7 +512,7 @@ public class OrderRepo
             while (resultSet.next())
             {
                 order = new OrderImpl();
-                order.setID(resultSet.getInt("order_id"));
+                order.setId(resultSet.getInt("order_id"));
                 order.setAdmin(adminRepo.getAdmin(resultSet.getInt("admin_id")));
                 order.setStatus(OrderStatus.valueOf(resultSet.getString("order_status")));
                 order.setAction(OrderAction.valueOf(resultSet.getString("order_action")));
@@ -539,7 +539,7 @@ public class OrderRepo
             while (resultSet.next())
             {
                 Order order = new OrderImpl();
-                order.setID(resultSet.getInt("order_id"));
+                order.setId(resultSet.getInt("order_id"));
                 order.setAdmin(adminRepo.getAdmin(resultSet.getInt("admin_id")));
                 order.setStatus(OrderStatus.valueOf(resultSet.getString("order_status")));
                 order.setAction(OrderAction.valueOf(resultSet.getString("order_action")));
@@ -556,16 +556,35 @@ public class OrderRepo
         return orders;
     }
 
+    public void createOrder(Order order)
+    {
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "INSERT INTO \"order\" VALUES((select max(order_id)+1 from \"order\"), ?, ?, ?, ?)");
+            preparedStatement.setInt(1, order.getAdmin().getId());
+            preparedStatement.setString(2, order.getStatus().toString());
+            preparedStatement.setString(3, order.getAction().toString());
+            preparedStatement.setInt(4, order.getService().getId());
+
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
     public void updateOrder(int id, Order order)
     {
         try
         {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "UPDATE \"order\" SET admin_id=?, order_status=?, order_action=?, service_id=? WHERE order_id=?");
-            preparedStatement.setInt(1, order.getAdmin().getID());
+            preparedStatement.setInt(1, order.getAdmin().getId());
             preparedStatement.setString(2, order.getStatus().toString());
             preparedStatement.setString(3, order.getAction().toString());
-            preparedStatement.setInt(4, order.getService().getID());
+            preparedStatement.setInt(4, order.getService().getId());
             preparedStatement.setInt(5, id);
 
             preparedStatement.executeUpdate();
@@ -581,6 +600,7 @@ public class OrderRepo
         try
         {
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM \"order\" WHERE order_id = ?");
+            preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
         }
         catch (SQLException e)

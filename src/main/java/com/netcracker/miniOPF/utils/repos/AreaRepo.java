@@ -66,7 +66,7 @@ public class AreaRepo
             {
                 Area area = new AreaImpl();
 
-                area.setID(resultSet.getInt("area_id"));
+                area.setId(resultSet.getInt("area_id"));
                 area.setName(resultSet.getString("area_name"));
                 area.setDescription(resultSet.getString("area_description"));
 
@@ -95,7 +95,7 @@ public class AreaRepo
             {
                 Area area = new AreaImpl();
 
-                area.setID(resultSet.getInt("area_id"));
+                area.setId(resultSet.getInt("area_id"));
                 area.setName(resultSet.getString("area_name"));
                 area.setDescription(resultSet.getString("area_description"));
 
@@ -125,7 +125,7 @@ public class AreaRepo
             {
                 Area area = new AreaImpl();
 
-                area.setID(resultSet.getInt("area_id"));
+                area.setId(resultSet.getInt("area_id"));
                 area.setName(resultSet.getString("area_name"));
                 area.setDescription(resultSet.getString("area_description"));
 
@@ -155,7 +155,7 @@ public class AreaRepo
             {
                 Area area = new AreaImpl();
 
-                area.setID(resultSet.getInt("area_id"));
+                area.setId(resultSet.getInt("area_id"));
                 area.setName(resultSet.getString("area_name"));
                 area.setDescription(resultSet.getString("area_description"));
 
@@ -185,7 +185,7 @@ public class AreaRepo
             {
                 Area area = new AreaImpl();
 
-                area.setID(resultSet.getInt("area_id"));
+                area.setId(resultSet.getInt("area_id"));
                 area.setName(resultSet.getString("area_name"));
                 area.setDescription(resultSet.getString("area_description"));
 
@@ -215,7 +215,7 @@ public class AreaRepo
             {
                 Area area = new AreaImpl();
 
-                area.setID(resultSet.getInt("area_id"));
+                area.setId(resultSet.getInt("area_id"));
                 area.setName(resultSet.getString("area_name"));
                 area.setDescription(resultSet.getString("area_description"));
 
@@ -245,7 +245,7 @@ public class AreaRepo
             {
                 area = new AreaImpl();
 
-                area.setID(resultSet.getInt("area_id"));
+                area.setId(resultSet.getInt("area_id"));
                 area.setName(resultSet.getString("area_name"));
                 area.setDescription(resultSet.getString("area_description"));
             }
@@ -274,7 +274,7 @@ public class AreaRepo
             {
                 Area area = new AreaImpl();
 
-                area.setID(resultSet.getInt("area_id"));
+                area.setId(resultSet.getInt("area_id"));
                 area.setName(resultSet.getString("area_name"));
                 area.setDescription(resultSet.getString("area_description"));
 
@@ -304,7 +304,7 @@ public class AreaRepo
             {
                 area = new AreaImpl();
 
-                area.setID(resultSet.getInt("area_id"));
+                area.setId(resultSet.getInt("area_id"));
                 area.setName(resultSet.getString("area_name"));
                 area.setDescription(resultSet.getString("area_description"));
             }
@@ -331,7 +331,7 @@ public class AreaRepo
             {
                 Area area = new AreaImpl();
 
-                area.setID(resultSet.getInt("area_id"));
+                area.setId(resultSet.getInt("area_id"));
                 area.setName(resultSet.getString("area_name"));
                 area.setDescription(resultSet.getString("area_description"));
 
@@ -354,6 +354,7 @@ public class AreaRepo
                     "INSERT INTO area VALUES((select max(area_id)+1 from area), ?, ?)");
             preparedStatement.setString(1, area.getName());
             preparedStatement.setString(2, area.getDescription());
+            preparedStatement.executeUpdate();
         }
         catch (SQLException e)
         {
@@ -367,7 +368,7 @@ public class AreaRepo
         try
         {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "UPDATE area SET area_name=?, admin_description=? WHERE area_id=?");
+                    "UPDATE area SET area_name=?, area_description=? WHERE area_id=?");
 
             preparedStatement.setString(1, area.getName());
             preparedStatement.setString(2, area.getDescription());

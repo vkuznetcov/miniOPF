@@ -82,8 +82,8 @@ public class StorageImpl implements Storage
     public void createCustomer(Customer customer)
     {
         id = getNextKey(id);
-        customer.setID(id);
-        customerMap.put(customer.getID(), customer);
+        customer.setId(id);
+        customerMap.put(customer.getId(), customer);
     }
 
     @Override
@@ -102,8 +102,8 @@ public class StorageImpl implements Storage
     public void createOrder(Order order)
     {
         id = getNextKey(id);
-        order.setID(id);
-        orderMap.put(order.getID(), order);
+        order.setId(id);
+        orderMap.put(order.getId(), order);
     }
 
     @Override
@@ -122,8 +122,8 @@ public class StorageImpl implements Storage
     public void createService(Service service)
     {
         id = getNextKey(id);
-        service.setID(id);
-        serviceMap.put(service.getID(), service);
+        service.setId(id);
+        serviceMap.put(service.getId(), service);
     }
 
     @Override
@@ -142,8 +142,8 @@ public class StorageImpl implements Storage
     public void createAdmin(Admin admin)
     {
         id = getNextKey(id);
-        admin.setID(id);
-        adminMap.put(admin.getID(), admin);
+        admin.setId(id);
+        adminMap.put(admin.getId(), admin);
     }
 
     @Override
@@ -162,8 +162,8 @@ public class StorageImpl implements Storage
     public void createArea(Area area)
     {
         id = getNextKey(id);
-        area.setID(id);
-        areaMap.put(area.getID(), area);
+        area.setId(id);
+        areaMap.put(area.getId(), area);
     }
 
     @Override
@@ -182,8 +182,8 @@ public class StorageImpl implements Storage
     public void createTemplate(Template template)
     {
         id = getNextKey(id);
-        template.setID(id);
-        templateMap.put(template.getID(), template);
+        template.setId(id);
+        templateMap.put(template.getId(), template);
     }
 
     @Override

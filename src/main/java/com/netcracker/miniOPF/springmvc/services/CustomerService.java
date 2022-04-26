@@ -1,11 +1,15 @@
 package com.netcracker.miniOPF.springmvc.services;
 
+import com.netcracker.miniOPF.model.customer.Customer;
+import com.netcracker.miniOPF.model.customer.CustomerImpl;
 import com.netcracker.miniOPF.utils.repos.CustomerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -73,5 +77,100 @@ public class CustomerService
         }
 
         return "admin/customers";
+    }
+
+    public List<Customer> sortCustomersByLogin()
+    {
+        return customerRepo.sortCustomersByLogin();
+    }
+
+    public List<Customer> sortCustomersByLoginReversed()
+    {
+        return customerRepo.sortCustomersByLoginReversed();
+    }
+
+    public List<Customer> sortCustomersByPassword()
+    {
+        return customerRepo.sortCustomersByPassword();
+    }
+
+    public List<Customer> sortCustomersByPasswordReversed()
+    {
+        return customerRepo.sortCustomersByPasswordReversed();
+    }
+
+    public List<Customer> sortCustomersByBalance()
+    {
+        return customerRepo.sortCustomersByBalance();
+    }
+
+    public List<Customer> sortCustomersByBalanceReversed()
+    {
+        return customerRepo.sortCustomersByBalanceReversed();
+    }
+
+    public List<Customer> sortCustomersByName()
+    {
+        return customerRepo.sortCustomersByName();
+    }
+
+    public List<Customer> sortCustomersByNameReversed()
+    {
+        return customerRepo.sortCustomersByNameReversed();
+    }
+
+    public List<Customer> sortCustomersByID()
+    {
+        return customerRepo.sortCustomersByID();
+    }
+
+    public List<Customer> sortCustomersByIDReversed()
+    {
+        return customerRepo.sortCustomersByIDReversed();
+    }
+
+    public Customer searchCustomerByLogin(String login)
+    {
+        return customerRepo.searchCustomerByLogin(login);
+    }
+
+    public List<Customer> searchCustomersByPassword(String password)
+    {
+        return customerRepo.searchCustomersByPassword(password);
+    }
+
+    public List<Customer> searchCustomersByBalance(double balance)
+    {
+        return customerRepo.searchCustomersByBalance(balance);
+    }
+
+    public List<Customer> searchCustomersByName(String name)
+    {
+        return customerRepo.searchCustomersByName(name);
+    }
+
+    public Customer getCustomer(int id)
+    {
+        return customerRepo.getCustomer(id);
+    }
+
+    public List<Customer> getCustomerValues()
+    {
+        return customerRepo.getCustomerValues();
+    }
+
+    public void createCustomer(Customer customer)
+    {
+        customerRepo.createCustomer(customer);
+    }
+
+    public void deleteCustomer(int id)
+    {
+        customerRepo.deleteCustomer(id);
+    }
+
+    public void updateCustomer(int id, Customer customer)
+    {
+        customerRepo.updateCustomer(id, customer);
     }
 }

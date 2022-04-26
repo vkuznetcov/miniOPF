@@ -7,9 +7,9 @@ import com.netcracker.miniOPF.model.service.Service;
 
 public interface Order
 {
-    int getID();
+    int getId();
 
-    void setID(int id);
+    void setId(int id);
 
     Admin getAdmin();
 
