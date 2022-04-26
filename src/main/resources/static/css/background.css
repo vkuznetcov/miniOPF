@@ -1,0 +1,18 @@
+body{
+ background-image: url('https://cdnb.artstation.com/p/assets/images/images/014/665/033/original/yargon-kerman-webp-net-gifmaker-39.gif?1544919451');
+    background-size: cover;
+    color: yellow;
+    height: 100vh;
+    padding:0;
+    margin:0;
+}
+A:link {
+    color: yellow;
+    text-decoration: none;
+ }
+A:visited {color: yellow;
+text-decoration: none;}
+A:active { color: yellow;
+text-decoration: none;}
+A:hover {color: yellow;
+ text-decoration: none;}

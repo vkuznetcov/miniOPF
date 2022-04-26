@@ -51,8 +51,8 @@ public class AuthorizationController
             {
                 model.addAttribute("name", customer.getName());
                 model.addAttribute("customer", customer);
-                //TODO customer redirect
-                return "redirect:/greeting";
+
+                return "redirect:/customer/customerpage?id="+customer.getID();
             }
             else
             {

@@ -23,82 +23,109 @@ import java.util.Scanner;
 
 public class ConvertMapAndFiles
 {
-    public static StorageImpl readFile()
+    public static HashMap readFileAdmin()
     {
-        //ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-        //ObjectMapper objectMapper = new ObjectMapper();
-        //StorageImpl storage = context.getBean("storage", StorageImpl.class);
-        StorageImpl storage = new StorageImpl(new HashMap<>(),new HashMap<>(),new HashMap<>(),new HashMap<>(),new HashMap<>(),new HashMap<>());
         try (Reader in = new FileReader(PathConsts.ADMIN_PATH);
              Scanner scanner = new Scanner(in))
         {
+            HashMap<Integer, Admin> adminHashMapMap = new HashMap<>();
             while (scanner.hasNext())
             {
                 String json = scanner.nextLine();
-                storage.createAdmin(new ObjectMapper().readValue(json, AdminImpl.class));
+                AdminImpl admin = new ObjectMapper().readValue(json, AdminImpl.class);
+                adminHashMapMap.put(admin.getID(),admin);
             }
+            return adminHashMapMap;
         }
         catch (IOException e)
-        {e.printStackTrace();}
-        try (Reader in = new FileReader(PathConsts.AREA_PATH);
-             Scanner scanner = new Scanner(in))
-             {
-             while (scanner.hasNext())
-             {
-                String json = scanner.nextLine();
-                storage.createArea(new ObjectMapper().readValue(json, AreaImpl.class));
-             }
-             }
-        catch (IOException e)
-        {e.printStackTrace();}
-        try (Reader in = new FileReader(PathConsts.CUSTOMER_PATH);
-             Scanner scanner = new Scanner(in))
-        {
-            while (scanner.hasNext())
-            {
-                String json = scanner.nextLine();
-                storage.createCustomer(new ObjectMapper().readValue(json, CustomerImpl.class));
-            }
-        }
-        catch (IOException e)
-        {e.printStackTrace();}
+        {e.printStackTrace(); return null;}
+    }
+    public static HashMap readFileOrder()
+    {
         try (Reader in = new FileReader(PathConsts.ORDER_PATH);
              Scanner scanner = new Scanner(in))
         {
+            HashMap<Integer, Order> orderHashMapMap = new HashMap<>();
             while (scanner.hasNext())
             {
                 String json = scanner.nextLine();
-                storage.createOrder(new ObjectMapper().readValue(json, OrderImpl.class));
+                OrderImpl order = new ObjectMapper().readValue(json, OrderImpl.class);
+                orderHashMapMap.put(order.getID(),order);
             }
+            return orderHashMapMap;
         }
         catch (IOException e)
-        {e.printStackTrace();}
+        {e.printStackTrace(); return null;}
+    }
+    public static HashMap readFileService()
+    {
         try (Reader in = new FileReader(PathConsts.SERVICE_PATH);
              Scanner scanner = new Scanner(in))
         {
+            HashMap<Integer, Service> serviceHashMap = new HashMap<>();
             while (scanner.hasNext())
             {
                 String json = scanner.nextLine();
-                storage.createService(new ObjectMapper().readValue(json, ServiceImpl.class));
+                ServiceImpl service = new ObjectMapper().readValue(json, ServiceImpl.class);
+                serviceHashMap.put(service.getID(),service);
             }
+            return serviceHashMap;
         }
         catch (IOException e)
-        {e.printStackTrace();}
+        {e.printStackTrace();return null;}
+    }
+    public static HashMap readFileCustomer()
+    {
+        try (Reader in = new FileReader(PathConsts.CUSTOMER_PATH);
+             Scanner scanner = new Scanner(in))
+        {
+            HashMap<Integer, Customer> customerHashMap = new HashMap<>();
+            while (scanner.hasNext())
+            {
+                String json = scanner.nextLine();
+                CustomerImpl customer = new ObjectMapper().readValue(json, CustomerImpl.class);
+                customerHashMap.put(customer.getID(),customer);
+            }
+            return  customerHashMap;
+        }
+        catch (IOException e)
+        {e.printStackTrace();return null;}
+    }
+    public static HashMap readFileArea()
+    {
+        try (Reader in = new FileReader(PathConsts.AREA_PATH);
+             Scanner scanner = new Scanner(in))
+        {
+            HashMap<Integer, Area> areaHashMap = new HashMap<>();
+            while (scanner.hasNext())
+            {
+                String json = scanner.nextLine();
+                AreaImpl area = new ObjectMapper().readValue(json, AreaImpl.class);
+                areaHashMap.put(area.getID(),area);
+            }
+            return areaHashMap;
+        }
+        catch (IOException e)
+        {e.printStackTrace();return null;}
+    }
+    public static HashMap readFileTemplate()
+    {
         try (Reader in = new FileReader(PathConsts.TEMPLATE_PATH);
              Scanner scanner = new Scanner(in))
         {
+            HashMap<Integer, Template> templateHashMap = new HashMap<>();
             while (scanner.hasNext())
             {
                 String json = scanner.nextLine();
-                storage.createTemplate(new ObjectMapper().readValue(json, TemplateImpl.class));
+                TemplateImpl template = new ObjectMapper().readValue(json, TemplateImpl.class);
+                templateHashMap.put(template.getID(),template);
             }
+            return templateHashMap;
         }
         catch (IOException e)
-        {e.printStackTrace();}
-        return storage;
+        {e.printStackTrace();return null;}
     }
-
-    public static void writeFile(StorageImpl storage)
+    public static void writeFile(Storage storage)
     {
         try
         {

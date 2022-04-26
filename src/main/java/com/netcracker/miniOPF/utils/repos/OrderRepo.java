@@ -1,6 +1,7 @@
 package com.netcracker.miniOPF.utils.repos;
 
 import com.netcracker.miniOPF.model.admin.Admin;
+import com.netcracker.miniOPF.model.customer.Customer;
 import com.netcracker.miniOPF.model.order.Order;
 import com.netcracker.miniOPF.model.order.OrderImpl;
 import com.netcracker.miniOPF.model.order.enums.OrderAction;
@@ -583,6 +584,26 @@ public class OrderRepo
         try
         {
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM \"order\" WHERE order_id = ?");
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+    public void createOrder(Order order)
+    {
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "INSERT INTO order VALUES((select max(order_id)+1 from order), ?, ?, ?, ?)");
+            if(order.getAdmin() != null)
+            {preparedStatement.setString(1, Integer.toString(order.getAdmin().getID()));}
+            else preparedStatement.setString(1, null);
+            preparedStatement.setString(2, order.getStatus().toString());
+            preparedStatement.setString(3, order.getAction().toString());
+            preparedStatement.setDouble(4, order.getService().getID());
+
             preparedStatement.executeUpdate();
         }
         catch (SQLException e)

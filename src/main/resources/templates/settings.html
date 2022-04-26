@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+>
+<head>
+    <title>Settings page</title>
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../../static/css/background.css" th:href="@{/css/background.css}"/>
+</head>
+<body>
+<table>
+    <tr>
+        <td style="height: 700px; vertical-align: center; text-align: center; width: 1500px">
+            <div><p th:text="${errorMessage}" style="color: #FF0000"></p></div>
+            <form th:action="@{/settings(id=${id})}" method="post">
+                <div><label> Username : <input type="text" name="username" th:value="${username}"/> </label></div>
+                <div><label> Password: <input type="text" name="password"th:value="${password}"/> </label></div>
+                <div><label> Area: <input type="text" name="area" th:value="${area}"/> </label></div>
+                <div><input type="submit" value="Apply"/></div>
+            </form>
+            <a th:href="@{/customer/customerpage(id= ${id})}">back</a>
+        </td>
+    </tr>
+</table></body>
+</html>

@@ -4,7 +4,10 @@ package com.netcracker.miniOPF.model.customer;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.netcracker.miniOPF.model.area.Area;
+import com.netcracker.miniOPF.model.area.AreaImpl;
 import com.netcracker.miniOPF.model.service.Service;
+import com.netcracker.miniOPF.model.service.enums.ServiceStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +20,7 @@ public class CustomerImpl implements Customer
     private String login;
     private String password;
     private double balance;
+    private Area area;
 
     @JsonBackReference(value = "services")
     private List<Service> services;
@@ -26,6 +30,7 @@ public class CustomerImpl implements Customer
     public CustomerImpl()
     {
         services = new ArrayList<>();
+        area = new AreaImpl();
         balance = 0;
     }
 
@@ -127,5 +132,16 @@ public class CustomerImpl implements Customer
                 services.remove(index);
             }
         }
+    }
+    @Override
+    public Area getArea()
+    {
+        return area;
+    }
+
+    @Override
+    public void setArea(Area area)
+    {
+        this.area = area;
     }
 }

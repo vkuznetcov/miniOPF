@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer page</title>
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../../static/css/customertables.css" th:href="@{/css/customertables.css}"/>
+</head>
+<body>
+<header>
+    <ul class="setex">
+        <li>
+            <a th:text="'Hello,' + ${name} + '!'"></a>
+        </li>
+        <li>
+            <a th:text="${balance}"> </a>
+            <a th:href="@{/settings}"> Settings</a>
+            <a th:href="@{/authorization}"> Exit</a>
+        </li>
+    </ul>
+    <nav class="panel">
+        <ul>
+            <li>
+                <a th:href="@{/customer/activeservices(id=${id})}">Active Services</a>
+            </li>
+            <li>
+                <a th:href="@{/customer/avaibleservices(id=${id})}">Avaible Services</a>
+            </li>
+
+        </ul>
+    </nav>
+</header>
+<table>
+    <tr>
+        <td style="border: none" th:each="service : ${table1}">
+            <form>
+                <p class="cell" th:utext="${service.getName()}">name</p>
+                <p  class="cell" th:utext="${service.getPrice()}">price</p >
+                <p  class="cell" th:utext="${service.getDescription()}">description</p>
+                <p  th:action="@{/customer/activeservices(id=${id})}" method="post">
+                    <input type="hidden" name="type" th:value="${service.getName()}"/>
+                    <input type="submit" value="Disconnect"/>
+                </p >
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <td style="border: none" th:each="service : ${table2}">
+            <form>
+                <p class="cell" th:utext="${service.getName()}">name</p>
+                <p  class="cell" th:utext="${service.getPrice()}">price</p >
+                <p  class="cell" th:utext="${service.getDescription()}">description</p>
+                <p  th:action="@{/customer/activeservices(id=${id})}" method="post">
+                    <input type="hidden" name="service" th:value="${service.getName()}"/>
+                    <input type="submit" value="Disconnect"/>
+                </p >
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

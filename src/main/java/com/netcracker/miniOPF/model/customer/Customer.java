@@ -2,6 +2,7 @@ package com.netcracker.miniOPF.model.customer;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.netcracker.miniOPF.model.area.Area;
 import com.netcracker.miniOPF.model.service.Service;
 
 import java.util.List;
@@ -42,4 +43,8 @@ public interface Customer
     void addService(Service service);
 
     void removeService(int id);
+
+    Area getArea();
+
+    void setArea(Area area);
 }

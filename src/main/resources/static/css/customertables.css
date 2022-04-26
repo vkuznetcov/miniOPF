@@ -1,0 +1,63 @@
+ul.setex{
+    font-size: 18px;
+    text-align: left;
+    letter-spacing: 1px;
+}
+ul.setex li{
+    display: inline;
+    margin: 300px;
+}
+nav.panel {
+    margin-top: 30px;
+    font-size: 22px;
+    letter-spacing: 1px;
+}
+nav.panel ul {
+    display: flex;
+}
+nav.panel ul li{
+    list-style-type: none;
+    flex-basis: auto;
+    flex-grow: 1;
+    text-align: center;
+}
+nav.panel ul li a{
+    padding: 50px 0;
+    display: block;
+}
+
+table {
+    margin: 10px;
+    width: 1500px;
+    border-collapse: collapse; /* Отображать двойные линии как одинарные */
+}
+form {
+    font-size: 18px;
+    text-align: center;
+    letter-spacing: 1px;
+}
+td, th {
+    opacity: 0.8;
+    background-color: black;
+    border: 1px solid #000000; /* Параметры границы */
+    padding: 4px; /* Поля в ячейках */
+    text-align: center;
+}
+A:link {
+    color: yellow;
+    text-decoration: none;
+ }
+A:visited {color: yellow;
+text-decoration: none;}
+A:active { color: yellow;
+text-decoration: none;}
+A:hover {color: yellow;
+ text-decoration: none;}
+body{
+ background-image: url('https://cdnb.artstation.com/p/assets/images/images/014/665/033/original/yargon-kerman-webp-net-gifmaker-39.gif?1544919451');
+    background-size: cover;
+    color: yellow;
+    height: 100vh;
+    padding:0;
+    margin:0;
+}
