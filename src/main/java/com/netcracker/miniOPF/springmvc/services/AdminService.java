@@ -1,5 +1,6 @@
 package com.netcracker.miniOPF.springmvc.services;
 
+import com.netcracker.miniOPF.model.admin.Admin;
 import com.netcracker.miniOPF.model.order.enums.OrderAction;
 import com.netcracker.miniOPF.model.order.enums.OrderStatus;
 import com.netcracker.miniOPF.model.service.enums.ServiceStatus;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -84,5 +86,85 @@ public class AdminService
         }
 
         return "admin/admins";
+    }
+
+    public List<Admin> sortAdminsByID()
+    {
+        return adminRepo.sortAdminsByID();
+    }
+
+    public List<Admin> sortAdminsByIDReversed()
+    {
+        return adminRepo.sortAdminsByIDReversed();
+    }
+
+    public List<Admin> sortAdminsByLogin()
+    {
+        return adminRepo.sortAdminsByLogin();
+    }
+
+    public List<Admin> sortAdminsByLoginReversed()
+    {
+        return adminRepo.sortAdminsByLoginReversed();
+    }
+
+    public List<Admin> sortAdminsByName()
+    {
+        return adminRepo.sortAdminsByName();
+    }
+
+    public List<Admin> sortAdminsByNameReversed()
+    {
+        return adminRepo.sortAdminsByNameReversed();
+    }
+
+    public List<Admin> sortAdminsByPassword()
+    {
+        return adminRepo.sortAdminsByPassword();
+    }
+
+    public List<Admin> sortAdminsByPasswordReversed()
+    {
+        return adminRepo.sortAdminsByPasswordReversed();
+    }
+
+    public Admin searchAdminByLogin(String login)
+    {
+        return adminRepo.searchAdminByLogin(login);
+    }
+
+    public List<Admin> searchAdminsByName(String name)
+    {
+        return adminRepo.searchAdminsByName(name);
+    }
+
+    public List<Admin> searchAdminsByPassword(String password)
+    {
+        return adminRepo.searchAdminsByPassword(password);
+    }
+
+    public Admin getAdmin(int id)
+    {
+        return adminRepo.getAdmin(id);
+    }
+
+    public void deleteAdmin(int id)
+    {
+        adminRepo.deleteAdmin(id);
+    }
+
+    public List<Admin> getAdminValues()
+    {
+        return adminRepo.getAdminValues();
+    }
+
+    public void createAdmin(Admin admin)
+    {
+        adminRepo.createAdmin(admin);
+    }
+
+    public void updateAdmin(int id, Admin admin)
+    {
+        adminRepo.updateAdmin(id, admin);
     }
 }

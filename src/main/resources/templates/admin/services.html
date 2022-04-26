@@ -20,7 +20,7 @@
     <nav class="panel">
         <ul>
             <li>
-                <a th:href="@{/admin/adminorders}">My orders</a>
+                <a th:href="@{/admin/myorders(sort='none')}">My orders</a>
             </li>
             <li>
                 <a th:href="@{/admin/customers(sort='none')}">Customers</a>
@@ -45,6 +45,7 @@
 </header>
 <table style="width: 1420px">
     <tr>
+        <div><p th:text="${errorMessage}" style="color: #FF0000"></p></div>
         <td style="border: none">
             <form>
                 <label>
@@ -230,19 +231,103 @@
             </ul>
         </td>
     </tr>
-    <tr th:each="service : ${table}">
-        <td class="cell" th:utext="${service.getID()}">index</td>
-        <td class="cell" th:utext="${service.getName()}">name</td>
-        <td class="cell" th:utext="${service.getDescription()}">description</td>
-        <td class="cell" th:utext="${service.getPrice()}">price</td>
-        <td class="cell" th:utext="${service.getTemplate().getID()}">template ID</td>
-        <td class="cell" th:utext="${service.getCustomer().getID()}">customer ID</td>
-        <td class="cell" th:utext="${service.getStatus().toString()}">status</td>
-        <td class="cell">
-            <!--            TODO create edit and delete-->
-            <a th:href="@{admin/edit}">edit</a>
-            <a th:href="@{admin/delete}">delete</a>
-        </td>
+    <tr th:each="serviceValue : ${table}">
+        <form th:method="POST" th:action="@{/admin/services}" th:object="${service}">
+            <td>
+                <label>
+                    <input style="border: none" type="text" th:name="id" th:id="id" th:value="${serviceValue.getId()}"
+                           readonly>
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="text" name="name" th:id="name"
+                           th:value="${serviceValue.getName()}">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="text" name="description" th:id="description"
+                           th:value="${serviceValue.getDescription()}">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="text" name="price" th:id="price"
+                           th:value="${serviceValue.getPrice()}">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="text" name="templateId" th:id="templateId"
+                           th:value="${serviceValue.getTemplate().getId()}">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="text" name="customerId" th:id="customerId"
+                           th:value="${serviceValue.getCustomer().getId()}">
+                </label>
+            </td>
+            <td>
+                <p><label>
+                    <select name="status" id="status" required>
+                        <option data-th-each="status : ${statuses}" th:value="${status}" th:text="${status}"
+                                th:selected="${status.equals(serviceValue.getStatus().toString())}">
+
+                        </option>
+                    </select>
+                </label></p>
+            </td>
+            <td>
+                <input type="submit" value="edit"/>
+                <input type="submit" th:formaction="@{/admin/services/delete}" value="delete"/>
+            </td>
+        </form>
+    </tr>
+    <tr>
+        <form th:method="POST" th:action="@{/admin/services/create}" th:object="${service}">
+            <td>
+            </td>
+            <td>
+                <label>
+                    <input type="text" th:id="name" field="*{name}" th:name="name">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="text" th:id="description" field="*{description}" th:name="description">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="text" th:id="price" field="*{price}" th:name="price">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="text" th:id="templateId" field="*{templateId}" th:name="templateId">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="text" th:id="customerId" field="*{customerId}" th:name="customerId">
+                </label>
+            </td>
+            <td>
+                <!--            <form th:method="POST" th:action="@{/admin/areas}" th:object="${area}">-->
+                <p><label>
+                    <select name="status" id="status" required>
+                        <option selected hidden></option>
+                        <option data-th-each="status : ${statuses}" th:value="${status}" th:text="${status}">
+                        </option>
+                    </select>
+                </label></p>
+            </td>
+            <td>
+                <input type="submit" value="create"/>
+            </td>
+        </form>
     </tr>
 </table>
 </body>

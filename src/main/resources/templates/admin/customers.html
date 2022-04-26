@@ -20,7 +20,7 @@
     <nav class="panel">
         <ul>
             <li>
-                <a th:href="@{/admin/adminorders}">My orders</a>
+                <a th:href="@{/admin/myorders(sort='none')}">My orders</a>
             </li>
             <li>
                 <a th:href="@{/admin/customers(sort='none')}">Customers</a>
@@ -203,29 +203,89 @@
                 </li>
             </ul>
         </td>
-        <td class="header">
-            services id
+    </tr>
+    <tr th:each="customerValue : ${table}">
+        <form th:method="POST" th:action="@{/admin/customers}" th:object="${customer}">
+            <td>
+                <label>
+                    <input style = "border: none" type="text" th:name="id" th:id="id" th:value="${customerValue.getId()}" readonly>
+                </label>
+            </td>
+            <td>
+                <!--            <form th:method="POST" th:action="@{/admin/areas}" th:object="${area}">-->
+                <label>
+                    <input type="text" th:name="name" th:id="name"
+                           th:value="${customerValue.getName()}">
+                </label>
+            </td>
+            <td>
+                <!--            <form th:method="POST" th:action="@{/admin/areas}" th:object="${area}">-->
+                <label>
+                    <input type="text" th:name="login" th:id="login"
+                           th:value="${customerValue.getLogin()}">
+                </label>
+            </td>
+            <td>
+                <!--            <form th:method="POST" th:action="@{/admin/areas}" th:object="${area}">-->
+                <label>
+                    <input type="text" th:name="password" th:id="password"
+                           th:value="${customerValue.getPassword()}">
+                </label>
+            </td>
+            <td>
+                <!--            <form th:method="POST" th:action="@{/admin/areas}" th:object="${area}">-->
+                <label>
+                    <input type="text" th:name="balance" th:id="balance"
+                           th:value="${customerValue.getBalance()}">
+                </label>
+            </td>
+            <td>
+                <!--            <form th:method="POST" th:action="@{/admin/areas}" th:object="${area}">-->
+                <label>
+                    <input type="text" th:name="areaId" th:id="areaId"
+                           th:value="${customerValue.getArea().getId}">
+                </label>
+            </td>
+            <td>
+                <!--            TODO create edit and delete-->
+                <input type="submit" value="edit"/>
+                <input type="submit" th:formaction="@{/admin/customers/delete}" value="delete"/>
+        </form>
         </td>
     </tr>
-    <tr th:each="customer : ${table}">
-        <td class="cell" th:utext="${customer.getID()}">index</td>
-        <td class="cell" th:utext="${customer.getName()}">name</td>
-        <td class="cell" th:utext="${customer.getLogin()}">login</td>
-        <td class="cell" th:utext="${customer.getPassword()}">password</td>
-        <td class="cell" th:utext="${customer.getBalance()}">balance</td>
-        <td class="cell" th:utext="${customer.getArea().getName()}">area</td>
-         <td class="cell">
-             <div th:each="service : ${customer.getServices()}">
-                 <div th:utext="${service.getID()}">
-                     service id
-                 </div>
-             </div>
-         </td>
-         <td class="cell">
-             <!--            TODO create edit and delete-->
-            <a th:href="@{admin/edit}">edit</a>
-            <a th:href="@{admin/delete}">delete</a>
-        </td>
+    <tr>
+        <form th:method="POST" th:action="@{/admin/customers/create}" th:object="${customer}">
+            <td>
+            </td>
+            <td>
+                <label>
+                    <input type="text" th:id="name" field="*{name}" th:name="name">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="text" th:id="login" field="*{login}" th:name="login">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="text" th:id="password" field="*{password}" th:name="password">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="text" th:id="balance" field="*{balance}" th:name="balance">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="text" th:id="areaId" field="*{areaId}" th:name="areaId">
+                </label>
+            </td>
+            <td>
+                <input type="submit" value="create"/>
+            </td>
+        </form>
     </tr>
 </table>
 </body>

@@ -87,12 +87,12 @@ public class CustomerUtils
 
     public List<Customer> sortCustomersByID(List<Customer> values)
     {
-        return values.stream().sorted(Comparator.comparingInt(Customer::getID)).toList();
+        return values.stream().sorted(Comparator.comparingInt(Customer::getId)).toList();
     }
 
     public List<Customer> sortCustomersByIDReversed(List<Customer> values)
     {
-        return values.stream().sorted((o1, o2) -> o2.getID() - o1.getID()).toList();
+        return values.stream().sorted((o1, o2) -> o2.getId() - o1.getId()).toList();
     }
 
     public Customer searchCustomerByLogin(List<Customer> values, String login)
@@ -170,7 +170,7 @@ public class CustomerUtils
 
         for (Customer cur : values)
         {
-            if (cur.getID() == id)
+            if (cur.getId() == id)
             {
                 return cur;
             }

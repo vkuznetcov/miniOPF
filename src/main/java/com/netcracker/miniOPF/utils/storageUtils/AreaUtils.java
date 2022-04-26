@@ -12,12 +12,12 @@ public class AreaUtils
 {
     public List<Area> sortAreasByID(List<Area> values)
     {
-        return values.stream().sorted(Comparator.comparingInt(Area::getID)).toList();
+        return values.stream().sorted(Comparator.comparingInt(Area::getId)).toList();
     }
 
     public List<Area> sortAreasByIDReversed(List<Area> values)
     {
-        return values.stream().sorted((o1, o2) -> o2.getID() - o1.getID()).toList();
+        return values.stream().sorted((o1, o2) -> o2.getId() - o1.getId()).toList();
     }
 
     public List<Area> sortAreasByName(List<Area> values)
@@ -57,7 +57,7 @@ public class AreaUtils
 
         for (Area cur : values)
         {
-            if (cur.getID() == id)
+            if (cur.getId() == id)
             {
                 return cur;
             }

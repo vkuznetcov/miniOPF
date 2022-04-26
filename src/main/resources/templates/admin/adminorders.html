@@ -20,7 +20,7 @@
     <nav class="panel">
         <ul>
             <li>
-                <a th:href="@{/admin/adminorders}">My orders</a>
+                <a th:href="@{/admin/myorders(sort='none')}">My orders</a>
             </li>
             <li>
                 <a th:href="@{/admin/customers(sort='none')}">Customers</a>
@@ -45,6 +45,7 @@
 </header>
 <table style="width: 1420px">
     <tr>
+        <div><p th:text="${errorMessage}" style="color: #FF0000"></p></div>
         <td style="border: none">
             <form>
                 <label>
@@ -132,12 +133,12 @@
                     service ID
                 </li>
                 <li style="display: inline">
-                    <a th:href="@{/admin/services(sort='asc', type='service')}">
+                    <a th:href="@{/admin/orders(sort='asc', type='service')}">
                         <img src="../../static/images/arrowUp.png" th:src="@{/images/arrowUp.png}" alt="login"/>
                     </a>
                 </li>
                 <li style="display: inline">
-                    <a th:href="@{/admin/services(sort='desc', type='service')}">
+                    <a th:href="@{/admin/orders(sort='desc', type='service')}">
                         <img src="../../static/images/arrowDown.png" th:src="@{/images/arrowDown.png}" alt="login"/>
                     </a>
                 </li>
@@ -149,12 +150,12 @@
                     status
                 </li>
                 <li style="display: inline">
-                    <a th:href="@{/admin/services(sort='asc', type='status')}">
+                    <a th:href="@{/admin/orders(sort='asc', type='status')}">
                         <img src="../../static/images/arrowUp.png" th:src="@{/images/arrowUp.png}" alt="login"/>
                     </a>
                 </li>
                 <li style="display: inline">
-                    <a th:href="@{/admin/services(sort='desc', type='status')}">
+                    <a th:href="@{/admin/orders(sort='desc', type='status')}">
                         <img src="../../static/images/arrowDown.png" th:src="@{/images/arrowDown.png}" alt="login"/>
                     </a>
                 </li>
@@ -166,30 +167,66 @@
                     action
                 </li>
                 <li style="display: inline">
-                    <a th:href="@{/admin/services(sort='asc', type='action')}">
+                    <a th:href="@{/admin/orders(sort='asc', type='action')}">
                         <img src="../../static/images/arrowUp.png" th:src="@{/images/arrowUp.png}" alt="login"/>
                     </a>
                 </li>
                 <li style="display: inline">
-                    <a th:href="@{/admin/services(sort='desc', type='action')}">
+                    <a th:href="@{/admin/orders(sort='desc', type='action')}">
                         <img src="../../static/images/arrowDown.png" th:src="@{/images/arrowDown.png}" alt="login"/>
                     </a>
                 </li>
             </ul>
         </td>
     </tr>
-<!--    <tr th:each="order : ${table}">-->
-<!--        <td class="cell" th:utext="${order.getID()}">index</td>-->
-<!--        <td class="cell" th:utext="${order.getAdmin().getID()}">admin ID</td>-->
-<!--        <td class="cell" th:utext="${order.getService().getID()}">service ID</td>-->
-<!--        <td class="cell" th:utext="${order.getStatus().toString()}">status</td>-->
-<!--        <td class="cell" th:utext="${order.getAction().toString()}">action</td>-->
-<!--        <td class="cell">-->
-            <!--            TODO create edit and delete-->
-            <a th:href="@{admin/edit}">edit</a>
-            <a th:href="@{admin/delete}">delete</a>
-        </td>
+    <tr th:each="orderValue : ${table}">
+        <form th:method="POST" th:action="@{/admin/myorders}" th:object="${order}">
+            <td>
+                <label>
+                    <input style="border: none" type="text" th:name="id" th:id="id" th:value="${orderValue.getId()}"
+                           readonly>
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="text" name="adminId" th:id="adminId"
+                           th:value="${orderValue.getAdmin().getId()}">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="text" name="serviceId" th:id="serviceId"
+                           th:value="${orderValue.getService().getId()}">
+                </label>
+            </td>
+            <td>
+                <p><label>
+                    <select name="status" id="status" required>
+                        <option data-th-each="status : ${statuses}" th:value="${status}" th:text="${status}"
+                                th:selected="${status.equals(orderValue.getStatus().toString())}">
+
+                        </option>
+                    </select>
+                </label></p>
+            </td>
+            <td>
+                <p><label>
+                    <select name="action" id="action" required>
+                        <option data-th-each="action : ${actions}" th:value="${action}" th:text="${action}"
+                                th:selected="${action.equals(orderValue.getAction().toString())}">
+
+                        </option>
+                    </select>
+                </label></p>
+            </td>
+            <td>
+                <input type="submit" value="edit"/>
+                <input type="submit" th:formaction="@{/admin/myorders/delete}" value="delete"/>
+            </td>
+        </form>
     </tr>
+
+
 </table>
 </body>
 </html>

@@ -35,12 +35,12 @@ public class AdminUtils
 
     public List<Admin> sortAdminsByID(List<Admin> values)
     {
-        return values.stream().sorted(Comparator.comparingInt(Admin::getID)).toList();
+        return values.stream().sorted(Comparator.comparingInt(Admin::getId)).toList();
     }
 
     public List<Admin> sortAdminsByIDReversed(List<Admin> values)
     {
-        return values.stream().sorted((o1, o2) -> o2.getID() - o1.getID()).toList();
+        return values.stream().sorted((o1, o2) -> o2.getId() - o1.getId()).toList();
     }
 
     public List<Admin> sortAdminsByName(List<Admin> values)
@@ -102,7 +102,7 @@ public class AdminUtils
 
         for (Admin cur : values)
         {
-            if (cur.getID() == id)
+            if (cur.getId() == id)
             {
                 return cur;
             }

@@ -17,13 +17,13 @@ public class TemplateImpl implements Template
 
 
     @Override
-    public int getID()
+    public int getId()
     {
         return id;
     }
 
     @Override
-    public void setID(int id)
+    public void setId(int id)
     {
         this.id = id;
     }

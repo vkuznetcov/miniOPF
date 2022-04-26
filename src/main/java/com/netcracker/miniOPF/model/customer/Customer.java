@@ -20,9 +20,9 @@ public interface Customer
 
     void setLogin(String login);
 
-    int getID();
+    int getId();
 
-    void setID(int id);
+    void setId(int id);
 
     String getPassword();
 

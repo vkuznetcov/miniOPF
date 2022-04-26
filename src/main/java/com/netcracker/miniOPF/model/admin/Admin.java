@@ -18,9 +18,9 @@ public interface Admin extends Comparable<Admin>
 
     void setPassword(String password);
 
-    int getID();
+    int getId();
 
-    void setID(int id);
+    void setId(int id);
 
     String getName();
 

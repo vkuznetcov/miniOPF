@@ -12,9 +12,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 )
 public interface Area
 {
-    int getID();
+    int getId();
 
-    void setID(int id);
+    void setId(int id);
 
     String getName();
 

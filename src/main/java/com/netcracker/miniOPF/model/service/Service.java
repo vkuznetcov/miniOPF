@@ -15,9 +15,9 @@ import com.netcracker.miniOPF.model.template.Template;
 )
 public interface Service
 {
-    int getID();
+    int getId();
 
-    void setID(int id);
+    void setId(int id);
 
     String getName();
 

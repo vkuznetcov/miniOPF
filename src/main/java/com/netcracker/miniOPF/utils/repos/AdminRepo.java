@@ -66,7 +66,7 @@ public class AdminRepo
             {
                 Admin admin = new AdminImpl();
 
-                admin.setID(resultSet.getInt("admin_id"));
+                admin.setId(resultSet.getInt("admin_id"));
                 admin.setLogin(resultSet.getString("admin_login"));
                 admin.setName(resultSet.getString("admin_name"));
                 admin.setPassword(resultSet.getString("admin_password"));
@@ -96,7 +96,7 @@ public class AdminRepo
             {
                 Admin admin = new AdminImpl();
 
-                admin.setID(resultSet.getInt("admin_id"));
+                admin.setId(resultSet.getInt("admin_id"));
                 admin.setLogin(resultSet.getString("admin_login"));
                 admin.setName(resultSet.getString("admin_name"));
                 admin.setPassword(resultSet.getString("admin_password"));
@@ -125,7 +125,7 @@ public class AdminRepo
             {
                 Admin admin = new AdminImpl();
 
-                admin.setID(resultSet.getInt("admin_id"));
+                admin.setId(resultSet.getInt("admin_id"));
                 admin.setLogin(resultSet.getString("admin_login"));
                 admin.setName(resultSet.getString("admin_name"));
                 admin.setPassword(resultSet.getString("admin_password"));
@@ -154,7 +154,7 @@ public class AdminRepo
             {
                 Admin admin = new AdminImpl();
 
-                admin.setID(resultSet.getInt("admin_id"));
+                admin.setId(resultSet.getInt("admin_id"));
                 admin.setLogin(resultSet.getString("admin_login"));
                 admin.setName(resultSet.getString("admin_name"));
                 admin.setPassword(resultSet.getString("admin_password"));
@@ -183,7 +183,7 @@ public class AdminRepo
             {
                 Admin admin = new AdminImpl();
 
-                admin.setID(resultSet.getInt("admin_id"));
+                admin.setId(resultSet.getInt("admin_id"));
                 admin.setLogin(resultSet.getString("admin_login"));
                 admin.setName(resultSet.getString("admin_name"));
                 admin.setPassword(resultSet.getString("admin_password"));
@@ -212,7 +212,7 @@ public class AdminRepo
             {
                 Admin admin = new AdminImpl();
 
-                admin.setID(resultSet.getInt("admin_id"));
+                admin.setId(resultSet.getInt("admin_id"));
                 admin.setLogin(resultSet.getString("admin_login"));
                 admin.setName(resultSet.getString("admin_name"));
                 admin.setPassword(resultSet.getString("admin_password"));
@@ -241,7 +241,7 @@ public class AdminRepo
             {
                 Admin admin = new AdminImpl();
 
-                admin.setID(resultSet.getInt("admin_id"));
+                admin.setId(resultSet.getInt("admin_id"));
                 admin.setLogin(resultSet.getString("admin_login"));
                 admin.setName(resultSet.getString("admin_name"));
                 admin.setPassword(resultSet.getString("admin_password"));
@@ -271,7 +271,7 @@ public class AdminRepo
             {
                 Admin admin = new AdminImpl();
 
-                admin.setID(resultSet.getInt("admin_id"));
+                admin.setId(resultSet.getInt("admin_id"));
                 admin.setLogin(resultSet.getString("admin_login"));
                 admin.setName(resultSet.getString("admin_name"));
                 admin.setPassword(resultSet.getString("admin_password"));
@@ -299,7 +299,7 @@ public class AdminRepo
             resultSet.next();
 
             admin = new AdminImpl();
-            admin.setID(resultSet.getInt("admin_id"));
+            admin.setId(resultSet.getInt("admin_id"));
             admin.setLogin(resultSet.getString("admin_login"));
             admin.setName(resultSet.getString("admin_name"));
             admin.setPassword(resultSet.getString("admin_password"));
@@ -326,7 +326,7 @@ public class AdminRepo
             {
                 Admin admin = new AdminImpl();
 
-                admin.setID(resultSet.getInt("admin_id"));
+                admin.setId(resultSet.getInt("admin_id"));
                 admin.setLogin(resultSet.getString("admin_login"));
                 admin.setName(resultSet.getString("admin_name"));
                 admin.setPassword(resultSet.getString("admin_password"));
@@ -356,7 +356,7 @@ public class AdminRepo
             {
                 Admin admin = new AdminImpl();
 
-                admin.setID(resultSet.getInt("admin_id"));
+                admin.setId(resultSet.getInt("admin_id"));
                 admin.setLogin(resultSet.getString("admin_login"));
                 admin.setName(resultSet.getString("admin_name"));
                 admin.setPassword(resultSet.getString("admin_password"));
@@ -381,13 +381,15 @@ public class AdminRepo
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            resultSet.next();
+           while(resultSet.next())
+           {
 
-            admin = new AdminImpl();
-            admin.setID(resultSet.getInt("admin_id"));
-            admin.setLogin(resultSet.getString("admin_login"));
-            admin.setName(resultSet.getString("admin_name"));
-            admin.setPassword(resultSet.getString("admin_password"));
+               admin = new AdminImpl();
+               admin.setId(resultSet.getInt("admin_id"));
+               admin.setLogin(resultSet.getString("admin_login"));
+               admin.setName(resultSet.getString("admin_name"));
+               admin.setPassword(resultSet.getString("admin_password"));
+           }
         }
         catch (SQLException e)
         {
@@ -424,7 +426,7 @@ public class AdminRepo
             {
                 Admin admin = new AdminImpl();
 
-                admin.setID(resultSet.getInt("admin_id"));
+                admin.setId(resultSet.getInt("admin_id"));
                 admin.setLogin(resultSet.getString("admin_login"));
                 admin.setName(resultSet.getString("admin_name"));
                 admin.setPassword(resultSet.getString("admin_password"));

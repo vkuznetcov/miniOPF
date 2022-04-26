@@ -1,15 +1,12 @@
 package com.netcracker.miniOPF.utils.storageUtils;
 
-import com.netcracker.miniOPF.model.admin.Admin;
 import com.netcracker.miniOPF.model.order.Order;
-import com.netcracker.miniOPF.model.order.enums.OrderAction;
-import com.netcracker.miniOPF.model.order.enums.OrderStatus;
-import com.netcracker.miniOPF.model.service.Service;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 @Component
 public class OrderUtils
@@ -17,38 +14,62 @@ public class OrderUtils
 
     public List<Order> sortOrdersByID(List<Order> values)
     {
-        return values.stream().sorted(Comparator.comparingInt(Order::getID)).toList();
+        return values.stream().sorted(Comparator.comparingInt(Order::getId)).toList();
     }
 
     public List<Order> sortOrdersByIDReversed(List<Order> values)
     {
-        return values.stream().sorted((o1, o2) -> o2.getID() - o1.getID()).toList();
+        return values.stream().sorted((o1, o2) -> o2.getId() - o1.getId()).toList();
     }
 
-    public List<Order> sortOrdersByAdminLogin(List<Order> values)
+    public List<Order> sortOrdersByAdminID(List<Order> values)
     {
-        return values.stream().sorted(Comparator.comparing(o -> o.getAdmin().getLogin())).toList();
+//        return values.stream().sorted(Comparator.comparing(o -> o.getAdmin().getLogin())).toList();
+        return values.stream().sorted(new Comparator<Order>()
+        {
+            @Override
+            public int compare(Order o1, Order o2)
+            {
+                return o1.getAdmin().getId() - o2.getAdmin().getId();
+            }
+        }).toList();
+
     }
 
-    public List<Order> sortOrdersByAdminLoginReversed(List<Order> values)
+    public List<Order> sortOrdersByAdminIDReversed(List<Order> values)
     {
-        return values
-                .stream()
-                .sorted((o1, o2) -> o2.getAdmin().getLogin().compareTo(o1.getAdmin().getLogin()))
-                .toList();
+        return values.stream().sorted(new Comparator<Order>()
+        {
+            @Override
+            public int compare(Order o1, Order o2)
+            {
+                return o2.getAdmin().getId() - o1.getAdmin().getId();
+            }
+        }).toList();
     }
 
-    public List<Order> sortOrdersByServiceName(List<Order> values)
+    public List<Order> sortOrdersByServiceID(List<Order> values)
     {
-        return values.stream().sorted(Comparator.comparing(o -> o.getService().getName())).toList();
+        return values.stream().sorted(new Comparator<Order>()
+        {
+            @Override
+            public int compare(Order o1, Order o2)
+            {
+                return o1.getService().getId() - o2.getService().getId();
+            }
+        }).toList();
     }
 
-    public List<Order> sortOrdersByServiceNameReversed(List<Order> values)
+    public List<Order> sortOrdersByServiceIDReversed(List<Order> values)
     {
-        return values
-                .stream()
-                .sorted((o1, o2) -> o2.getService().getName().compareTo(o1.getService().getName()))
-                .toList();
+        return values.stream().sorted(new Comparator<Order>()
+        {
+            @Override
+            public int compare(Order o1, Order o2)
+            {
+                return o2.getService().getId() - o1.getService().getId();
+            }
+        }).toList();
     }
 
     public List<Order> sortOrdersByStatus(List<Order> values)
@@ -85,7 +106,7 @@ public class OrderUtils
 
         for (Order cur : values)
         {
-            if (cur.getID() == id)
+            if (cur.getId() == id)
             {
                 return cur;
             }
@@ -93,12 +114,12 @@ public class OrderUtils
         return null;
     }
 
-    public List<Order> searchOrdersByAdmin(List<Order> values, Admin admin)
+    public List<Order> searchOrdersByAdminID(List<Order> values, int id)
     {
         List<Order> list = new ArrayList<>();
         for (Order cur : values)
         {
-            if (cur.getAdmin().equals(admin))
+            if (cur.getAdmin().getId() == id)
             {
                 list.add(cur);
             }
@@ -106,12 +127,12 @@ public class OrderUtils
         return list;
     }
 
-    public List<Order> searchOrdersByService(List<Order> values, Service service)
+    public List<Order> searchOrdersByServiceID(List<Order> values, int id)
     {
         List<Order> list = new ArrayList<>();
         for (Order cur : values)
         {
-            if (cur.getService().equals(service))
+            if (cur.getService().getId() == id)
             {
                 list.add(cur);
             }
@@ -119,12 +140,12 @@ public class OrderUtils
         return list;
     }
 
-    public List<Order> searchOrdersByStatus(List<Order> values, OrderStatus status)
+    public List<Order> searchOrdersByStatus(List<Order> values, String status)
     {
         List<Order> list = new ArrayList<>();
         for (Order cur : values)
         {
-            if (cur.getStatus().equals(status))
+            if (cur.getStatus().toString().equals(status.toUpperCase(Locale.ROOT)))
             {
                 list.add(cur);
             }
@@ -132,12 +153,12 @@ public class OrderUtils
         return list;
     }
 
-    public List<Order> searchOrdersByAction(List<Order> values, OrderAction action)
+    public List<Order> searchOrdersByAction(List<Order> values, String action)
     {
         List<Order> list = new ArrayList<>();
         for (Order cur : values)
         {
-            if (cur.getAction().equals(action))
+            if (cur.getAction().toString().equals(action.toUpperCase(Locale.ROOT)))
             {
                 list.add(cur);
             }

@@ -1,7 +1,10 @@
 package com.netcracker.miniOPF.springmvc.services;
 
+import com.netcracker.miniOPF.model.service.ServiceImpl;
+import com.netcracker.miniOPF.model.service.enums.ServiceStatus;
 import com.netcracker.miniOPF.utils.repos.CustomerRepo;
 import com.netcracker.miniOPF.utils.repos.ServiceRepo;
+import com.netcracker.miniOPF.utils.repos.TemplateRepo;
 import com.netcracker.miniOPF.utils.storageUtils.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,12 +21,14 @@ public class ServiceService
 {
     ServiceRepo serviceRepo;
     CustomerRepo customerRepo;
+    TemplateRepo templateRepo;
 
     @Autowired
-    public ServiceService(ServiceRepo serviceRepo, CustomerRepo customerRepo)
+    public ServiceService(ServiceRepo serviceRepo, CustomerRepo customerRepo, TemplateRepo templateRepo)
     {
         this.serviceRepo = serviceRepo;
         this.customerRepo = customerRepo;
+        this.templateRepo = templateRepo;
     }
 
     public String showServices(@RequestParam(value = AdminService.FormParams.TYPE, required = false) String type,
@@ -31,6 +36,14 @@ public class ServiceService
                                @RequestParam(value = AdminService.FormParams.SEARCH_VALUE, required = false) String value,
                                Model model)
     {
+
+        List<String> statuses = new ArrayList<>();
+        statuses.add("ENTERING");
+        statuses.add("ACTIVE");
+        statuses.add("SUSPENDED");
+        statuses.add("DISCONNECTED");
+        model.addAttribute("statuses", statuses);
+
         if (Objects.nonNull(value))
         {
             switch (type)
@@ -85,6 +98,64 @@ public class ServiceService
         }
 
         return "admin/services";
+    }
+
+    private boolean checkService(ServiceImpl service,
+                                 String customerId,
+                                 String templateId,
+                                 String status,
+                                 StringBuilder errorMessage)
+    {
+        boolean error = false;
+        if (customerRepo.getCustomer(Integer.parseInt(customerId)) == null)
+        {
+            errorMessage.append("There is no such customer! ");
+            error = true;
+        }
+        if (templateRepo.getTemplate(Integer.parseInt(templateId)) == null)
+        {
+            errorMessage.append("There is no such template! ");
+            error = true;
+        }
+        return error;
+    }
+
+    public String updateServices(ServiceImpl service, String customerId, String templateId, String status, Model model)
+    {
+        String errorMessage = "";
+        StringBuilder stringBuilder = new StringBuilder(errorMessage);
+        if (checkService(service, customerId, templateId, status, stringBuilder))
+        {
+            stringBuilder.append("Error index: ").append(service.getId());
+            model.addAttribute("errorMessage", stringBuilder.toString());
+        }
+        else
+        {
+            service.setCustomer(customerRepo.getCustomer(Integer.parseInt(customerId)));
+            service.setTemplate(templateRepo.getTemplate(Integer.parseInt(templateId)));
+            service.setStatus(ServiceStatus.valueOf(status));
+            serviceRepo.updateService(service.getId(), service);
+        }
+        return this.showServices(null, "none", null, model);
+    }
+
+    public String createService(ServiceImpl service, String customerId, String templateId, String status, Model model)
+    {
+        String errorMessage = "";
+        StringBuilder stringBuilder = new StringBuilder(errorMessage);
+        if (checkService(service, customerId, templateId, status, stringBuilder))
+        {
+            stringBuilder.append("Error index: new object creation");
+            model.addAttribute("errorMessage", stringBuilder.toString());
+        }
+        else
+        {
+            service.setCustomer(customerRepo.getCustomer(Integer.parseInt(customerId)));
+            service.setTemplate(templateRepo.getTemplate(Integer.parseInt(templateId)));
+            service.setStatus(ServiceStatus.valueOf(status));
+            serviceRepo.createService(service);
+        }
+        return this.showServices(null, "none", null, model);
     }
 
     public void suspendService(int id)
@@ -394,6 +465,10 @@ public class ServiceService
     public com.netcracker.miniOPF.model.service.Service getService(int id)
     {
         Pair<Integer, com.netcracker.miniOPF.model.service.Service> pair = serviceRepo.getService(id);
+        if (pair == null)
+        {
+            return null;
+        }
         com.netcracker.miniOPF.model.service.Service service = pair.getRightValue();
         service.setCustomer(customerRepo.getCustomer(pair.getLeftValue()));
 
@@ -422,5 +497,10 @@ public class ServiceService
     public void deleteService(int id)
     {
         serviceRepo.deleteService(id);
+    }
+
+    public void createService(com.netcracker.miniOPF.model.service.Service service)
+    {
+        serviceRepo.createService(service);
     }
 }

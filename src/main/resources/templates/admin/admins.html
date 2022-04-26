@@ -20,7 +20,7 @@
     <nav class="panel">
         <ul>
             <li>
-                <a th:href="@{/admin/adminorders}">My orders</a>
+                <a th:href="@{/admin/myorders(sort='none')}">My orders</a>
             </li>
             <li>
                 <a th:href="@{/admin/customers(sort='none')}">Customers</a>
@@ -152,16 +152,61 @@
             </ul>
         </td>
     </tr>
-    <tr th:each="admin : ${table}">
-        <td class="cell" th:utext="${admin.getID()}">index</td>
-        <td class="cell" th:utext="${admin.getName()}">name</td>
-        <td class="cell" th:utext="${admin.getLogin()}">login</td>
-        <td class="cell" th:utext="${admin.getPassword()}">password</td>
-        <td class="cell">
-<!--            TODO create edit and delete-->
-            <a th:href="@{admin/edit}">edit</a>
-            <a th:href="@{admin/delete}">delete</a>
-        </td>
+    <tr th:each="adminValue : ${table}">
+        <form th:method="POST" th:action="@{/admin/admins}" th:object="${admin}">
+            <td>
+                <label>
+                    <input style="border: none" type="text" th:name="id" th:id="id" th:value="${adminValue.getId()}"
+                           readonly>
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="text" th:name="name" th:id="name"
+                           th:value="${adminValue.getName()}">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="text" th:name="login" th:id="login"
+                           th:value="${adminValue.getLogin()}">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="text" th:name="password" th:id="password"
+                           th:value="${adminValue.getPassword()}">
+                </label>
+            </td>
+            <td>
+                <input type="submit" value="edit"/>
+                <input type="submit" th:formaction="@{/admin/admins/delete}" value="delete"/>
+            </td>
+        </form>
+    </tr>
+    <tr>
+        <form th:method="POST" th:action="@{/admin/admins/create}" th:object="${admin}">
+            <td>
+            </td>
+            <td>
+                <label>
+                    <input type="text" th:id="name" field="*{name}" th:name="name">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="text" th:id="login" field="*{login}" th:name="login">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="text" th:id="password" field="*{password}" th:name="password">
+                </label>
+            </td>
+            <td>
+                <input type="submit" value="create"/>
+            </td>
+        </form>
     </tr>
 </table>
 </body>

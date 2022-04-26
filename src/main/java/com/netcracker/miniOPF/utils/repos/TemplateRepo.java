@@ -68,7 +68,7 @@ public class TemplateRepo
             {
                 Template template = new TemplateImpl();
 
-                template.setID(resultSet.getInt("template_id"));
+                template.setId(resultSet.getInt("template_id"));
                 template.setName(resultSet.getString("template_name"));
                 template.setDescription(resultSet.getString("template_description"));
                 template.setPrice(resultSet.getDouble("template_price"));
@@ -98,7 +98,7 @@ public class TemplateRepo
             {
                 Template template = new TemplateImpl();
 
-                template.setID(resultSet.getInt("template_id"));
+                template.setId(resultSet.getInt("template_id"));
                 template.setName(resultSet.getString("template_name"));
                 template.setDescription(resultSet.getString("template_description"));
                 template.setPrice(resultSet.getDouble("template_price"));
@@ -128,7 +128,7 @@ public class TemplateRepo
             {
                 Template template = new TemplateImpl();
 
-                template.setID(resultSet.getInt("template_id"));
+                template.setId(resultSet.getInt("template_id"));
                 template.setName(resultSet.getString("template_name"));
                 template.setDescription(resultSet.getString("template_description"));
                 template.setPrice(resultSet.getDouble("template_price"));
@@ -158,7 +158,7 @@ public class TemplateRepo
             {
                 Template template = new TemplateImpl();
 
-                template.setID(resultSet.getInt("template_id"));
+                template.setId(resultSet.getInt("template_id"));
                 template.setName(resultSet.getString("template_name"));
                 template.setDescription(resultSet.getString("template_description"));
                 template.setPrice(resultSet.getDouble("template_price"));
@@ -188,7 +188,7 @@ public class TemplateRepo
             {
                 Template template = new TemplateImpl();
 
-                template.setID(resultSet.getInt("template_id"));
+                template.setId(resultSet.getInt("template_id"));
                 template.setName(resultSet.getString("template_name"));
                 template.setDescription(resultSet.getString("template_description"));
                 template.setPrice(resultSet.getDouble("template_price"));
@@ -218,7 +218,7 @@ public class TemplateRepo
             {
                 Template template = new TemplateImpl();
 
-                template.setID(resultSet.getInt("template_id"));
+                template.setId(resultSet.getInt("template_id"));
                 template.setName(resultSet.getString("template_name"));
                 template.setDescription(resultSet.getString("template_description"));
                 template.setPrice(resultSet.getDouble("template_price"));
@@ -248,7 +248,7 @@ public class TemplateRepo
             {
                 Template template = new TemplateImpl();
 
-                template.setID(resultSet.getInt("template_id"));
+                template.setId(resultSet.getInt("template_id"));
                 template.setName(resultSet.getString("template_name"));
                 template.setDescription(resultSet.getString("template_description"));
                 template.setPrice(resultSet.getDouble("template_price"));
@@ -278,7 +278,7 @@ public class TemplateRepo
             {
                 Template template = new TemplateImpl();
 
-                template.setID(resultSet.getInt("template_id"));
+                template.setId(resultSet.getInt("template_id"));
                 template.setName(resultSet.getString("template_name"));
                 template.setDescription(resultSet.getString("template_description"));
                 template.setPrice(resultSet.getDouble("template_price"));
@@ -308,7 +308,7 @@ public class TemplateRepo
             {
                 Template template = new TemplateImpl();
 
-                template.setID(resultSet.getInt("template_id"));
+                template.setId(resultSet.getInt("template_id"));
                 template.setName(resultSet.getString("template_name"));
                 template.setDescription(resultSet.getString("template_description"));
                 template.setPrice(resultSet.getDouble("template_price"));
@@ -338,7 +338,7 @@ public class TemplateRepo
             {
                 Template template = new TemplateImpl();
 
-                template.setID(resultSet.getInt("template_id"));
+                template.setId(resultSet.getInt("template_id"));
                 template.setName(resultSet.getString("template_name"));
                 template.setDescription(resultSet.getString("template_description"));
                 template.setPrice(resultSet.getDouble("template_price"));
@@ -370,7 +370,7 @@ public class TemplateRepo
             {
                 template = new TemplateImpl();
 
-                template.setID(resultSet.getInt("template_id"));
+                template.setId(resultSet.getInt("template_id"));
                 template.setName(resultSet.getString("template_name"));
                 template.setDescription(resultSet.getString("template_description"));
                 template.setPrice(resultSet.getDouble("template_price"));
@@ -400,7 +400,7 @@ public class TemplateRepo
             {
                 Template template = new TemplateImpl();
 
-                template.setID(resultSet.getInt("template_id"));
+                template.setId(resultSet.getInt("template_id"));
                 template.setName(resultSet.getString("template_name"));
                 template.setDescription(resultSet.getString("template_description"));
                 template.setPrice(resultSet.getDouble("template_price"));
@@ -432,7 +432,7 @@ public class TemplateRepo
             {
                 Template template = new TemplateImpl();
 
-                template.setID(resultSet.getInt("template_id"));
+                template.setId(resultSet.getInt("template_id"));
                 template.setName(resultSet.getString("template_name"));
                 template.setDescription(resultSet.getString("template_description"));
                 template.setPrice(resultSet.getDouble("template_price"));
@@ -463,7 +463,7 @@ public class TemplateRepo
             {
                 Template template = new TemplateImpl();
 
-                template.setID(resultSet.getInt("template_id"));
+                template.setId(resultSet.getInt("template_id"));
                 template.setName(resultSet.getString("template_name"));
                 template.setDescription(resultSet.getString("template_description"));
                 template.setPrice(resultSet.getDouble("template_price"));
@@ -494,7 +494,7 @@ public class TemplateRepo
             {
                 template = new TemplateImpl();
 
-                template.setID(resultSet.getInt("template_id"));
+                template.setId(resultSet.getInt("template_id"));
                 template.setName(resultSet.getString("template_name"));
                 template.setDescription(resultSet.getString("template_description"));
                 template.setPrice(resultSet.getDouble("template_price"));
@@ -521,7 +521,7 @@ public class TemplateRepo
             {
                 Template template = new TemplateImpl();
 
-                template.setID(resultSet.getInt("template_id"));
+                template.setId(resultSet.getInt("template_id"));
                 template.setName(resultSet.getString("template_name"));
                 template.setDescription(resultSet.getString("template_description"));
                 template.setPrice(resultSet.getDouble("template_price"));
@@ -543,11 +543,11 @@ public class TemplateRepo
         try
         {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "UPDATE template SET template_name=?, template_description=?, template_price=?, template.area_id=? WHERE template_id=?");
+                    "UPDATE template SET template_name=?, template_description=?, template_price=?, area_id=? WHERE template_id=?");
             preparedStatement.setString(1, template.getName());
             preparedStatement.setString(2, template.getDescription());
             preparedStatement.setDouble(3, template.getPrice());
-            preparedStatement.setInt(4, template.getArea().getID());
+            preparedStatement.setInt(4, template.getArea().getId());
             preparedStatement.setInt(5, id);
 
             preparedStatement.executeUpdate();
@@ -581,7 +581,7 @@ public class TemplateRepo
             preparedStatement.setString(1, template.getName());
             preparedStatement.setString(2, template.getDescription());
             preparedStatement.setDouble(3, template.getPrice());
-            preparedStatement.setInt(4, template.getArea().getID());
+            preparedStatement.setInt(4, template.getArea().getId());
 
             preparedStatement.executeUpdate();
         }

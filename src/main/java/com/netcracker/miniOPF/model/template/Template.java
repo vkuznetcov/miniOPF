@@ -13,9 +13,9 @@ import com.netcracker.miniOPF.model.area.Area;
 )
 public interface Template
 {
-    int getID();
+    int getId();
 
-    void setID(int id);
+    void setId(int id);
 
     String getName();
 
