@@ -100,7 +100,7 @@ public class CustomerPageController {
         List<Pair<Integer,Service>> list = serviceRepo.searchServicesByCustomerID(id);
         for(Pair<Integer,Service> serv: list ){
                      if(serv.getRightValue().getName() == service.getName() && serv.getRightValue().getStatus() ==  service.getStatus())
-                     {service.setID(serv.getRightValue().getID());}
+                     {service.setId(serv.getRightValue().getId());}
         }
         Order order = new OrderImpl();
         order.setService(service);

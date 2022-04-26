@@ -33,7 +33,7 @@ public class ConvertMapAndFiles
             {
                 String json = scanner.nextLine();
                 AdminImpl admin = new ObjectMapper().readValue(json, AdminImpl.class);
-                adminHashMapMap.put(admin.getID(),admin);
+                adminHashMapMap.put(admin.getId(),admin);
             }
             return adminHashMapMap;
         }
@@ -50,7 +50,7 @@ public class ConvertMapAndFiles
             {
                 String json = scanner.nextLine();
                 OrderImpl order = new ObjectMapper().readValue(json, OrderImpl.class);
-                orderHashMapMap.put(order.getID(),order);
+                orderHashMapMap.put(order.getId(),order);
             }
             return orderHashMapMap;
         }
@@ -67,7 +67,7 @@ public class ConvertMapAndFiles
             {
                 String json = scanner.nextLine();
                 ServiceImpl service = new ObjectMapper().readValue(json, ServiceImpl.class);
-                serviceHashMap.put(service.getID(),service);
+                serviceHashMap.put(service.getId(),service);
             }
             return serviceHashMap;
         }
@@ -84,7 +84,7 @@ public class ConvertMapAndFiles
             {
                 String json = scanner.nextLine();
                 CustomerImpl customer = new ObjectMapper().readValue(json, CustomerImpl.class);
-                customerHashMap.put(customer.getID(),customer);
+                customerHashMap.put(customer.getId(),customer);
             }
             return  customerHashMap;
         }
@@ -101,7 +101,7 @@ public class ConvertMapAndFiles
             {
                 String json = scanner.nextLine();
                 AreaImpl area = new ObjectMapper().readValue(json, AreaImpl.class);
-                areaHashMap.put(area.getID(),area);
+                areaHashMap.put(area.getId(),area);
             }
             return areaHashMap;
         }
@@ -118,7 +118,7 @@ public class ConvertMapAndFiles
             {
                 String json = scanner.nextLine();
                 TemplateImpl template = new ObjectMapper().readValue(json, TemplateImpl.class);
-                templateHashMap.put(template.getID(),template);
+                templateHashMap.put(template.getId(),template);
             }
             return templateHashMap;
         }

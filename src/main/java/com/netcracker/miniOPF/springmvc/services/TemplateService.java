@@ -1,12 +1,8 @@
 package com.netcracker.miniOPF.springmvc.services;
 
-import com.netcracker.miniOPF.model.order.OrderImpl;
-import com.netcracker.miniOPF.model.order.enums.OrderAction;
-import com.netcracker.miniOPF.model.order.enums.OrderStatus;
 import com.netcracker.miniOPF.model.template.Template;
 import com.netcracker.miniOPF.model.template.TemplateImpl;
 import com.netcracker.miniOPF.utils.repos.AreaRepo;
-import com.netcracker.miniOPF.utils.repos.OrderRepo;
 import com.netcracker.miniOPF.utils.repos.TemplateRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +11,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 @Service
@@ -89,7 +84,7 @@ public class TemplateService
         return "admin/templates";
     }
 
-    private boolean checkTemplate(TemplateImpl template, String areaId, StringBuilder errorMessage){
+    private boolean checkParams(TemplateImpl template, String areaId, StringBuilder errorMessage){
         boolean error = false;
         if(areaRepo.getArea(Integer.parseInt(areaId)) == null){
             errorMessage.append("There is no such area! ");
@@ -102,7 +97,7 @@ public class TemplateService
     {
         String errorMessage = "";
         StringBuilder stringBuilder = new StringBuilder(errorMessage);
-        if(checkTemplate(template, areaId, stringBuilder)){
+        if(checkParams(template, areaId, stringBuilder)){
             stringBuilder.append("Error index: ").append(template.getId());
             model.addAttribute("errorMessage", stringBuilder.toString());
         }
@@ -119,7 +114,7 @@ public class TemplateService
     {
         String errorMessage = "";
         StringBuilder stringBuilder = new StringBuilder(errorMessage);
-        if(checkTemplate(template, areaId, stringBuilder)){
+        if(checkParams(template, areaId, stringBuilder)){
             stringBuilder.append("Error index: new object creation");
             model.addAttribute("errorMessage", stringBuilder.toString());
         }

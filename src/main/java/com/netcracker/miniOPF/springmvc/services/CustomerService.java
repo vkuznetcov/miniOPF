@@ -2,11 +2,14 @@ package com.netcracker.miniOPF.springmvc.services;
 
 import com.netcracker.miniOPF.model.customer.Customer;
 import com.netcracker.miniOPF.model.customer.CustomerImpl;
+import com.netcracker.miniOPF.model.template.TemplateImpl;
+import com.netcracker.miniOPF.utils.repos.AreaRepo;
 import com.netcracker.miniOPF.utils.repos.CustomerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -16,11 +19,13 @@ import java.util.Objects;
 public class CustomerService
 {
     private final CustomerRepo customerRepo;
+    private final AreaRepo areaRepo;
 
     @Autowired
-    public CustomerService(CustomerRepo customerRepo)
+    public CustomerService(CustomerRepo customerRepo, AreaRepo areaRepo)
     {
         this.customerRepo = customerRepo;
+        this.areaRepo = areaRepo;
     }
 
     public String showCustomers(@RequestParam(value = AdminService.FormParams.TYPE, required = false) String type,
@@ -77,6 +82,47 @@ public class CustomerService
         }
 
         return "admin/customers";
+    }
+
+    private boolean checkParams(String areaId, StringBuilder errorMessage){
+        boolean error = false;
+        if(areaRepo.getArea(Integer.parseInt(areaId)) == null){
+            errorMessage.append("There is no such area! ");
+            error = true;
+        }
+        return error;
+    }
+
+    public String updateCustomer(CustomerImpl customer,
+                                 String areaId,
+                                 Model model){
+        String errorMessage = "";
+        StringBuilder stringBuilder = new StringBuilder(errorMessage);
+        if(checkParams(areaId, stringBuilder)){
+            stringBuilder.append("Error index: ").append(customer.getId());
+            model.addAttribute("errorMessage", stringBuilder.toString());
+        }
+        else{
+            customer.setArea(areaRepo.getArea(Integer.parseInt(areaId)));
+            customerRepo.updateCustomer(customer.getId(), customer);
+        }
+        return this.showCustomers(null, "none", null, model);
+    }
+
+    public String createCustomer(CustomerImpl customer,
+                                 String areaId,
+                                 Model model){
+        String errorMessage = "";
+        StringBuilder stringBuilder = new StringBuilder(errorMessage);
+        if(checkParams(areaId, stringBuilder)){
+            stringBuilder.append("Error index: new object creation");
+            model.addAttribute("errorMessage", stringBuilder.toString());
+        }
+        else{
+            customer.setArea(areaRepo.getArea(Integer.parseInt(areaId)));
+            customerRepo.createCustomer(customer);
+        }
+        return this.showCustomers(null, "none", null, model);
     }
 
     public List<Customer> sortCustomersByLogin()

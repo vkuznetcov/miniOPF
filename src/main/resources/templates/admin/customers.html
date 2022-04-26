@@ -90,6 +90,15 @@
                 </label>
             </form>
         </td>
+        <td style="border: none">
+            <form>
+                <label>
+                    Area to search: <input type="text" name="valueToSearch"/>
+                    <input type="hidden" name="type" value="area"/>
+                    <input type="submit" value="Search"/>
+                </label>
+            </form>
+        </td>
     </tr>
     <tr>
         <td class="header">
@@ -177,6 +186,23 @@
                 </li>
             </ul>
         </td>
+        <td class="header">
+            <ul>
+                <li style="display: inline">
+                    area
+                </li>
+                <li style="display: inline">
+                    <a th:href="@{/admin/customers(sort='asc', type='area')}">
+                        <img src="../../static/images/arrowUp.png" th:src="@{/images/arrowUp.png}" alt="area"/>
+                    </a>
+                </li>
+                <li style="display: inline">
+                    <a th:href="@{/admin/customers(sort='desc', type='area')}">
+                        <img src="../../static/images/arrowDown.png" th:src="@{/images/arrowDown.png}" alt="area"/>
+                    </a>
+                </li>
+            </ul>
+        </td>
     </tr>
     <tr th:each="customerValue : ${table}">
         <form th:method="POST" th:action="@{/admin/customers}" th:object="${customer}">
@@ -214,6 +240,13 @@
                 </label>
             </td>
             <td>
+                <!--            <form th:method="POST" th:action="@{/admin/areas}" th:object="${area}">-->
+                <label>
+                    <input type="text" th:name="areaId" th:id="areaId"
+                           th:value="${customerValue.getArea().getId}">
+                </label>
+            </td>
+            <td>
                 <!--            TODO create edit and delete-->
                 <input type="submit" value="edit"/>
                 <input type="submit" th:formaction="@{/admin/customers/delete}" value="delete"/>
@@ -242,6 +275,11 @@
             <td>
                 <label>
                     <input type="text" th:id="balance" field="*{balance}" th:name="balance">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="text" th:id="areaId" field="*{areaId}" th:name="areaId">
                 </label>
             </td>
             <td>

@@ -46,7 +46,6 @@ public class AdministratorController
     }
 
 
-
     //CUSTOMER LOGIC
     @GetMapping("/customers")
     public String showCustomers(@RequestParam(value = AdminService.FormParams.TYPE, required = false) String type,
@@ -65,27 +64,29 @@ public class AdministratorController
     }
 
     @PostMapping("/customers")
-    public String updateCustomers(@ModelAttribute("customer")CustomerImpl customer){
-        customerService.updateCustomer(customer.getId(), customer);
+    public String updateCustomers(@ModelAttribute("customer") CustomerImpl customer,
+                                  @RequestParam(name = "areaId") String areaId,
+                                  Model model)
+    {
+        customerService.updateCustomer(customer, areaId, model);
         return "redirect:/admin/customers?sort=none";
     }
 
     @PostMapping("/customers/delete")
-    public String deleteCustomer(@ModelAttribute("customer") CustomerImpl customer){
+    public String deleteCustomer(@ModelAttribute("customer") CustomerImpl customer)
+    {
         customerService.deleteCustomer(customer.getId());
         return "redirect:/admin/customers?sort=none";
     }
 
     @PostMapping("/customers/create")
-    public String createCustomer(@ModelAttribute("customer") CustomerImpl customer){
-        customerService.createCustomer(customer);
+    public String createCustomer(@ModelAttribute("customer") CustomerImpl customer,
+                                 @RequestParam(name = "areaId") String areaId,
+                                 Model model)
+    {
+        customerService.createCustomer(customer, areaId, model);
         return "redirect:/admin/customers?sort=none";
     }
-
-
-
-
-
 
 
     //ADMIN LOGIC
@@ -106,21 +107,18 @@ public class AdministratorController
     }
 
     @PostMapping("/admins/delete")
-    public String deleteAdmin(@ModelAttribute("admin") AdminImpl admin){
+    public String deleteAdmin(@ModelAttribute("admin") AdminImpl admin)
+    {
         adminService.deleteAdmin(admin.getId());
         return "redirect:/admin/admins?sort=none";
     }
 
     @PostMapping("/admins/create")
-    public String createAdmin(@ModelAttribute("admin") AdminImpl admin){
+    public String createAdmin(@ModelAttribute("admin") AdminImpl admin)
+    {
         adminService.createAdmin(admin);
         return "redirect:/admin/admins?sort=none";
     }
-
-
-
-
-
 
 
     //AREA LOGIC
@@ -143,21 +141,18 @@ public class AdministratorController
     }
 
     @PostMapping("/areas/delete")
-    public String deleteArea(@ModelAttribute("area") AreaImpl area){
+    public String deleteArea(@ModelAttribute("area") AreaImpl area)
+    {
         areaService.deleteArea(area.getId());
         return "redirect:/admin/areas?sort=none";
     }
 
     @PostMapping("/areas/create")
-    public String createArea(@ModelAttribute("area") AreaImpl area){
+    public String createArea(@ModelAttribute("area") AreaImpl area)
+    {
         areaService.createArea(area);
         return "redirect:/admin/areas?sort=none";
     }
-
-
-
-
-
 
 
     //SERVICE LOGIC
@@ -171,33 +166,31 @@ public class AdministratorController
     }
 
     @PostMapping("/services")
-    public String updateServices(@ModelAttribute("service")ServiceImpl service,
-                                 @RequestParam(name = "customerId")String customerId,
-                                 @RequestParam(name = "templateId")String templateId,
-                                 @RequestParam(name = "status")String status,
-                                 Model model){
+    public String updateServices(@ModelAttribute("service") ServiceImpl service,
+                                 @RequestParam(name = "customerId") String customerId,
+                                 @RequestParam(name = "templateId") String templateId,
+                                 @RequestParam(name = "status") String status,
+                                 Model model)
+    {
         return serviceService.updateServices(service, customerId, templateId, status, model);
     }
 
     @PostMapping("/services/delete")
-    public String deleteService(@ModelAttribute("area") ServiceImpl service){
+    public String deleteService(@ModelAttribute("area") ServiceImpl service)
+    {
         serviceService.deleteService(service.getId());
         return "redirect:/admin/services?sort=none";
     }
 
     @PostMapping("/services/create")
-    public String createService(@ModelAttribute("service")ServiceImpl service,
-                               @RequestParam(name = "customerId")String customerId,
-                               @RequestParam(name = "templateId")String templateId,
-                               @RequestParam(name = "status")String status,
-                               Model model){
+    public String createService(@ModelAttribute("service") ServiceImpl service,
+                                @RequestParam(name = "customerId") String customerId,
+                                @RequestParam(name = "templateId") String templateId,
+                                @RequestParam(name = "status") String status,
+                                Model model)
+    {
         return serviceService.createService(service, customerId, templateId, status, model);
     }
-
-
-
-
-
 
 
     //ORDER LOGIC
@@ -222,7 +215,8 @@ public class AdministratorController
     }
 
     @PostMapping("/orders/delete")
-    public String deleteOrder(@ModelAttribute("order") OrderImpl order){
+    public String deleteOrder(@ModelAttribute("order") OrderImpl order)
+    {
         orderService.deleteOrder(order.getId());
         return "redirect:/admin/orders?sort=none";
     }
@@ -233,13 +227,10 @@ public class AdministratorController
                               @RequestParam(name = "serviceId") String serviceId,
                               @RequestParam(name = "status") String status,
                               @RequestParam(name = "action") String action,
-                              Model model){
+                              Model model)
+    {
         return orderService.createOrder(order, adminId, serviceId, status, action, model);
     }
-
-
-
-
 
 
     //TEMPLATE LOGIC
@@ -254,27 +245,26 @@ public class AdministratorController
 
     @PostMapping("/templates")
     public String updateTemplates(@ModelAttribute("template") TemplateImpl template,
-                                  @RequestParam(name = "areaId")String areaId,
-                                  Model model){
+                                  @RequestParam(name = "areaId") String areaId,
+                                  Model model)
+    {
         return templateService.updateTemplates(template, areaId, model);
     }
 
     @PostMapping("/templates/delete")
-    public String deleteTemplate(@ModelAttribute("template") TemplateImpl template){
+    public String deleteTemplate(@ModelAttribute("template") TemplateImpl template)
+    {
         templateService.deleteTemplate(template.getId());
         return "redirect:/admin/templates?sort=none";
     }
 
     @PostMapping("/templates/create")
     public String createTemplate(@ModelAttribute("template") TemplateImpl template,
-                                 @RequestParam(name = "areaId")String areaId,
-                                 Model model){
+                                 @RequestParam(name = "areaId") String areaId,
+                                 Model model)
+    {
         return templateService.createTemplate(template, areaId, model);
     }
-
-
-
-
 
 
     //MY ORDERS LOGIC
@@ -289,17 +279,18 @@ public class AdministratorController
 
     @PostMapping("/myorders")
     public String updateMyOrders(@ModelAttribute("order") OrderImpl order,
-                               @RequestParam(name = "adminId") String adminId,
-                               @RequestParam(name = "serviceId") String serviceId,
-                               @RequestParam(name = "status") String status,
-                               @RequestParam(name = "action") String action,
-                               Model model)
+                                 @RequestParam(name = "adminId") String adminId,
+                                 @RequestParam(name = "serviceId") String serviceId,
+                                 @RequestParam(name = "status") String status,
+                                 @RequestParam(name = "action") String action,
+                                 Model model)
     {
         return orderService.updateMyOrders(order, adminId, serviceId, status, action, model, userID);
     }
 
     @PostMapping("/myorders/delete")
-    public String deleteMyOrder(@ModelAttribute("order") OrderImpl order){
+    public String deleteMyOrder(@ModelAttribute("order") OrderImpl order)
+    {
         orderService.deleteOrder(order.getId());
         return "redirect:/admin/myorders?sort=none";
     }

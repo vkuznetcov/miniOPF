@@ -52,7 +52,7 @@ public class AuthorizationController
                 model.addAttribute("name", customer.getName());
                 model.addAttribute("customer", customer);
 
-                return "redirect:/customer/customerpage?id="+customer.getID();
+                return "redirect:/customer/customerpage?id="+customer.getId();
             }
             else
             {
