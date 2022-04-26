@@ -44,15 +44,17 @@ public class CustomerRepo
     }
 
     private final ServiceRepo serviceRepo;
+    private final AreaRepo areaRepo;
     private final Storage storage;
     private final CustomerUtils customerUtils;
 
     @Autowired
     public CustomerRepo(Storage storage,
                         CustomerUtils customerUtils,
-                        ServiceRepo serviceRepo)
+                        ServiceRepo serviceRepo,
+                        AreaRepo areaRepo)
     {
-
+        this.areaRepo = areaRepo;
         this.serviceRepo = serviceRepo;
         this.storage = storage;
         this.customerUtils = customerUtils;
@@ -77,6 +79,7 @@ public class CustomerRepo
                 customer.setLogin(resultSet.getString("customer_login"));
                 customer.setPassword(resultSet.getString("customer_password"));
                 customer.setBalance(resultSet.getDouble("customer_balance"));
+                customer.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
 //                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
                 List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
                 List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
@@ -119,6 +122,7 @@ public class CustomerRepo
                 customer.setLogin(resultSet.getString("customer_login"));
                 customer.setPassword(resultSet.getString("customer_password"));
                 customer.setBalance(resultSet.getDouble("customer_balance"));
+                customer.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
 //                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
                 List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
                 List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
@@ -161,6 +165,7 @@ public class CustomerRepo
                 customer.setLogin(resultSet.getString("customer_login"));
                 customer.setPassword(resultSet.getString("customer_password"));
                 customer.setBalance(resultSet.getDouble("customer_balance"));
+                customer.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
 //                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
                 List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
                 List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
@@ -203,6 +208,7 @@ public class CustomerRepo
                 customer.setLogin(resultSet.getString("customer_login"));
                 customer.setPassword(resultSet.getString("customer_password"));
                 customer.setBalance(resultSet.getDouble("customer_balance"));
+                customer.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
 //                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
                 List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
                 List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
@@ -245,6 +251,7 @@ public class CustomerRepo
                 customer.setLogin(resultSet.getString("customer_login"));
                 customer.setPassword(resultSet.getString("customer_password"));
                 customer.setBalance(resultSet.getDouble("customer_balance"));
+                customer.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
 //                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
                 List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
                 List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
@@ -287,6 +294,7 @@ public class CustomerRepo
                 customer.setLogin(resultSet.getString("customer_login"));
                 customer.setPassword(resultSet.getString("customer_password"));
                 customer.setBalance(resultSet.getDouble("customer_balance"));
+                customer.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
 //                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
                 List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
                 List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
@@ -329,6 +337,7 @@ public class CustomerRepo
                 customer.setLogin(resultSet.getString("customer_login"));
                 customer.setPassword(resultSet.getString("customer_password"));
                 customer.setBalance(resultSet.getDouble("customer_balance"));
+                customer.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
 //                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
                 List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
                 List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
@@ -371,6 +380,7 @@ public class CustomerRepo
                 customer.setLogin(resultSet.getString("customer_login"));
                 customer.setPassword(resultSet.getString("customer_password"));
                 customer.setBalance(resultSet.getDouble("customer_balance"));
+                customer.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
 //                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
                 List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
                 List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
@@ -413,6 +423,7 @@ public class CustomerRepo
                 customer.setLogin(resultSet.getString("customer_login"));
                 customer.setPassword(resultSet.getString("customer_password"));
                 customer.setBalance(resultSet.getDouble("customer_balance"));
+                customer.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
 //                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
                 List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
                 List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
@@ -435,6 +446,7 @@ public class CustomerRepo
 
         return customers;
     }
+
 
     public List<Customer> sortCustomersByIDReversed()
     {
@@ -455,6 +467,7 @@ public class CustomerRepo
                 customer.setLogin(resultSet.getString("customer_login"));
                 customer.setPassword(resultSet.getString("customer_password"));
                 customer.setBalance(resultSet.getDouble("customer_balance"));
+                customer.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
 //                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
                 List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
                 List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
@@ -478,7 +491,90 @@ public class CustomerRepo
 
         return customers;
     }
+    public List<Customer> sortCustomersByArea()
+    {
+        List<Customer> customers = new ArrayList<>();
 
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM customer ORDER BY area_id ASC");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                Customer customer = new CustomerImpl();
+
+                customer.setID(resultSet.getInt("customer_id"));
+                customer.setName(resultSet.getString("customer_name"));
+                customer.setLogin(resultSet.getString("customer_login"));
+                customer.setPassword(resultSet.getString("customer_password"));
+                customer.setBalance(resultSet.getDouble("customer_balance"));
+                customer.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
+//                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
+                List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
+                List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
+                for (int i = 0; i < pairs.size(); i++)
+                {
+
+                    com.netcracker.miniOPF.model.service.Service service = pairs.get(i).getRightValue();
+                    service.setCustomer(customer);
+                    services.add(service);
+                }
+                customer.setServices(services);
+
+                customers.add(customer);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return customers;
+    }
+    public List<Customer> sortCustomersByAreaReversed()
+    {
+        List<Customer> customers = new ArrayList<>();
+
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM customer ORDER BY area_id DESC");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                Customer customer = new CustomerImpl();
+
+                customer.setID(resultSet.getInt("customer_id"));
+                customer.setName(resultSet.getString("customer_name"));
+                customer.setLogin(resultSet.getString("customer_login"));
+                customer.setPassword(resultSet.getString("customer_password"));
+                customer.setBalance(resultSet.getDouble("customer_balance"));
+                customer.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
+//                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
+                List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
+                List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
+                for (int i = 0; i < pairs.size(); i++)
+                {
+
+                    com.netcracker.miniOPF.model.service.Service service = pairs.get(i).getRightValue();
+                    service.setCustomer(customer);
+                    services.add(service);
+                }
+                customer.setServices(services);
+
+                customers.add(customer);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return customers;
+    }
     public Customer searchCustomerByLogin(
             String login)
     {
@@ -499,6 +595,7 @@ public class CustomerRepo
                 customer.setLogin(resultSet.getString("customer_login"));
                 customer.setPassword(resultSet.getString("customer_password"));
                 customer.setBalance(resultSet.getDouble("customer_balance"));
+                customer.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
 //                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
                 List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
                 List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
@@ -541,6 +638,7 @@ public class CustomerRepo
                 customer.setLogin(resultSet.getString("customer_login"));
                 customer.setPassword(resultSet.getString("customer_password"));
                 customer.setBalance(resultSet.getDouble("customer_balance"));
+                customer.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
 //                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
                 List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
                 List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
@@ -585,6 +683,7 @@ public class CustomerRepo
                 customer.setLogin(resultSet.getString("customer_login"));
                 customer.setPassword(resultSet.getString("customer_password"));
                 customer.setBalance(resultSet.getDouble("customer_balance"));
+                customer.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
 //                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
                 List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
                 List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
@@ -629,6 +728,7 @@ public class CustomerRepo
                 customer.setLogin(resultSet.getString("customer_login"));
                 customer.setPassword(resultSet.getString("customer_password"));
                 customer.setBalance(resultSet.getDouble("customer_balance"));
+                customer.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
 //                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
                 List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
                 List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
@@ -651,7 +751,50 @@ public class CustomerRepo
 
         return customers;
     }
+    public List<Customer> searchCustomersByArea(
+            String areaName)
+    {
+        List<Customer> customers = new ArrayList<>();
+        int areaID = areaRepo.searchAreaByName(areaName).getID();
+        try
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM customer WHERE area_id=?");
+            preparedStatement.setInt(1, areaID);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
+            while (resultSet.next())
+            {
+                Customer customer = new CustomerImpl();
+
+                customer.setID(resultSet.getInt("customer_id"));
+                customer.setName(resultSet.getString("customer_name"));
+                customer.setLogin(resultSet.getString("customer_login"));
+                customer.setPassword(resultSet.getString("customer_password"));
+                customer.setBalance(resultSet.getDouble("customer_balance"));
+                customer.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
+//                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
+                List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
+                List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
+                for (int i = 0; i < pairs.size(); i++)
+                {
+
+                    com.netcracker.miniOPF.model.service.Service service = pairs.get(i).getRightValue();
+                    service.setCustomer(customer);
+                    services.add(service);
+                }
+                customer.setServices(services);
+
+                customers.add(customer);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return customers;
+    }
     public Customer getCustomer(int id)
     {
         Customer customer = null;
@@ -672,6 +815,7 @@ public class CustomerRepo
                 customer.setLogin(resultSet.getString("customer_login"));
                 customer.setPassword(resultSet.getString("customer_password"));
                 customer.setBalance(resultSet.getDouble("customer_balance"));
+                customer.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
 //                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
                 List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
                 List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
@@ -711,6 +855,7 @@ public class CustomerRepo
                 customer.setLogin(resultSet.getString("customer_login"));
                 customer.setPassword(resultSet.getString("customer_password"));
                 customer.setBalance(resultSet.getDouble("customer_balance"));
+                customer.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
 //                customer.setServices(serviceRepo.searchServicesByCustomerID(customer.getID()));
                 List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
                 List<Pair<Integer, Service>> pairs = serviceRepo.searchServicesByCustomerID(customer.getID());
@@ -737,11 +882,12 @@ public class CustomerRepo
         try
         {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO customer VALUES((select max(customer_id)+1 from customer), ?, ?, ?, ?)");
+                    "INSERT INTO customer VALUES((select max(customer_id)+1 from customer), ?, ?, ?, ?,?)");
             preparedStatement.setString(1, customer.getLogin());
             preparedStatement.setString(2, customer.getPassword());
             preparedStatement.setString(3, customer.getName());
             preparedStatement.setDouble(4, customer.getBalance());
+            preparedStatement.setInt(5, customer.getArea().getID());
 
             preparedStatement.executeUpdate();
         }
@@ -768,12 +914,13 @@ public class CustomerRepo
         try
         {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "UPDATE customer SET customer_login=?, customer_password=?, customer_name=?, customer_balance=? WHERE customer_id=?");
+                    "UPDATE customer SET customer_login=?, customer_password=?, customer_name=?, customer_balance=?, area_id=? WHERE customer_id=?");
             preparedStatement.setString(1, customer.getLogin());
             preparedStatement.setString(2, customer.getPassword());
             preparedStatement.setString(3, customer.getName());
             preparedStatement.setDouble(4, customer.getBalance());
-            preparedStatement.setInt(5, id);
+            preparedStatement.setDouble(5, customer.getArea().getID());
+            preparedStatement.setInt(6, id);
 
             preparedStatement.executeUpdate();
         }

@@ -36,6 +36,8 @@ public class CustomerService
                 case "balance" -> model.addAttribute("table",
                                                      customerRepo.searchCustomersByBalance(Double.parseDouble(
                                                              value)));
+                case "area" -> model.addAttribute("table",
+                        customerRepo.searchCustomersByArea(value));
             }
             return "admin/customers";
         }
@@ -53,6 +55,7 @@ public class CustomerService
                     case "login" -> model.addAttribute("table", customerRepo.sortCustomersByLogin());
                     case "password" -> model.addAttribute("table", customerRepo.sortCustomersByPassword());
                     case "balance" -> model.addAttribute("table", customerRepo.sortCustomersByBalance());
+                    case "area" -> model.addAttribute("table", customerRepo.sortCustomersByArea());
                 }
             }
             case "desc" -> {
@@ -64,6 +67,7 @@ public class CustomerService
                     case "password" -> model.addAttribute("table",
                                                           customerRepo.sortCustomersByPasswordReversed());
                     case "balance" -> model.addAttribute("table", customerRepo.sortCustomersByBalanceReversed());
+                    case "area" -> model.addAttribute("table", customerRepo.sortCustomersByAreaReversed());
                 }
             }
         }
