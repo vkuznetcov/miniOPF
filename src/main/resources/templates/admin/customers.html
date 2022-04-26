@@ -90,6 +90,15 @@
                 </label>
             </form>
         </td>
+        <td style="border: none">
+            <form>
+                <label>
+                    Area to search: <input type="text" name="valueToSearch"/>
+                    <input type="hidden" name="type" value="area"/>
+                    <input type="submit" value="Search"/>
+                </label>
+            </form>
+        </td>
     </tr>
     <tr>
         <td class="header">
@@ -178,6 +187,23 @@
             </ul>
         </td>
         <td class="header">
+            <ul>
+                <li style="display: inline">
+                    area
+                </li>
+                <li style="display: inline">
+                    <a th:href="@{/admin/customers(sort='asc', type='area')}">
+                        <img src="../../static/images/arrowUp.png" th:src="@{/images/arrowUp.png}" alt="area"/>
+                    </a>
+                </li>
+                <li style="display: inline">
+                    <a th:href="@{/admin/customers(sort='desc', type='area')}">
+                        <img src="../../static/images/arrowDown.png" th:src="@{/images/arrowDown.png}" alt="area"/>
+                    </a>
+                </li>
+            </ul>
+        </td>
+        <td class="header">
             services id
         </td>
     </tr>
@@ -187,15 +213,16 @@
         <td class="cell" th:utext="${customer.getLogin()}">login</td>
         <td class="cell" th:utext="${customer.getPassword()}">password</td>
         <td class="cell" th:utext="${customer.getBalance()}">balance</td>
-        <td class="cell">
-            <div th:each="service : ${customer.getServices()}">
-                <div th:utext="${service.getID()}">
-                    service id
-                </div>
-            </div>
-        </td>
-        <td class="cell">
-            <!--            TODO create edit and delete-->
+        <td class="cell" th:utext="${customer.getArea().getName()}">area</td>
+         <td class="cell">
+             <div th:each="service : ${customer.getServices()}">
+                 <div th:utext="${service.getID()}">
+                     service id
+                 </div>
+             </div>
+         </td>
+         <td class="cell">
+             <!--            TODO create edit and delete-->
             <a th:href="@{admin/edit}">edit</a>
             <a th:href="@{admin/delete}">delete</a>
         </td>
