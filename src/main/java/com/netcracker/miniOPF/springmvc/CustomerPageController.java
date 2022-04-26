@@ -87,7 +87,11 @@ public class CustomerPageController {
     @PostMapping("/avaibleservices")
     public String addAvaibleServices(@RequestParam(value = FormParams.ID, required = false) Integer id,
             @RequestParam(value = "template", required = false) String templatename,Model model) {
- if(customerRepo.getCustomer(id).getBalance() - templateRepo.searchTemplateByName(templatename).getPrice()>=0){
+        double money = customerRepo.getCustomer(id).getBalance() - templateRepo.searchTemplateByName(templatename).getPrice();
+ if(money>=0){
+        Customer customer = customerRepo.getCustomer(id);
+        customer.setBalance(money);
+        customerRepo.updateCustomer(id,customer);
         Service service = new ServiceImpl();
         service.setCustomer(customerRepo.getCustomer(id));
         Template template = templateRepo.searchTemplateByName(templatename);
@@ -108,7 +112,7 @@ public class CustomerPageController {
         order.setAction(OrderAction.CONNECT);
         orderRepo.createOrder(order);
  }
- else{model.addAttribute("errorMessage", "Денег недостаточно");}
+ else{model.addAttribute("errorMessage", "not enough money");}
         model.addAttribute("id", id);
         return "customer/avaibleservices";
     }
