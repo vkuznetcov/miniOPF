@@ -190,7 +190,7 @@
             <td>
                 <label>
                     <input type="text" name="adminId" th:id="adminId"
-                           th:value="${orderValue.getAdmin().getId()}">
+                           th:value="${orderValue.getAdmin() != null} ? ${orderValue.getAdmin().getId()} : ''">
                 </label>
             </td>
             <td>

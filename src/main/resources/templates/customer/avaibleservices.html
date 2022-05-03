@@ -14,7 +14,7 @@
         </li>
         <li>
             <a th:text="${balance}"> </a>
-            <a th:href="@{/settings}"> Settings</a>
+            <a th:href="@{/settings(id= ${id})}"> Settings</a>
             <a th:href="@{/authorization}"> Exit</a>
         </li>
     </ul>
@@ -31,24 +31,24 @@
     </nav>
 </header>
 <table>
-    <tr>
-        <td style="border: none" th:each="template : ${table1}">
+    <tr style="border: none" th:each="template : ${table1}">
+        <td > <div><p th:text="${errorMessage}" style="color: #FF0000"></p></div>
                 <p class="cell" th:utext="${template.getName()}">name</p>
                 <p  class="cell" th:utext="${template.getPrice()}">price</p >
                 <p  class="cell" th:utext="${template.getDescription()}">description</p>
                 <form  th:action="@{/customer/avaibleservices(id=${id})}" method="post">
-                    <input type="hidden" name="template" th:value="${template.getName()}"/>
+                    <input type="hidden" name="template" th:value="${template.getId()}"/>
                     <input type="submit" value="Connect"/>
                 </form >
         </td>
     </tr>
-    <tr>
-        <td style="border: none" th:each="template : ${table2}">
+    <tr style="border: none" th:each="template : ${table2}">
+        <td>   <div><p th:text="${errorMessage}" style="color: #FF0000"></p></div>
                 <p class="cell" th:utext="${template.getName()}">name</p>
                 <p  class="cell" th:utext="${template.getPrice()}">price</p >
                 <p  class="cell" th:utext="${template.getDescription()}">description</p>
                 <form  th:action="@{/customer/avaibleservices(id=${id})}" method="post">
-                    <input type="hidden" name="template" th:value="${template.getName()}"/>
+                    <input type="hidden" name="template" th:value="${template.getId()}"/>
                     <input type="submit" value="Connect"/>
                 </form >
         </td>

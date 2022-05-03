@@ -30,6 +30,7 @@ table {
     margin: 10px;
     width: 1500px;
     border-collapse: collapse; /* Отображать двойные линии как одинарные */
+    border-spacing: 10px;
 }
 form {
     font-size: 18px;

@@ -14,7 +14,7 @@
         </li>
         <li>
             <a th:text="${balance}"> </a>
-            <a th:href="@{/settings}"> Settings</a>
+            <a th:href="@{/settings(id= ${id})}"ё> Settings</a>
             <a th:href="@{/authorization}"> Exit</a>
         </li>
     </ul>
@@ -33,28 +33,26 @@
 <table>
     <tr>
         <td style="border: none" th:each="service : ${table1}">
-            <form>
+            <div><p th:text="${errorMessage}" style="color: #FF0000"></p></div>
                 <p class="cell" th:utext="${service.getName()}">name</p>
                 <p  class="cell" th:utext="${service.getPrice()}">price</p >
                 <p  class="cell" th:utext="${service.getDescription()}">description</p>
-                <p  th:action="@{/customer/activeservices(id=${id})}" method="post">
-                    <input type="hidden" name="type" th:value="${service.getName()}"/>
+                <form  th:action="@{/customer/activeservices(id=${id})}" method="post">
+                    <input type="hidden" name="type" th:value="${service.getId()}"/>
                     <input type="submit" value="Disconnect"/>
-                </p >
-            </form>
+                </form >
         </td>
     </tr>
     <tr>
         <td style="border: none" th:each="service : ${table2}">
-            <form>
+            <div><p th:text="${errorMessage}" style="color: #FF0000"></p></div>
                 <p class="cell" th:utext="${service.getName()}">name</p>
                 <p  class="cell" th:utext="${service.getPrice()}">price</p >
                 <p  class="cell" th:utext="${service.getDescription()}">description</p>
-                <p  th:action="@{/customer/activeservices(id=${id})}" method="post">
-                    <input type="hidden" name="service" th:value="${service.getName()}"/>
+                <form  th:action="@{/customer/activeservices(id=${id})}" method="post">
+                    <input type="hidden" name="service" th:value="${service.getId()}"/>
                     <input type="submit" value="Disconnect"/>
-                </p >
-            </form>
+                </form >
         </td>
     </tr>
 </table>

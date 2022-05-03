@@ -562,7 +562,9 @@ public class OrderRepo
         {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO \"order\" VALUES((select max(order_id)+1 from \"order\"), ?, ?, ?, ?)");
-            preparedStatement.setInt(1, order.getAdmin().getId());
+            if(order.getAdmin() != null)
+            {preparedStatement.setString(1, Integer.toString(order.getAdmin().getId()));}
+            else preparedStatement.setNull(1, Types.INTEGER);
             preparedStatement.setString(2, order.getStatus().toString());
             preparedStatement.setString(3, order.getAction().toString());
             preparedStatement.setInt(4, order.getService().getId());
