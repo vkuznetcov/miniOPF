@@ -241,32 +241,32 @@
             </td>
             <td>
                 <label>
-                    <input type="text" name="name" th:id="name"
-                           th:value="${serviceValue.getName()}">
+                    <input style="border: none" type="text" name="name" th:id="name"
+                           th:value="${serviceValue.getName()}" readonly>
                 </label>
             </td>
             <td>
                 <label>
-                    <input type="text" name="description" th:id="description"
-                           th:value="${serviceValue.getDescription()}">
+                    <input style="border: none" type="text" name="description" th:id="description"
+                           th:value="${serviceValue.getDescription()}" readonly>
                 </label>
             </td>
             <td>
                 <label>
-                    <input type="text" name="price" th:id="price"
-                           th:value="${serviceValue.getPrice()}">
+                    <input style="border: none" type="text" name="price" th:id="price"
+                           th:value="${serviceValue.getPrice()}" readonly>
                 </label>
             </td>
             <td>
                 <label>
                     <input type="text" name="templateId" th:id="templateId"
-                           th:value="${serviceValue.getTemplate().getId()}">
+                           th:value="${serviceValue.getTemplate().getId()}" required>
                 </label>
             </td>
             <td>
                 <label>
                     <input type="text" name="customerId" th:id="customerId"
-                           th:value="${serviceValue.getCustomer().getId()}">
+                           th:value="${serviceValue.getCustomer().getId()}" required>
                 </label>
             </td>
             <td>
@@ -290,28 +290,28 @@
             <td>
             </td>
             <td>
+<!--                <label>-->
+<!--                    <input type="text" th:id="name" field="*{name}" th:name="name">-->
+<!--                </label>-->
+            </td>
+            <td>
+<!--                <label>-->
+<!--                    <input type="text" th:id="description" field="*{description}" th:name="description">-->
+<!--                </label>-->
+            </td>
+            <td>
+<!--                <label>-->
+<!--                    <input type="text" th:id="price" field="*{price}" th:name="price">-->
+<!--                </label>-->
+            </td>
+            <td>
                 <label>
-                    <input type="text" th:id="name" field="*{name}" th:name="name">
+                    <input type="text" th:id="templateId" field="*{templateId}" th:name="templateId" required>
                 </label>
             </td>
             <td>
                 <label>
-                    <input type="text" th:id="description" field="*{description}" th:name="description">
-                </label>
-            </td>
-            <td>
-                <label>
-                    <input type="text" th:id="price" field="*{price}" th:name="price">
-                </label>
-            </td>
-            <td>
-                <label>
-                    <input type="text" th:id="templateId" field="*{templateId}" th:name="templateId">
-                </label>
-            </td>
-            <td>
-                <label>
-                    <input type="text" th:id="customerId" field="*{customerId}" th:name="customerId">
+                    <input type="text" th:id="customerId" field="*{customerId}" th:name="customerId" required>
                 </label>
             </td>
             <td>

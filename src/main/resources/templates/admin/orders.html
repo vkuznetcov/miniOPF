@@ -196,7 +196,7 @@
             <td>
                 <label>
                     <input type="text" name="serviceId" th:id="serviceId"
-                           th:value="${orderValue.getService().getId()}">
+                           th:value="${orderValue.getService().getId()}" required>
                 </label>
             </td>
             <td>
@@ -231,12 +231,12 @@
             </td>
             <td>
                 <label>
-                    <input type="text" th:id="adminId" field="*{adminId}" th:name="adminId">
+                    <input type="text" th:id="adminId" field="*{adminId}" th:name="adminId" required>
                 </label>
             </td>
             <td>
                 <label>
-                    <input type="text" th:id="serviceId" field="*{serviceId}" th:name="serviceId">
+                    <input type="text" th:id="serviceId" field="*{serviceId}" th:name="serviceId" required>
                 </label>
             </td>
             <td>

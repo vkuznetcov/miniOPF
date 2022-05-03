@@ -215,35 +215,35 @@
                 <!--            <form th:method="POST" th:action="@{/admin/areas}" th:object="${area}">-->
                 <label>
                     <input type="text" th:name="name" th:id="name"
-                           th:value="${customerValue.getName()}">
+                           th:value="${customerValue.getName()}" required>
                 </label>
             </td>
             <td>
                 <!--            <form th:method="POST" th:action="@{/admin/areas}" th:object="${area}">-->
                 <label>
                     <input type="text" th:name="login" th:id="login"
-                           th:value="${customerValue.getLogin()}">
+                           th:value="${customerValue.getLogin()}" required>
                 </label>
             </td>
             <td>
                 <!--            <form th:method="POST" th:action="@{/admin/areas}" th:object="${area}">-->
                 <label>
                     <input type="text" th:name="password" th:id="password"
-                           th:value="${customerValue.getPassword()}">
+                           th:value="${customerValue.getPassword()}" required>
                 </label>
             </td>
             <td>
                 <!--            <form th:method="POST" th:action="@{/admin/areas}" th:object="${area}">-->
                 <label>
                     <input type="text" th:name="balance" th:id="balance"
-                           th:value="${customerValue.getBalance()}">
+                           th:value="${customerValue.getBalance()}" required>
                 </label>
             </td>
             <td>
                 <!--            <form th:method="POST" th:action="@{/admin/areas}" th:object="${area}">-->
                 <label>
                     <input type="text" th:name="areaId" th:id="areaId"
-                           th:value="${customerValue.getArea().getId}">
+                           th:value="${customerValue.getArea().getId}" required>
                 </label>
             </td>
             <td>
@@ -259,27 +259,27 @@
             </td>
             <td>
                 <label>
-                    <input type="text" th:id="name" field="*{name}" th:name="name">
+                    <input type="text" th:id="name" field="*{name}" th:name="name" required>
                 </label>
             </td>
             <td>
                 <label>
-                    <input type="text" th:id="login" field="*{login}" th:name="login">
+                    <input type="text" th:id="login" field="*{login}" th:name="login" required>
                 </label>
             </td>
             <td>
                 <label>
-                    <input type="text" th:id="password" field="*{password}" th:name="password">
+                    <input type="text" th:id="password" field="*{password}" th:name="password" required>
                 </label>
             </td>
             <td>
                 <label>
-                    <input type="text" th:id="balance" field="*{balance}" th:name="balance">
+                    <input type="text" th:id="balance" field="*{balance}" th:name="balance" required>
                 </label>
             </td>
             <td>
                 <label>
-                    <input type="text" th:id="areaId" field="*{areaId}" th:name="areaId">
+                    <input type="text" th:id="areaId" field="*{areaId}" th:name="areaId" required>
                 </label>
             </td>
             <td>

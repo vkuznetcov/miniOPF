@@ -968,10 +968,13 @@ public class ServiceRepo
         try
         {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO service VALUES((select max(service_id)+1 from service), ?, ?, ?, ?, ?, ?)");
-            preparedStatement.setString(1, service.getName());
-            preparedStatement.setString(2, service.getDescription());
-            preparedStatement.setDouble(3, service.getPrice());
+                    "INSERT INTO service VALUES((select max(service_id)+1 from service), " +
+                            "(select template_name from \"template\" where template_id = ?)," +
+                            " (select template_description from \"template\" where template_id = ?)," +
+                            " (select template_price from \"template\" where template_id = ?), ?, ?, ?)");
+            preparedStatement.setInt(1, service.getTemplate().getId());
+            preparedStatement.setInt(2, service.getTemplate().getId());
+            preparedStatement.setInt(3, service.getTemplate().getId());
             preparedStatement.setString(4, service.getStatus().toString());
             preparedStatement.setInt(5, service.getTemplate().getId());
             preparedStatement.setInt(6, service.getCustomer().getId());
@@ -990,10 +993,15 @@ public class ServiceRepo
         try
         {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "UPDATE service SET service_name=?, service_description=?, service_price=?, service_status=?, template_id=?, customer_id=? WHERE service_id=?");
-            preparedStatement.setString(1, service.getName());
-            preparedStatement.setString(2, service.getDescription());
-            preparedStatement.setDouble(3, service.getPrice());
+                    "UPDATE service SET service_name=(select template_name from \"template\" where template_id = ?)," +
+                            " service_description=(select template_description from \"template\" where template_id = ?)," +
+                            " service_price= (select template_price from \"template\" where template_id = ?)," +
+                            " service_status=?," +
+                            " template_id=?," +
+                            " customer_id=? WHERE service_id=?");
+            preparedStatement.setInt(1, service.getTemplate().getId());
+            preparedStatement.setInt(2, service.getTemplate().getId());
+            preparedStatement.setInt(3, service.getTemplate().getId());
             preparedStatement.setString(4, service.getStatus().toString());
             preparedStatement.setInt(5, service.getTemplate().getId());
             preparedStatement.setInt(6, service.getCustomer().getId());

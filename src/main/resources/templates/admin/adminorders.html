@@ -190,13 +190,13 @@
             <td>
                 <label>
                     <input type="text" name="adminId" th:id="adminId"
-                           th:value="${orderValue.getAdmin().getId()}">
+                           th:value="${orderValue.getAdmin().getId()}" required>
                 </label>
             </td>
             <td>
                 <label>
                     <input type="text" name="serviceId" th:id="serviceId"
-                           th:value="${orderValue.getService().getId()}">
+                           th:value="${orderValue.getService().getId()}" required>
                 </label>
             </td>
             <td>
