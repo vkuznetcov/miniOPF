@@ -190,25 +190,25 @@
             <td>
                 <label>
                     <input type="text" th:name="name" th:id="name"
-                           th:value="${templateValue.getName()}">
+                           th:value="${templateValue.getName()}" required>
                 </label>
             </td>
             <td>
                 <label>
                     <input type="text" th:name="description" th:id="description"
-                           th:value="${templateValue.getDescription()}">
+                           th:value="${templateValue.getDescription()}" required>
                 </label>
             </td>
             <td>
                 <label>
                     <input type="text" th:name="price" th:id="price"
-                           th:value="${templateValue.getPrice()}">
+                           th:value="${templateValue.getPrice()}" required>
                 </label>
             </td>
             <td>
                 <label>
                     <input type="text" name="areaId" th:id="areaId"
-                           th:value="${templateValue.getArea().getId()}">
+                           th:value="${templateValue.getArea().getId()}" required>
                 </label>
             </td>
             <td>
@@ -223,22 +223,22 @@
             </td>
             <td>
                 <label>
-                    <input type="text" th:id="name" field="*{name}" th:name="name">
+                    <input type="text" th:id="name" field="*{name}" th:name="name" required>
                 </label>
             </td>
             <td>
                 <label>
-                    <input type="text" th:id="description" field="*{description}" th:name="description">
+                    <input type="text" th:id="description" field="*{description}" th:name="description" required>
                 </label>
             </td>
             <td>
                 <label>
-                    <input type="text" th:id="price" field="*{price}" th:name="price">
+                    <input type="text" th:id="price" field="*{price}" th:name="price" required>
                 </label>
             </td>
             <td>
                 <label>
-                    <input type="text" th:id="areaId" field="*{areaId}" th:name="areaId">
+                    <input type="text" th:id="areaId" field="*{areaId}" th:name="areaId" required>
                 </label>
             </td>
             <td>

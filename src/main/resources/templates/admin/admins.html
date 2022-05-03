@@ -163,19 +163,19 @@
             <td>
                 <label>
                     <input type="text" th:name="name" th:id="name"
-                           th:value="${adminValue.getName()}">
+                           th:value="${adminValue.getName()}" required>
                 </label>
             </td>
             <td>
                 <label>
                     <input type="text" th:name="login" th:id="login"
-                           th:value="${adminValue.getLogin()}">
+                           th:value="${adminValue.getLogin()}" required>
                 </label>
             </td>
             <td>
                 <label>
                     <input type="text" th:name="password" th:id="password"
-                           th:value="${adminValue.getPassword()}">
+                           th:value="${adminValue.getPassword()}" required>
                 </label>
             </td>
             <td>
@@ -190,17 +190,17 @@
             </td>
             <td>
                 <label>
-                    <input type="text" th:id="name" field="*{name}" th:name="name">
+                    <input type="text" th:id="name" field="*{name}" th:name="name" required>
                 </label>
             </td>
             <td>
                 <label>
-                    <input type="text" th:id="login" field="*{login}" th:name="login">
+                    <input type="text" th:id="login" field="*{login}" th:name="login" required>
                 </label>
             </td>
             <td>
                 <label>
-                    <input type="text" th:id="password" field="*{password}" th:name="password">
+                    <input type="text" th:id="password" field="*{password}" th:name="password" required>
                 </label>
             </td>
             <td>

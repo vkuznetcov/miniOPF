@@ -138,14 +138,14 @@
                 <!--            <form th:method="POST" th:action="@{/admin/areas}" th:object="${area}">-->
                 <label>
                     <input type="text" th:name="name" th:id="name"
-                           th:value="${areaValue.getName()}">
+                           th:value="${areaValue.getName()}" required>
                 </label>
             </td>
             <td>
                 <!--            <form th:method="POST" th:action="@{/admin/areas}" th:object="${area}">-->
                 <label>
                     <input type="text" th:name="description" th:id="description"
-                           th:value="${areaValue.getDescription()}">
+                           th:value="${areaValue.getDescription()}" required>
                 </label>
             </td>
             <td>
@@ -161,12 +161,12 @@
             </td>
             <td>
                 <label>
-                    <input type="text" th:id="name" field="*{name}" th:name="name">
+                    <input type="text" th:id="name" field="*{name}" th:name="name" required>
                 </label>
             </td>
             <td>
                 <label>
-                    <input type="text" th:id="description" field="*{description}" th:name="description">
+                    <input type="text" th:id="description" field="*{description}" th:name="description" required>
                 </label>
             </td>
             <td>
