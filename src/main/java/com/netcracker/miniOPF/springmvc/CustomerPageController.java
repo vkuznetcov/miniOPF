@@ -84,16 +84,23 @@ public class CustomerPageController {
             (@RequestParam(value = FormParams.ID, required = false) Integer id, Model model){
         model.addAttribute("name", customerRepo.getCustomer(id).getName());
         model.addAttribute("balance",customerRepo.getCustomer(id).getBalance());
-        int size = serviceRepo.searchServicesByCustomerID(id).size();
         List<Pair<Integer,Service>> list = serviceRepo.searchServicesByCustomerID(id);
+        List <Service> servicelist = new ArrayList<>();
         List <Service> firstlist = new ArrayList<>();
         List <Service> secondlist = new ArrayList<>();
-        for(Pair<Integer,Service> serv: list.subList(0,list.size()/2) ){
-            firstlist.add(serv.getRightValue());
+        for(Pair<Integer,Service> serv: list ){
+            if (serv.getRightValue().getStatus() == ServiceStatus.ACTIVE ||serv.getRightValue().getStatus() == ServiceStatus.SUSPENDED)
+                servicelist.add(serv.getRightValue());
         }
-        for(Pair<Integer,Service> serv: list.subList(list.size()/2,list.size())){
-            secondlist.add(serv.getRightValue());
-        }
+        int size = servicelist.size();
+        if(size>0)
+                {   for(Service serv: servicelist.subList(0,size/2) ){
+            firstlist.add(serv);
+                 }
+                for(Service serv: servicelist.subList(size/2,size)){
+            secondlist.add(serv);
+                 }
+            }
         model.addAttribute("table1",firstlist);
         model.addAttribute("table2",secondlist);
         model.addAttribute("id", id);
