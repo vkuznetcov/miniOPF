@@ -223,6 +223,10 @@
                 <input type="submit" value="edit"/>
                 <input type="submit" th:formaction="@{/admin/myorders/delete}" value="delete"/>
             </td>
+            <td>
+                <input type="submit" th:formaction="@{/admin/orders/startmyorder}" value="start"/>
+                <input type="submit" th:formaction="@{/admin/orders/closemyorder}" value="close"/>
+            </td>
         </form>
     </tr>
 

@@ -4,13 +4,13 @@ import com.netcracker.miniOPF.model.order.Order;
 import com.netcracker.miniOPF.model.order.OrderImpl;
 import com.netcracker.miniOPF.model.order.enums.OrderAction;
 import com.netcracker.miniOPF.model.order.enums.OrderStatus;
+import com.netcracker.miniOPF.model.service.enums.ServiceStatus;
 import com.netcracker.miniOPF.utils.repos.AdminRepo;
 import com.netcracker.miniOPF.utils.repos.OrderRepo;
 import com.netcracker.miniOPF.utils.storageUtils.OrderUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
@@ -45,6 +45,7 @@ public class OrderService
         actions.add("CONNECT");
         actions.add("DISCONNECT");
         actions.add("RESUME");
+        actions.add("SUSPEND");
         model.addAttribute("actions", actions);
 
         List<String> statuses = new ArrayList<>();
@@ -157,7 +158,8 @@ public class OrderService
                               String serviceId,
                               String status,
                               String action,
-                              Model model){
+                              Model model)
+    {
         String errorMessage = "";
         StringBuilder stringBuilder = new StringBuilder(errorMessage);
         if (checkParams(adminId, serviceId, stringBuilder))
@@ -176,6 +178,71 @@ public class OrderService
         return this.showOrders(null, "none", null, model);
     }
 
+    private boolean checkStart(Order order, StringBuilder errorMessage, Model model){
+        boolean error = false;
+        if(order.getAdmin() == null){
+            error = true;
+            errorMessage.append("Error: order must be assigned before starting\n");
+        }
+        if (!order.getStatus().equals(OrderStatus.ENTERING))
+        {
+            error = true;
+            errorMessage.append("Error: order status must be \"ENTERING\" to start\n");
+        }
+        if(error){
+            errorMessage.append( "Error index: ").append(order.getId());
+        }
+        model.addAttribute("errorMessage", errorMessage.toString());
+
+        return error;
+    }
+
+    public String startOrder(Order order, Model model)
+    {
+        Order newOrder = orderRepo.getOrder(order.getId());
+        if(!checkStart(newOrder, new StringBuilder(""), model)){
+            newOrder.setStatus(OrderStatus.IN_PROGRESS);
+            this.updateOrderWithCheck(order.getId(), newOrder);
+        }
+        return this.showOrders(null, "none", null, model);
+    }
+
+    public boolean checkClose(Order order, StringBuilder errorMessage, Model model){
+        boolean error = false;
+        if(order.getAdmin() == null){
+            error = true;
+            errorMessage.append("Error: order must be assigned before starting\n");
+        }
+        if (!order.getStatus().equals(OrderStatus.IN_PROGRESS))
+        {
+            error = true;
+            errorMessage.append("Error: order status must be \"IN_PROGRESS\" to start\n");
+        }
+        if(error){
+            errorMessage.append( "Error index: ").append(order.getId());
+        }
+        model.addAttribute("errorMessage", errorMessage.toString());
+
+        return error;
+    }
+
+    public String closeOrder(Order order, Model model){
+        Order newOrder = orderRepo.getOrder(order.getId());
+        if(!checkClose(newOrder, new StringBuilder(""), model)) {
+            com.netcracker.miniOPF.model.service.Service service = orderRepo.getOrder(order.getId()).getService();
+            newOrder.setStatus(OrderStatus.COMPLETED);
+            switch (newOrder.getAction()){
+                case RESUME -> service.setStatus(ServiceStatus.ACTIVE);
+                case CONNECT -> service.setStatus(ServiceStatus.ACTIVE);
+                case SUSPEND -> service.setStatus(ServiceStatus.SUSPENDED);
+                case DISCONNECT -> service.setStatus(ServiceStatus.DISCONNECTED);
+            }
+            serviceService.updateService(service.getId(), service);
+            this.updateOrderWithCheck(newOrder.getId(), newOrder);
+        }
+        return this.showOrders(null, "none", null, model);
+    }
+
     public String showMyOrders(@RequestParam(value = AdminService.FormParams.TYPE, required = false) String type,
                                @RequestParam(value = AdminService.FormParams.SORT_ORDER, required = false) String sort,
                                @RequestParam(value = AdminService.FormParams.SEARCH_VALUE, required = false) String value,
@@ -186,6 +253,7 @@ public class OrderService
         actions.add("CONNECT");
         actions.add("DISCONNECT");
         actions.add("RESUME");
+        actions.add("SUSPEND");
         model.addAttribute("actions", actions);
 
         List<String> statuses = new ArrayList<>();
@@ -277,6 +345,33 @@ public class OrderService
             orderRepo.updateOrder(order.getId(), order);
         }
         return this.showMyOrders(null, "none", null, model, userID);
+    }
+
+    public String startMyOrder(Order order, Model model, int userId)
+    {
+        Order newOrder = orderRepo.getOrder(order.getId());
+        if(!checkStart(newOrder, new StringBuilder(""), model)){
+            newOrder.setStatus(OrderStatus.IN_PROGRESS);
+            this.updateOrderWithCheck(order.getId(), newOrder);
+        }
+        return this.showMyOrders(null, "none", null, model, userId);
+    }
+
+    public String closeMyOrder(Order order, Model model, int userId){
+        Order newOrder = orderRepo.getOrder(order.getId());
+        if(!checkClose(newOrder, new StringBuilder(""), model)) {
+            com.netcracker.miniOPF.model.service.Service service = orderRepo.getOrder(order.getId()).getService();
+            newOrder.setStatus(OrderStatus.COMPLETED);
+            switch (newOrder.getAction()){
+                case RESUME -> service.setStatus(ServiceStatus.ACTIVE);
+                case CONNECT -> service.setStatus(ServiceStatus.ACTIVE);
+                case SUSPEND -> service.setStatus(ServiceStatus.SUSPENDED);
+                case DISCONNECT -> service.setStatus(ServiceStatus.DISCONNECTED);
+            }
+            serviceService.updateService(service.getId(), service);
+            this.updateOrderWithCheck(newOrder.getId(), newOrder);
+        }
+        return this.showMyOrders(null, "none", null, model, userId);
     }
 
     public void suspendOrder(int id)
