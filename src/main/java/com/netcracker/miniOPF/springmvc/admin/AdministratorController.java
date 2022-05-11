@@ -232,6 +232,18 @@ public class AdministratorController
         return orderService.createOrder(order, adminId, serviceId, status, action, model);
     }
 
+    @PostMapping("/orders/startorder")
+    public String startOrder(@ModelAttribute("order") OrderImpl order,
+                             Model model){
+        return orderService.startOrder(order, model);
+    }
+
+    @PostMapping("/orders/closeorder")
+    public String closeOrder(@ModelAttribute("order") OrderImpl order,
+                             Model model){
+        return orderService.closeOrder(order, model);
+    }
+
 
     //TEMPLATE LOGIC
     @GetMapping("/templates")
@@ -293,6 +305,18 @@ public class AdministratorController
     {
         orderService.deleteOrder(order.getId());
         return "redirect:/admin/myorders?sort=none";
+    }
+
+    @PostMapping("/orders/startmyorder")
+    public String startMyOrder(@ModelAttribute("order") OrderImpl order,
+                             Model model){
+        return orderService.startMyOrder(order, model, userID);
+    }
+
+    @PostMapping("/orders/closemyorder")
+    public String closeMyOrder(@ModelAttribute("order") OrderImpl order,
+                             Model model){
+        return orderService.closeMyOrder(order, model, userID);
     }
 
 
