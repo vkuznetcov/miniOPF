@@ -71,11 +71,7 @@ public class CustomerPageController {
             if(template.getArea().getId() == customerRepo.getCustomer(id).getArea().getId())
             {listbyarea.add(template);}
         }
-        int size = listbyarea.size();
-        List<Template> firstlist = listbyarea.subList(0,size/2);
-        List<Template> secondlist = listbyarea.subList(size/2,size);
-        model.addAttribute("table1",firstlist);
-        model.addAttribute("table2",secondlist);
+        model.addAttribute("table",listbyarea);
         model.addAttribute("id", id);
         return "customer/avaibleservices";
     }
@@ -86,23 +82,11 @@ public class CustomerPageController {
         model.addAttribute("balance",customerRepo.getCustomer(id).getBalance());
         List<Pair<Integer,Service>> list = serviceRepo.searchServicesByCustomerID(id);
         List <Service> servicelist = new ArrayList<>();
-        List <Service> firstlist = new ArrayList<>();
-        List <Service> secondlist = new ArrayList<>();
         for(Pair<Integer,Service> serv: list ){
-            if (serv.getRightValue().getStatus() == ServiceStatus.ACTIVE ||serv.getRightValue().getStatus() == ServiceStatus.SUSPENDED)
+            if (serv.getRightValue().getStatus() != ServiceStatus.DISCONNECTED )
                 servicelist.add(serv.getRightValue());
         }
-        int size = servicelist.size();
-        if(size>0)
-                {   for(Service serv: servicelist.subList(0,size/2) ){
-            firstlist.add(serv);
-                 }
-                for(Service serv: servicelist.subList(size/2,size)){
-            secondlist.add(serv);
-                 }
-            }
-        model.addAttribute("table1",firstlist);
-        model.addAttribute("table2",secondlist);
+        model.addAttribute("table",servicelist);
         model.addAttribute("id", id);
         return "customer/activeservices";
     }

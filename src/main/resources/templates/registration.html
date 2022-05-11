@@ -4,22 +4,27 @@
 <head>
     <title>Registration page</title>
     <link rel="stylesheet" type="text/css" media="all"
-          href="../../static/css/background.css" th:href="@{/css/background.css}"/>
+          href="../../static/css/customertables.css" th:href="@{/css/customertables.css}"/>
 </head>
 <body>
-<table>
-    <tr>
-        <td style="height: 700px; vertical-align: center; text-align: center; width: 1500px">
-            <div><p th:text="${errorMessage}" style="color: #FF0000"></p></div>
+<div class="box">
+    <div> </div>
+    <div><p th:text="${errorMessage}" style="color: #FF0000"></p>
             <form th:action="@{/registration}" method="post" >
                 <div><label> Your Name : <input type="text" name="username" th:value="${username}"/> </label></div>
                 <div><label> Login : <input type="text" name="login" th:value="${login}"/> </label></div>
                 <div><label> Password: <input type="password" name="password"/> </label></div>
                 <div><label> Confirm password: <input type="password" name="passwordConfirm"/> </label></div>
+                <div><label> Area: <select name="area" id="area" required>
+                    <option data-th-each="area: ${areas}" th:value="${area}" th:text="${area}"
+                            th:selected="${area}">
+                    </option>
+                </select>
+                </label>
+                </div>
                 <div><input type="submit" value="Sign In"/></div>
             </form>
-        </td>
-    </tr>
-</table>
+    </div>
+</div>
 </body>
 </html>

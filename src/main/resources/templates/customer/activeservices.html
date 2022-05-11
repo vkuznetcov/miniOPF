@@ -8,16 +8,17 @@
 </head>
 <body>
 <header>
-    <ul class="setex">
-        <li>
+    <div class="setex">
+        <div>
             <a th:text="'Hello,' + ${name} + '!'"></a>
-        </li>
-        <li>
+        </div>
+        <div> </div>
+        <div>
             <a th:text="${balance}"> </a>
-            <a th:href="@{/settings(id= ${id})}"ё> Settings</a>
+            <a th:href="@{/settings(id= ${id})}"> Settings </a>
             <a th:href="@{/authorization}"> Exit</a>
-        </li>
-    </ul>
+        </div>
+    </div>
     <nav class="panel">
         <ul>
             <li>
@@ -30,31 +31,18 @@
         </ul>
     </nav>
 </header>
-<table>
-    <tr>
-        <td style="border: none" th:each="service : ${table1}">
-            <div><p th:text="${errorMessage}" style="color: #FF0000"></p></div>
+<div class="wrapper">
+    <div th:each="service : ${table}">
+                <p th:text="${errorMessage}" style="color: #FF0000"></p>
                 <p class="cell" th:utext="${service.getName()}">name</p>
-                <p  class="cell" th:utext="${service.getPrice()}">price</p >
-                <p  class="cell" th:utext="${service.getDescription()}">description</p>
+                <p class="cell" th:utext="${service.getPrice()}">price</p >
+                <p class="cell" th:utext="${service.getDescription()}">description</p>
+                <p class="cell" th:utext="${service.getStatus()}">status</p>
                 <form  th:action="@{/customer/activeservices(id=${id})}" method="post">
                     <input type="hidden" name="type" th:value="${service.getId()}"/>
                     <input type="submit" value="Disconnect"/>
                 </form >
-        </td>
-    </tr>
-    <tr>
-        <td style="border: none" th:each="service : ${table2}">
-            <div><p th:text="${errorMessage}" style="color: #FF0000"></p></div>
-                <p class="cell" th:utext="${service.getName()}">name</p>
-                <p  class="cell" th:utext="${service.getPrice()}">price</p >
-                <p  class="cell" th:utext="${service.getDescription()}">description</p>
-                <form  th:action="@{/customer/activeservices(id=${id})}" method="post">
-                    <input type="hidden" name="service" th:value="${service.getId()}"/>
-                    <input type="submit" value="Disconnect"/>
-                </form >
-        </td>
-    </tr>
-</table>
+    </div>
+</div>
 </body>
 </html>
