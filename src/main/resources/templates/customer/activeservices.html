@@ -39,7 +39,7 @@
                 <p class="cell" th:utext="${service.getDescription()}">description</p>
                 <p class="cell" th:utext="${service.getStatus()}">status</p>
                 <form  th:action="@{/customer/activeservices(id=${id})}" method="post">
-                    <input type="hidden" name="type" th:value="${service.getId()}"/>
+                    <input type="hidden" name="service" th:value="${service.getId()}"/>
                     <input type="submit" value="Disconnect"/>
                 </form >
     </div>

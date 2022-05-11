@@ -122,7 +122,7 @@ public class CustomerPageController {
         model.addAttribute("name", customerRepo.getCustomer(id).getName());
         model.addAttribute("balance",customerRepo.getCustomer(id).getBalance());
         model.addAttribute("id", id);
-        return "customer/avaibleservices";
+        return showAvaibleServices(id,model);
     }
     @PostMapping(value = "/activeservices")
     public String addActiveServices(@RequestParam(value = FormParams.ID, required = false) Integer id,
@@ -135,6 +135,6 @@ public class CustomerPageController {
         model.addAttribute("name", customerRepo.getCustomer(id).getName());
         model.addAttribute("balance",customerRepo.getCustomer(id).getBalance());
         model.addAttribute("id", id);
-        return "customer/activeservices";
+        return showActiveServices(id,model);
     }
 }
