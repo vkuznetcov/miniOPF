@@ -11,7 +11,7 @@
 <header>
     <ul class="setex">
         <li>
-            <a th:href="@{/admin/home}"> Settings</a>
+            <a th:href="@{/admin/settings(id=${id})}"> Settings</a>
         </li>
         <li>
             <a th:href="@{/authorization}"> Exit</a>
@@ -38,7 +38,7 @@
                 <a th:href="@{/admin/admins(id=${id}, sort='none')}">Admins</a>
             </li>
             <li>
-                <a th:href="@{/admin/templates(sort='none')}">Templates</a>
+                <a th:href="@{/admin/templates(id=${id}, sort='none')}">Templates</a>
             </li>
         </ul>
     </nav>

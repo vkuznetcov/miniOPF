@@ -1,18 +1,17 @@
 package com.netcracker.miniOPF.springmvc.services;
 
 import com.netcracker.miniOPF.model.admin.Admin;
-import com.netcracker.miniOPF.model.order.enums.OrderAction;
-import com.netcracker.miniOPF.model.order.enums.OrderStatus;
-import com.netcracker.miniOPF.model.service.enums.ServiceStatus;
-import com.netcracker.miniOPF.utils.repos.*;
-import com.netcracker.miniOPF.utils.storageUtils.OrderUtils;
+import com.netcracker.miniOPF.model.admin.AdminImpl;
+import com.netcracker.miniOPF.utils.repos.AdminRepo;
+import com.netcracker.miniOPF.utils.repos.OrderRepo;
+import com.netcracker.miniOPF.utils.repos.ServiceRepo;
+import com.netcracker.miniOPF.utils.repos.TemplateRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 @Service
@@ -22,15 +21,6 @@ public class AdminService
     OrderRepo orderRepo;
     ServiceRepo serviceRepo;
     TemplateRepo templateRepo;
-
-    public static class FormParams
-    {
-        public static final String TYPE = "type";
-        public static final String SORT_ORDER = "sort";
-        public static final String SEARCH_VALUE = "valueToSearch";
-        public static final String ID = "id";
-    }
-
 
     @Autowired
     public AdminService(AdminRepo adminController,
@@ -46,7 +36,8 @@ public class AdminService
 
     public String showAdmins(@RequestParam(value = AdminService.FormParams.TYPE, required = false) String type,
                              @RequestParam(value = AdminService.FormParams.SORT_ORDER, required = false) String sort,
-                             @RequestParam(value = AdminService.FormParams.SEARCH_VALUE, required = false) String value, Model model)
+                             @RequestParam(value = AdminService.FormParams.SEARCH_VALUE, required = false) String value,
+                             Model model)
     {
         if (Objects.nonNull(value))
         {
@@ -86,6 +77,34 @@ public class AdminService
         }
 
         return "admin/admins";
+    }
+
+    public String updateUser(Integer id, AdminImpl admin, Model model, String newPassword, String newPasswordConfirm)
+    {
+        StringBuilder errorMessage = new StringBuilder("");
+        Admin user = adminRepo.getAdmin(id);
+        model.addAttribute("self", user);
+        if(admin.getPassword().equals("")){
+            errorMessage.append("Enter password before confirmation");
+            model.addAttribute("errorMessage", errorMessage.toString());
+            return "/admin/settings";
+        }
+        if(!admin.getPassword().equals(user.getPassword())){
+            errorMessage.append("Enter valid password before confirmation");
+            model.addAttribute("errorMessage", errorMessage.toString());
+            return "/admin/settings";
+        }
+        if(!newPassword.equals(newPasswordConfirm)){
+            errorMessage.append("Confirm new password correctly");
+            model.addAttribute("errorMessage", errorMessage.toString());
+            return "/admin/settings";
+        }
+        user.setPassword(admin.getPassword());
+        user.setName(admin.getName());
+        user.setLogin(admin.getLogin());
+        adminRepo.updateAdmin(user.getId(), user);
+
+        return "/admin/settings";
     }
 
     public List<Admin> sortAdminsByID()
@@ -166,5 +185,15 @@ public class AdminService
     public void updateAdmin(int id, Admin admin)
     {
         adminRepo.updateAdmin(id, admin);
+    }
+
+    public static class FormParams
+    {
+        public static final String TYPE = "type";
+        public static final String SORT_ORDER = "sort";
+        public static final String SEARCH_VALUE = "valueToSearch";
+        public static final String ID = "id";
+        public static final String PASSWORD = "newPassword";
+        public static final String PASSWORD_CONFIRM = "newPasswordConfirm";
     }
 }
