@@ -389,18 +389,20 @@ public class AdministratorController
     public String settings(@RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
                            Model model)
     {
+        model.addAttribute("self", adminService.getAdmin(id));
         model.addAttribute("id", id);
-        return null;
+        return "/admin/settings";
     }
 
     @PostMapping("/settings")
     public String updateUser(@RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
                            @ModelAttribute("admin") AdminImpl admin,
+                           @RequestParam(value = AdminService.FormParams.PASSWORD) String newPassword,
+                           @RequestParam(value = AdminService.FormParams.PASSWORD_CONFIRM) String newPasswordConfirm,
                            Model model)
     {
         model.addAttribute("id", id);
-        adminService.updateAdmin(id, admin);
-        return null;
+        return adminService.updateUser(id, admin, model, newPassword, newPasswordConfirm);
     }
 
 

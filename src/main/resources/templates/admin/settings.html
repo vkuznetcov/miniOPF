@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+>
+<head>
+    <title>Registration page</title>
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../../static/css/admintables.css" th:href="@{/css/admintables.css}"/>
+    <style>
+        form {
+            position: fixed;
+            top: 40%;
+            left: 40%;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <ul class="setex">
+        <li>
+            <a th:href="@{/admin/settings(id=${id})}"> Settings</a>
+        </li>
+        <li>
+            <a th:href="@{/authorization}"> Exit</a>
+        </li>
+    </ul>
+    <nav class="panel">
+        <ul>
+            <li>
+                <a th:href="@{/admin/myorders(id=${id}, sort='none')}">My orders</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/customers(id=${id}, sort='none')}">Customers</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/services(id=${id}, sort='none')}">Services</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/areas(id=${id}, sort='none')}">Areas</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/orders(id=${id}, sort='none')}">Orders</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/admins(id=${id}, sort='none')}">Admins</a>
+            </li>
+            <li>
+                <a th:href="@{/admin/templates(id=${id}, sort='none')}">Templates</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<div class="box">
+    <div></div>
+    <div><p th:text="${errorMessage}" style="color: #FF0000"></p>
+        <form th:action="@{/admin/settings(id=${id})}" method="post" th:object="${admin}">
+            <input type="hidden" th:name="id" th:id="id" th:value="${self.id}">
+            <div><label>Your Name :
+                <input style="margin-left: 71px" type="text" th:name="name" th:id="name" th:value="${self.name}"/>
+            </label>
+            </div>
+
+            <div><label> Login : <input style="margin-left: 106px" type="text" th:name="login" th:id="login" th:value="${self.login}"/> </label>
+            </div>
+
+            <div><label> Old Password: <input style="margin-left: 59px" type="password" th:name="password" th:id="password"/> </label></div>
+            <br>
+            <div><label> New Password: <input style="margin-left: 53px" type="password" name="newPassword"/> </label></div>
+
+            <div><label> Confirm new password: <input type="password" name="newPasswordConfirm"/> </label></div>
+
+            <div><input type="submit" value="Sign In"/></div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
