@@ -103,6 +103,7 @@ public class CustomerPageController {
         service.setCustomer(customerRepo.getCustomer(id));
         Template template = templateRepo.getTemplate(templateid);
         service.setTemplate(template);
+        service.setCustomer(customer);
         service.setDescription(template.getDescription());
         service.setName(template.getName());
         service.setPrice(template.getPrice());
@@ -132,6 +133,10 @@ public class CustomerPageController {
         order.setService(serviceRepo.getService(serviceid).getRightValue());
         order.setStatus(OrderStatus.ENTERING);
         order.setAction(OrderAction.DISCONNECT);
+        Service service = serviceRepo.getService(serviceid).getRightValue();
+        service.setStatus(ServiceStatus.SUSPENDED);
+        service.setCustomer(customerRepo.getCustomer(id));
+        serviceRepo.updateService(serviceid,service);
         orderRepo.createOrder(order);
         model.addAttribute("name", customerRepo.getCustomer(id).getName());
         model.addAttribute("balance",customerRepo.getCustomer(id).getBalance());
