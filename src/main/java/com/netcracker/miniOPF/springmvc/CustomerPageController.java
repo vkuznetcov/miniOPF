@@ -1,6 +1,7 @@
 package com.netcracker.miniOPF.springmvc;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.netcracker.miniOPF.model.customer.Customer;
+import com.netcracker.miniOPF.model.customer.CustomerImpl;
 import com.netcracker.miniOPF.model.order.Order;
 import com.netcracker.miniOPF.model.order.OrderImpl;
 import com.netcracker.miniOPF.model.order.enums.OrderAction;
@@ -136,5 +137,16 @@ public class CustomerPageController {
         model.addAttribute("balance",customerRepo.getCustomer(id).getBalance());
         model.addAttribute("id", id);
         return showActiveServices(id,model);
+    }
+    @PostMapping(value = "/okno")
+    public String setNewBalance(@RequestParam(value = FormParams.ID, required = false) Integer id,
+                                @RequestParam(name = "balance") Double balance, Model model) {
+        Customer customer = customerRepo.getCustomer(id);
+        customer.setBalance(balance);
+        customerRepo.updateCustomer(id,customer);
+        model.addAttribute("name", customerRepo.getCustomer(id).getName());
+        model.addAttribute("balance",customerRepo.getCustomer(id).getBalance());
+        model.addAttribute("id", id);
+        return greeting(id,model);
     }
 }

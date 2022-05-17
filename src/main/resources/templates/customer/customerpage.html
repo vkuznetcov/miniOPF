@@ -14,9 +14,17 @@
         </div>
         <div> </div>
         <div>
-            <a th:text="${balance}"> </a>
+            <a th:text="${balance}" href="#okno"> </a>
             <a th:href="@{/settings(id= ${id})}"> Settings </a>
             <a th:href="@{/authorization}"> Exit</a>
+        </div>
+        <div> </div>
+        <div> </div>
+        <div href="#" id="okno">
+            <form th:action="@{/customer/okno(id=${id})}" method="post">
+                <div><label> New balance : <input type="text" name="balance" th:value="${balance}"/> </label></div>
+                <div><input type="submit" value="Accept"/></div>
+            </form>
         </div>
     </div>
     <nav class="panel">
