@@ -40,6 +40,7 @@ public class AuthorizationController
     {
         Customer customer = customerRepo.searchCustomerByLogin(login);
         Admin admin = adminRepo.searchAdminByLogin(login);
+        // TODO логины должны быть различные у всех пользователей, поменять логику в соответствии с этим
         if (customer == null && admin == null)
         {
             model.addAttribute("errorMessage", "There is no such user!");

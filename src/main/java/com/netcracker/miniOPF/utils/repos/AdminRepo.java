@@ -52,6 +52,10 @@ public class AdminRepo
         this.adminUtils = adminUtils;
     }
 
+    /* TODO Во всех методах, где создается сущность из resultSet эти строки одинаковые
+     *   нужно вынести эти строки в метод, который на вход принимает resultSet и возвращает
+     *   Admin. Это сильно сократит количество кода
+     */
     public List<Admin> sortAdminsByID()
     {
         List<Admin> admins = new ArrayList<>();
@@ -74,6 +78,8 @@ public class AdminRepo
                 admins.add(admin);
             }
         }
+        /* TODO Не очень хорошая практика отлавливать ексепшены без корректной обработки
+         *   нужно либо выше прокидывать ошибку с сообщением, либо решать проблему в catch блоке*/
         catch (SQLException e)
         {
             e.printStackTrace();
@@ -81,6 +87,7 @@ public class AdminRepo
 
         return admins;
     }
+
 
     public List<Admin> sortAdminsByIDReversed()
     {

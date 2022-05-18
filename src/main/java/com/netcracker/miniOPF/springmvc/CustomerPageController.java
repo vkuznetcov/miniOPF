@@ -67,6 +67,8 @@ public class CustomerPageController {
         model.addAttribute("balance",customerRepo.getCustomer(id).getBalance());
         List<Template> list = templateRepo.getTemplateValues();
         List<Template> listbyarea = new ArrayList<>();
+
+        // TODO вынести цикл в отдельный метод
         for(Template template: list)
         {
             if(template.getArea().getId() == customerRepo.getCustomer(id).getArea().getId())
@@ -81,8 +83,10 @@ public class CustomerPageController {
             (@RequestParam(value = FormParams.ID, required = false) Integer id, Model model){
         model.addAttribute("name", customerRepo.getCustomer(id).getName());
         model.addAttribute("balance",customerRepo.getCustomer(id).getBalance());
+        // TODO на Service уже есть кастомер. Pair выглядит как кастыль. Если нужен id кастомера лучше с сервиса брать
         List<Pair<Integer,Service>> list = serviceRepo.searchServicesByCustomerID(id);
         List <Service> servicelist = new ArrayList<>();
+
         for(Pair<Integer,Service> serv: list ){
             if (serv.getRightValue().getStatus() != ServiceStatus.DISCONNECTED )
                 servicelist.add(serv.getRightValue());
@@ -99,6 +103,7 @@ public class CustomerPageController {
         Customer customer = customerRepo.getCustomer(id);
         customer.setBalance(money);
         customerRepo.updateCustomer(id,customer);
+        // TODO вынести создание сервиса в фабрику сервисов, как и других сущностей
         Service service = new ServiceImpl();
         service.setCustomer(customerRepo.getCustomer(id));
         Template template = templateRepo.getTemplate(templateid);
@@ -109,6 +114,8 @@ public class CustomerPageController {
         service.setPrice(template.getPrice());
         service.setStatus(ServiceStatus.ENTERING);
         serviceRepo.createService(service);
+
+        // TODO убрать класс Pair возвращать просто список Service
         List<Pair<Integer,Service>> list = serviceRepo.searchServicesByCustomerID(id);
         for(Pair<Integer,Service> serv: list ){
                      if(serv.getRightValue().getName().equals(service.getName()) && serv.getRightValue().getStatus().equals(service.getStatus()))

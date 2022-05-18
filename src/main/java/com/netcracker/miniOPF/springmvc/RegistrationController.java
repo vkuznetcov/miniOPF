@@ -78,6 +78,9 @@ public class RegistrationController
             }
             else
             {
+                /* TODO у нас много таких мест, где создаются сущности, они повторяются нужно
+                    содать фабрики под создание сущностей. Почитать про паттерн фабрика
+                 */
                 Customer customer = new CustomerImpl();
                 customer.setName(name);
                 customer.setLogin(login);

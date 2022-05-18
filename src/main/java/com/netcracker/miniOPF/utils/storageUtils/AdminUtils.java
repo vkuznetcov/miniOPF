@@ -64,7 +64,7 @@ public class AdminUtils
 //            }
 //        }
 //        return list;
-
+        // TODO можно сделать короче values.stream().filter()
         for (Admin cur : values)
         {
             if (cur.getLogin().equals(login))

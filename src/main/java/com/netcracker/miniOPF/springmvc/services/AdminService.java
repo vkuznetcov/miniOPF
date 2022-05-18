@@ -39,6 +39,8 @@ public class AdminService
                              @RequestParam(value = AdminService.FormParams.SEARCH_VALUE, required = false) String value,
                              Model model)
     {
+        /* TODO добавить возможность одновременно сортировки и поиска. Можно через sql одновременно искать и сортировать
+        *   либо сначала искать через sql и потом уже сортить*/
         if (Objects.nonNull(value))
         {
             switch (type)
@@ -187,6 +189,7 @@ public class AdminService
         adminRepo.updateAdmin(id, admin);
     }
 
+    // TODO класс с константами нужно вынести в отдельный файл в interface
     public static class FormParams
     {
         public static final String TYPE = "type";

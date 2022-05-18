@@ -41,6 +41,7 @@ public class CustomerUtils
     {
         return values.stream().sorted((o1, o2) ->
                                       {
+                                          // TODO можно возвращать сразу o1.getBalance()-o2.getBalance
                                           if (o1.getBalance() - o2.getBalance() > 0)
                                           {
                                               return 1;

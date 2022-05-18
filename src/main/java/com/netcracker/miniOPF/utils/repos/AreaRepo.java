@@ -52,6 +52,10 @@ public class AreaRepo
         this.areaUtils = areaUtils;
     }
 
+    /* TODO Во всех методах, где создается сущность из resultSet эти строки одинаковые
+     *   нужно вынести эти строки в метод, который на вход принимает resultSet и возвращает
+     *   Area. Это сильно сократит количество кода
+     */
     public List<Area> sortAreasByID()
     {
         List<Area> areas = new ArrayList<>();
@@ -73,6 +77,8 @@ public class AreaRepo
                 areas.add(area);
             }
         }
+        /* TODO Не очень хорошая практика отлавливать ексепшены без корректной обработки
+         *   нужно либо выше прокидывать ошибку с сообщением, либо решать проблему в catch блоке*/
         catch (SQLException e)
         {
             e.printStackTrace();
@@ -81,6 +87,8 @@ public class AreaRepo
         return areas;
     }
 
+    /* TODO Вместо reversed методов добавить в обычный метод параметр в зависимости от которого
+     *   будет обратный порядок или прямой. Например можно добавлять DESC через тернарный оператор */
     public List<Area> sortAreasByIDReversed()
     {
         List<Area> areas = new ArrayList<>();

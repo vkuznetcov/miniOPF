@@ -49,6 +49,7 @@ public class TemplateUtils
     {
         return values.stream().sorted((o1, o2) ->
                                       {
+                                          // TODO можно возвращать сразу o1.getPrice() - o2.getPrice()
                                           if (o1.getPrice() - o2.getPrice() > 0)
                                           {
                                               return 1;

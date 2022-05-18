@@ -54,7 +54,7 @@ public class AreaUtils
 //            }
 //        }
 //        return list;
-
+// TODO можно сделать короче values.stream().filter()
         for (Area cur : values)
         {
             if (cur.getId() == id)

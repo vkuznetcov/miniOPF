@@ -25,6 +25,7 @@ public class OrderUtils
     public List<Order> sortOrdersByAdminID(List<Order> values)
     {
 //        return values.stream().sorted(Comparator.comparing(o -> o.getAdmin().getLogin())).toList();
+        // TODO можно заменить на лямбда выражение
         return values.stream().sorted(new Comparator<Order>()
         {
             @Override

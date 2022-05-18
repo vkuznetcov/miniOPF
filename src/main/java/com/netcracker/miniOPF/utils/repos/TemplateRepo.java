@@ -15,6 +15,7 @@ import java.util.List;
 public class TemplateRepo
 {
 
+    // TODO креденшиалы базы чаще всего разные, поэтому эти строки вынести в базу
     private static final String URL = "jdbc:postgresql://localhost:5432/miniOPF";
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "3961";
@@ -22,6 +23,8 @@ public class TemplateRepo
 
     static
     {
+        /* TODO получение коннекшена нужно вынести в отдельный класс
+        *   подумать про Connection Pool https://www.baeldung.com/java-connection-pooling */
         try
         {
             Class.forName("org.postgresql.Driver");
@@ -35,6 +38,8 @@ public class TemplateRepo
         {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         }
+        /* TODO Не очень хорошая практика отлавливать ексепшены без корректной обработки
+        *   нужно либо выше прокидывать ошибку с сообщением, либо решать проблему в catch блоке*/
         catch (SQLException e)
         {
             e.printStackTrace();
@@ -55,6 +60,10 @@ public class TemplateRepo
         this.templateUtils = templateUtils;
     }
 
+    /* TODO Во всех методах, где создается сущность из resultSet эти строки одинаковые
+     *   нужно вынести эти строки в метод, который на вход принимает resultSet и возвращает
+     *   Template. Это сильно сократит количество кода
+     */
     public List<Template> sortTemplatesByID()
     {
         List<Template> templates = new ArrayList<>();
@@ -85,6 +94,8 @@ public class TemplateRepo
         return templates;
     }
 
+    /* TODO Вместо reversed методов добавить в обычный метод параметр в зависимости от которого
+     *   будет обратный порядок или прямой. Например можно добавлять DESC через тернарный оператор */
     public List<Template> sortTemplatesByIDReversed()
     {
         List<Template> templates = new ArrayList<>();

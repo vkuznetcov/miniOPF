@@ -36,6 +36,8 @@ public class CustomerRepo
         {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         }
+        /* TODO Не очень хорошая практика отлавливать ексепшены без корректной обработки
+         *   нужно либо выше прокидывать ошибку с сообщением, либо решать проблему в catch блоке*/
         catch (SQLException e)
         {
             e.printStackTrace();
@@ -59,6 +61,10 @@ public class CustomerRepo
         this.customerUtils = customerUtils;
     }
 
+    /* TODO Во всех методах, где создается сущность из resultSet эти строки одинаковые
+    *   нужно вынести эти строки в метод, который на вход принимает resultSet и возвращает
+    *   Customer. Это сильно сократит количество кода
+    */
     public List<Customer> sortCustomersByLogin()
     {
         List<Customer> customers = new ArrayList<>();
@@ -102,6 +108,8 @@ public class CustomerRepo
         return customers;
     }
 
+    /* TODO Вместо reversed методов добавить в обычный метод параметр в зависимости от которого
+    *   будет обратный порядок или прямой. Например можно добавлять DESC через тернарный оператор */
     public List<Customer> sortCustomersByLoginReversed()
     {
         List<Customer> customers = new ArrayList<>();

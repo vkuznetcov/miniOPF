@@ -140,6 +140,10 @@ public class ServiceRepo
         }
     }
 
+    /* TODO Во всех методах, где создается сущность из resultSet эти строки одинаковые
+     *   нужно вынести эти строки в метод, который на вход принимает resultSet и возвращает
+     *   Service. Это сильно сократит количество кода
+     */
     public List<Pair<Integer, Service>> sortServicesByID()
     {
         List<Pair<Integer, Service>> services = new ArrayList<>();
@@ -169,6 +173,8 @@ public class ServiceRepo
                 services.add(pair);
             }
         }
+        /* TODO Не очень хорошая практика отлавливать ексепшены без корректной обработки
+         *   нужно либо выше прокидывать ошибку с сообщением, либо решать проблему в catch блоке*/
         catch (SQLException e)
         {
             e.printStackTrace();
@@ -177,10 +183,10 @@ public class ServiceRepo
         return services;
     }
 
+    /* TODO Вместо reversed методов добавить в обычный метод параметр в зависимости от которого
+     *   будет обратный порядок или прямой. Например можно добавлять DESC через тернарный оператор */
     public List<Pair<Integer,Service>> sortServicesByIDReversed()
     {
-
-
         List<Pair<Integer, Service>> services = new ArrayList<>();
 
         try

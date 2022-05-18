@@ -67,6 +67,10 @@ public class SettingsController {
             customer.setName(username);
             List<Service> customerlist = customerRepo.getCustomer(id).getServices();
             List<Service> list = new ArrayList<Service>();
+            /* TODO фильтрация содержит логику, поэтому нужно вынести в отдельный метод, лучше в Service классе
+            *   в этом куске делается три вещи - фильтрация сервисов, изменение статуса сервиса и update в базе
+            *   нужно разделить по методам эти процессы
+            */
             for(Service service : customerlist){
                 if(!service.getTemplate().getArea().getName().equals(userarea) && !service.getStatus().equals(ServiceStatus.DISCONNECTED))
                     {

@@ -38,6 +38,8 @@ public class OrderRepo
         {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         }
+        /* TODO Не очень хорошая практика отлавливать ексепшены без корректной обработки
+         *   нужно либо выше прокидывать ошибку с сообщением, либо решать проблему в catch блоке*/
         catch (SQLException e)
         {
             e.printStackTrace();
@@ -72,6 +74,10 @@ public class OrderRepo
         storage.getOrder(id).setAction(OrderAction.RESUME);
     }
 
+    /* TODO Во всех методах, где создается сущность из resultSet эти строки одинаковые
+     *   нужно вынести эти строки в метод, который на вход принимает resultSet и возвращает
+     *   Order. Это сильно сократит количество кода
+     */
     public List<Order> sortOrdersByID()
     {
         List<Order> orders = new ArrayList<>();
@@ -102,6 +108,8 @@ public class OrderRepo
         return orders;
     }
 
+    /* TODO Вместо reversed методов добавить в обычный метод параметр в зависимости от которого
+     *   будет обратный порядок или прямой. Например можно добавлять DESC через тернарный оператор */
     public List<Order> sortOrdersByIDReversed()
     {
         List<Order> orders = new ArrayList<>();
