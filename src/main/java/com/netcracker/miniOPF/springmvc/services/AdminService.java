@@ -195,7 +195,7 @@ public class AdminService
         public static final String TYPE = "type";
         public static final String SORT_ORDER = "sort";
         public static final String SEARCH_VALUE = "valueToSearch";
-        public static final String ID = "id";
+        public static final String ID = "userId";
         public static final String PASSWORD = "newPassword";
         public static final String PASSWORD_CONFIRM = "newPasswordConfirm";
     }

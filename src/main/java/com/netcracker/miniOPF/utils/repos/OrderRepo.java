@@ -569,7 +569,7 @@ public class OrderRepo
         try
         {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO \"order\" VALUES((select max(order_id)+1 from \"order\"), ?, ?, ?, ?)");
+                    "INSERT INTO \"order\" VALUES((select coalesce(max(order_id) + 1, 1) from \"order\"), ?, ?, ?, ?)");
             if(order.getAdmin() != null)
             {preparedStatement.setString(1, Integer.toString(order.getAdmin().getId()));}
             else preparedStatement.setNull(1, Types.INTEGER);

@@ -11,7 +11,7 @@
 <header>
     <ul class="setex">
         <li>
-            <a th:href="@{/admin/settings(id=${id})}"> Settings</a>
+            <a th:href="@{/admin/settings(userId=${userId})}"> Settings</a>
         </li>
         <li>
             <a th:href="@{/authorization}"> Exit</a>
@@ -20,25 +20,25 @@
     <nav class="panel">
         <ul>
             <li>
-                <a th:href="@{/admin/myorders(id=${id}, sort='none')}">My orders</a>
+                <a th:href="@{/admin/myorders(userId=${userId}, sort='none')}">My orders</a>
             </li>
             <li>
-                <a th:href="@{/admin/customers(id=${id}, sort='none')}">Customers</a>
+                <a th:href="@{/admin/customers(userId=${userId}, sort='none')}">Customers</a>
             </li>
             <li>
-                <a th:href="@{/admin/services(id=${id}, sort='none')}">Services</a>
+                <a th:href="@{/admin/services(userId=${userId}, sort='none')}">Services</a>
             </li>
             <li>
-                <a th:href="@{/admin/areas(id=${id}, sort='none')}">Areas</a>
+                <a th:href="@{/admin/areas(userId=${userId}, sort='none')}">Areas</a>
             </li>
             <li>
-                <a th:href="@{/admin/orders(id=${id}, sort='none')}">Orders</a>
+                <a th:href="@{/admin/orders(userId=${userId}, sort='none')}">Orders</a>
             </li>
             <li>
-                <a th:href="@{/admin/admins(id=${id}, sort='none')}">Admins</a>
+                <a th:href="@{/admin/admins(userId=${userId}, sort='none')}">Admins</a>
             </li>
             <li>
-                <a th:href="@{/admin/templates(id=${id}, sort='none')}">Templates</a>
+                <a th:href="@{/admin/templates(userId=${userId}, sort='none')}">Templates</a>
             </li>
         </ul>
     </nav>
@@ -50,8 +50,8 @@
             <form>
                 <label>
                     ID to search: <input type="text" name="valueToSearch"/>
-                    <input type="hidden" name="type" value="id"/>
-                    <input type="hidden" name="id" th:value="${id}"/>
+                    <input type="hidden" name="type" value="userId"/>
+                    <input type="hidden" name="userId" th:value="${userId}"/>
                     <input type="submit" value="Search"/>
                 </label>
             </form>
@@ -61,7 +61,7 @@
                 <label>
                     Admin ID to search: <input type="text" name="valueToSearch"/>
                     <input type="hidden" name="type" value="admin"/>
-                    <input type="hidden" name="id" th:value="${id}"/>
+                    <input type="hidden" name="userId" th:value="${userId}"/>
                     <input type="submit" value="Search"/>
                 </label>
             </form>
@@ -71,7 +71,7 @@
                 <label>
                     Service ID to search: <input type="text" name="valueToSearch"/>
                     <input type="hidden" name="type" value="service"/>
-                    <input type="hidden" name="id" th:value="${id}"/>
+                    <input type="hidden" name="userId" th:value="${userId}"/>
                     <input type="submit" value="Search"/>
                 </label>
             </form>
@@ -81,7 +81,7 @@
                 <label>
                     Status to search: <input type="text" name="valueToSearch"/>
                     <input type="hidden" name="type" value="status"/>
-                    <input type="hidden" name="id" th:value="${id}"/>
+                    <input type="hidden" name="userId" th:value="${userId}"/>
                     <input type="submit" value="Search"/>
                 </label>
             </form>
@@ -91,7 +91,7 @@
                 <label>
                     Action to search: <input type="text" name="valueToSearch"/>
                     <input type="hidden" name="type" value="action"/>
-                    <input type="hidden" name="id" th:value="${id}"/>
+                    <input type="hidden" name="userId" th:value="${userId}"/>
                     <input type="submit" value="Search"/>
                 </label>
             </form>
@@ -104,12 +104,12 @@
                     index
                 </li>
                 <li style="display: inline">
-                    <a th:href="@{/admin/orders(id=${id}, sort='asc', type='id')}">
+                    <a th:href="@{/admin/orders(userId=${userId}, sort='asc', type='userId')}">
                         <img src="../../static/images/arrowUp.png" th:src="@{/images/arrowUp.png}" alt="index"/>
                     </a>
                 </li>
                 <li style="display: inline">
-                    <a th:href="@{/admin/orders(id=${id}, sort='desc', type='id')}">
+                    <a th:href="@{/admin/orders(userId=${userId}, sort='desc', type='userId')}">
                         <img src="../../static/images/arrowDown.png" th:src="@{/images/arrowDown.png}" alt="index"/>
                     </a>
                 </li>
@@ -121,12 +121,12 @@
                     admin ID
                 </li>
                 <li style="display: inline">
-                    <a th:href="@{/admin/orders(id=${id}, sort='asc', type='admin')}">
+                    <a th:href="@{/admin/orders(userId=${userId}, sort='asc', type='admin')}">
                         <img src="../../static/images/arrowUp.png" th:src="@{/images/arrowUp.png}" alt="name"/>
                     </a>
                 </li>
                 <li style="display: inline">
-                    <a th:href="@{/admin/orders(id=${id}, sort='desc', type='admin')}">
+                    <a th:href="@{/admin/orders(userId=${userId}, sort='desc', type='admin')}">
                         <img src="../../static/images/arrowDown.png" th:src="@{/images/arrowDown.png}" alt="name"/>
                     </a>
                 </li>
@@ -138,12 +138,12 @@
                     service ID
                 </li>
                 <li style="display: inline">
-                    <a th:href="@{/admin/orders(id=${id}, sort='asc', type='service')}">
+                    <a th:href="@{/admin/orders(userId=${userId}, sort='asc', type='service')}">
                         <img src="../../static/images/arrowUp.png" th:src="@{/images/arrowUp.png}" alt="login"/>
                     </a>
                 </li>
                 <li style="display: inline">
-                    <a th:href="@{/admin/orders(id=${id}, sort='desc', type='service')}">
+                    <a th:href="@{/admin/orders(userId=${userId}, sort='desc', type='service')}">
                         <img src="../../static/images/arrowDown.png" th:src="@{/images/arrowDown.png}" alt="login"/>
                     </a>
                 </li>
@@ -155,12 +155,12 @@
                     status
                 </li>
                 <li style="display: inline">
-                    <a th:href="@{/admin/orders(id=${id}, sort='asc', type='status')}">
+                    <a th:href="@{/admin/orders(userId=${userId}, sort='asc', type='status')}">
                         <img src="../../static/images/arrowUp.png" th:src="@{/images/arrowUp.png}" alt="login"/>
                     </a>
                 </li>
                 <li style="display: inline">
-                    <a th:href="@{/admin/orders(id=${id}, sort='desc', type='status')}">
+                    <a th:href="@{/admin/orders(userId=${userId}, sort='desc', type='status')}">
                         <img src="../../static/images/arrowDown.png" th:src="@{/images/arrowDown.png}" alt="login"/>
                     </a>
                 </li>
@@ -172,12 +172,12 @@
                     action
                 </li>
                 <li style="display: inline">
-                    <a th:href="@{/admin/orders(id=${id}, sort='asc', type='action')}">
+                    <a th:href="@{/admin/orders(userId=${userId}, sort='asc', type='action')}">
                         <img src="../../static/images/arrowUp.png" th:src="@{/images/arrowUp.png}" alt="login"/>
                     </a>
                 </li>
                 <li style="display: inline">
-                    <a th:href="@{/admin/orders(id=${id}, sort='desc', type='action')}">
+                    <a th:href="@{/admin/orders(userId=${userId}, sort='desc', type='action')}">
                         <img src="../../static/images/arrowDown.png" th:src="@{/images/arrowDown.png}" alt="login"/>
                     </a>
                 </li>
@@ -185,7 +185,7 @@
         </td>
     </tr>
     <tr th:each="orderValue : ${table}">
-        <form th:method="POST" th:action="@{/admin/orders(id=${id})}" th:object="${order}">
+        <form th:method="POST" th:action="@{/admin/orders(userId=${userId})}" th:object="${order}">
             <td>
                 <label>
                     <input style="border: none" type="text" th:name="id" th:id="id" th:value="${orderValue.getId()}"
@@ -226,16 +226,16 @@
             </td>
             <td>
                 <input type="submit" value="edit"/>
-                <input type="submit" th:formaction="@{/admin/orders/delete(id=${id})}" value="delete"/>
+                <input type="submit" th:formaction="@{/admin/orders/delete(userId=${userId})}" value="delete"/>
             </td>
             <td>
-                <input type="submit" th:formaction="@{/admin/orders/startorder(id=${id})}" value="start"/>
-                <input type="submit" th:formaction="@{/admin/orders/closeorder(id=${id})}" value="close"/>
+                <input type="submit" th:formaction="@{/admin/orders/startorder(userId=${userId})}" value="start"/>
+                <input type="submit" th:formaction="@{/admin/orders/closeorder(userId=${userId})}" value="close"/>
             </td>
         </form>
     </tr>
     <tr>
-        <form th:method="POST" th:action="@{/admin/orders/create(id=${id})}" th:object="${order}">
+        <form th:method="POST" th:action="@{/admin/orders/create(userId=${userId})}" th:object="${order}">
             <td>
             </td>
             <td>

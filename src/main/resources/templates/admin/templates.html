@@ -11,7 +11,7 @@
 <header>
     <ul class="setex">
         <li>
-            <a th:href="@{/admin/settings(id=${id})}"> Settings</a>
+            <a th:href="@{/admin/settings(userId=${userId})}"> Settings</a>
         </li>
         <li>
             <a th:href="@{/authorization}"> Exit</a>
@@ -20,25 +20,25 @@
     <nav class="panel">
         <ul>
             <li>
-                <a th:href="@{/admin/myorders(id=${id}, sort='none')}">My orders</a>
+                <a th:href="@{/admin/myorders(userId=${userId}, sort='none')}">My orders</a>
             </li>
             <li>
-                <a th:href="@{/admin/customers(id=${id}, sort='none')}">Customers</a>
+                <a th:href="@{/admin/customers(userId=${userId}, sort='none')}">Customers</a>
             </li>
             <li>
-                <a th:href="@{/admin/services(id=${id}, sort='none')}">Services</a>
+                <a th:href="@{/admin/services(userId=${userId}, sort='none')}">Services</a>
             </li>
             <li>
-                <a th:href="@{/admin/areas(id=${id}, sort='none')}">Areas</a>
+                <a th:href="@{/admin/areas(userId=${userId}, sort='none')}">Areas</a>
             </li>
             <li>
-                <a th:href="@{/admin/orders(id=${id}, sort='none')}">Orders</a>
+                <a th:href="@{/admin/orders(userId=${userId}, sort='none')}">Orders</a>
             </li>
             <li>
-                <a th:href="@{/admin/admins(id=${id}, sort='none')}">Admins</a>
+                <a th:href="@{/admin/admins(userId=${userId}, sort='none')}">Admins</a>
             </li>
             <li>
-                <a th:href="@{/admin/templates(id=${id}, sort='none')}">Templates</a>
+                <a th:href="@{/admin/templates(userId=${userId}, sort='none')}">Templates</a>
             </li>
         </ul>
     </nav>
@@ -50,8 +50,8 @@
             <form>
                 <label>
                     ID to search: <input type="text" name="valueToSearch"/>
-                    <input type="hidden" name="type" value="id"/>
-                    <input type="hidden" name="id" th:value="${id}"/>
+                    <input type="hidden" name="type" value="userId"/>
+                    <input type="hidden" name="userId" th:value="${userId}"/>
                     <input type="submit" value="Search"/>
                 </label>
             </form>
@@ -61,7 +61,7 @@
                 <label>
                     Name to search: <input type="text" name="valueToSearch"/>
                     <input type="hidden" name="type" value="name"/>
-                    <input type="hidden" name="id" th:value="${id}"/>
+                    <input type="hidden" name="userId" th:value="${userId}"/>
                     <input type="submit" value="Search"/>
                 </label>
             </form>
@@ -71,7 +71,7 @@
                 <label>
                     Description to search: <input type="text" name="valueToSearch"/>
                     <input type="hidden" name="type" value="description"/>
-                    <input type="hidden" name="id" th:value="${id}"/>
+                    <input type="hidden" name="userId" th:value="${userId}"/>
                     <input type="submit" value="Search"/>
                 </label>
             </form>
@@ -81,7 +81,7 @@
                 <label>
                     Price to search: <input type="text" name="valueToSearch"/>
                     <input type="hidden" name="type" value="price"/>
-                    <input type="hidden" name="id" th:value="${id}"/>
+                    <input type="hidden" name="userId" th:value="${userId}"/>
                     <input type="submit" value="Search"/>
                 </label>
             </form>
@@ -91,7 +91,7 @@
                 <label>
                     Area ID to search: <input type="text" name="valueToSearch"/>
                     <input type="hidden" name="type" value="area"/>
-                    <input type="hidden" name="id" th:value="${id}"/>
+                    <input type="hidden" name="userId" th:value="${userId}"/>
                     <input type="submit" value="Search"/>
                 </label>
             </form>
@@ -104,12 +104,12 @@
                     index
                 </li>
                 <li style="display: inline">
-                    <a th:href="@{/admin/templates(id=${id}, sort='asc', type='id')}">
+                    <a th:href="@{/admin/templates(userId=${userId}, sort='asc', type='userId')}">
                         <img src="../../static/images/arrowUp.png" th:src="@{/images/arrowUp.png}" alt="index"/>
                     </a>
                 </li>
                 <li style="display: inline">
-                    <a th:href="@{/admin/templates(id=${id}, sort='desc', type='id')}">
+                    <a th:href="@{/admin/templates(userId=${userId}, sort='desc', type='userId')}">
                         <img src="../../static/images/arrowDown.png" th:src="@{/images/arrowDown.png}" alt="index"/>
                     </a>
                 </li>
@@ -121,12 +121,12 @@
                     name
                 </li>
                 <li style="display: inline">
-                    <a th:href="@{/admin/templates(id=${id}, sort='asc', type='name')}">
+                    <a th:href="@{/admin/templates(userId=${userId}, sort='asc', type='name')}">
                         <img src="../../static/images/arrowUp.png" th:src="@{/images/arrowUp.png}" alt="name"/>
                     </a>
                 </li>
                 <li style="display: inline">
-                    <a th:href="@{/admin/templates(id=${id}, sort='desc', type='name')}">
+                    <a th:href="@{/admin/templates(userId=${userId}, sort='desc', type='name')}">
                         <img src="../../static/images/arrowDown.png" th:src="@{/images/arrowDown.png}" alt="name"/>
                     </a>
                 </li>
@@ -138,12 +138,12 @@
                     description
                 </li>
                 <li style="display: inline">
-                    <a th:href="@{/admin/templates(id=${id}, sort='asc', type='description')}">
+                    <a th:href="@{/admin/templates(userId=${userId}, sort='asc', type='description')}">
                         <img src="../../static/images/arrowUp.png" th:src="@{/images/arrowUp.png}" alt="login"/>
                     </a>
                 </li>
                 <li style="display: inline">
-                    <a th:href="@{/admin/templates(id=${id}, sort='desc', type='description')}">
+                    <a th:href="@{/admin/templates(userId=${userId}, sort='desc', type='description')}">
                         <img src="../../static/images/arrowDown.png" th:src="@{/images/arrowDown.png}" alt="login"/>
                     </a>
                 </li>
@@ -155,12 +155,12 @@
                     price
                 </li>
                 <li style="display: inline">
-                    <a th:href="@{/admin/templates(id=${id}, sort='asc', type='price')}">
+                    <a th:href="@{/admin/templates(userId=${userId}, sort='asc', type='price')}">
                         <img src="../../static/images/arrowUp.png" th:src="@{/images/arrowUp.png}" alt="login"/>
                     </a>
                 </li>
                 <li style="display: inline">
-                    <a th:href="@{/admin/templates(id=${id}, sort='desc', type='price')}">
+                    <a th:href="@{/admin/templates(userId=${userId}, sort='desc', type='price')}">
                         <img src="../../static/images/arrowDown.png" th:src="@{/images/arrowDown.png}" alt="login"/>
                     </a>
                 </li>
@@ -172,12 +172,12 @@
                     area id
                 </li>
                 <li style="display: inline">
-                    <a th:href="@{/admin/templates(id=${id}, sort='asc', type='area')}">
+                    <a th:href="@{/admin/templates(userId=${userId}, sort='asc', type='area')}">
                         <img src="../../static/images/arrowUp.png" th:src="@{/images/arrowUp.png}" alt="login"/>
                     </a>
                 </li>
                 <li style="display: inline">
-                    <a th:href="@{/admin/templates(id=${id}, sort='desc', type='area')}">
+                    <a th:href="@{/admin/templates(userId=${userId}, sort='desc', type='area')}">
                         <img src="../../static/images/arrowDown.png" th:src="@{/images/arrowDown.png}" alt="login"/>
                     </a>
                 </li>
@@ -185,7 +185,7 @@
         </td>
     </tr>
     <tr th:each="templateValue : ${table}">
-        <form th:method="POST" th:action="@{/admin/templates(id=${id})}" th:object="${template}">
+        <form th:method="POST" th:action="@{/admin/templates(userId=${userId})}" th:object="${template}">
             <td>
                 <label>
                     <input style="border: none" type="text" th:name="id" th:id="id" th:value="${templateValue.getId()}"
@@ -218,12 +218,12 @@
             </td>
             <td>
                 <input type="submit" value="edit"/>
-                <input type="submit" th:formaction="@{/admin/templates/delete(id=${id})}" value="delete"/>
+                <input type="submit" th:formaction="@{/admin/templates/delete(userId=${userId})}" value="delete"/>
             </td>
         </form>
     </tr>
     <tr>
-        <form th:method="POST" th:action="@{/admin/templates/create(id=${id})}" th:object="${template}">
+        <form th:method="POST" th:action="@{/admin/templates/create(userId=${userId})}" th:object="${template}">
             <td>
             </td>
             <td>

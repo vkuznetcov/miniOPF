@@ -100,11 +100,7 @@ public class ServiceService
         return "admin/services";
     }
 
-    private boolean checkService(ServiceImpl service,
-                                 String customerId,
-                                 String templateId,
-                                 String status,
-                                 StringBuilder errorMessage)
+    private boolean checkService(String customerId, String templateId, StringBuilder errorMessage)
     {
         boolean error = false;
         if (customerRepo.getCustomer(Integer.parseInt(customerId)) == null)
@@ -124,7 +120,7 @@ public class ServiceService
     {
         String errorMessage = "";
         StringBuilder stringBuilder = new StringBuilder(errorMessage);
-        if (checkService(service, customerId, templateId, status, stringBuilder))
+        if (checkService(customerId, templateId, stringBuilder))
         {
             stringBuilder.append("Error index: ").append(service.getId());
             model.addAttribute("errorMessage", stringBuilder.toString());
@@ -143,7 +139,7 @@ public class ServiceService
     {
         String errorMessage = "";
         StringBuilder stringBuilder = new StringBuilder(errorMessage);
-        if (checkService(service, customerId, templateId, status, stringBuilder))
+        if (checkService(customerId, templateId, stringBuilder))
         {
             stringBuilder.append("Error index: new object creation");
             model.addAttribute("errorMessage", stringBuilder.toString());
