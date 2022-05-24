@@ -568,7 +568,6 @@ public class OrderRepo
     {
         try
         {
-            var result = this.getOrderValues();
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO \"order\" VALUES((select coalesce(max(order_id) + 1, 1) from \"order\"), ?, ?, ?, ?)");
             if(order.getAdmin() != null)
