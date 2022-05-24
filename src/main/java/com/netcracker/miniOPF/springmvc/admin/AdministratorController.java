@@ -46,43 +46,43 @@ public class AdministratorController
     public String showCustomers(@RequestParam(value = AdminService.FormParams.TYPE, required = false) String type,
                                 @RequestParam(value = AdminService.FormParams.SORT_ORDER, required = false) String sort,
                                 @RequestParam(value = AdminService.FormParams.SEARCH_VALUE, required = false) String value,
-                                @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+                                @RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                                 Model model)
     {
-        model.addAttribute("id", id);
+        model.addAttribute("userId", userId);
         return customerService.showCustomers(type, sort, value, model);
     }
 
     @PostMapping("/customers")
     public String updateCustomers(@ModelAttribute("customer") CustomerImpl customer,
                                   @RequestParam(name = "areaId") String areaId,
-                                  @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+                                  @RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                                   Model model)
     {
-        model.addAttribute("id", id);
+        model.addAttribute("userId", userId);
         customerService.updateCustomer(customer, areaId, model);
-        return "redirect:/admin/customers?sort=none";
+        return customerService.showCustomers(null, "none", null, model);
     }
 
     @PostMapping("/customers/delete")
     public String deleteCustomer(@ModelAttribute("customer") CustomerImpl customer,
-                                 @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+                                 @RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                                  Model model)
     {
-        model.addAttribute("id", id);
+        model.addAttribute("userId", userId);
         customerService.deleteCustomer(customer.getId());
-        return "redirect:/admin/customers?sort=none";
+        return customerService.showCustomers(null, "none", null, model);
     }
 
     @PostMapping("/customers/create")
     public String createCustomer(@ModelAttribute("customer") CustomerImpl customer,
                                  @RequestParam(name = "areaId") String areaId,
-                                 @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+                                 @RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                                  Model model)
     {
-        model.addAttribute("id", id);
+        model.addAttribute("userId", userId);
         customerService.createCustomer(customer, areaId, model);
-        return "redirect:/admin/customers?sort=none";
+        return customerService.showCustomers(null, "none", null, model);
     }
 
 
@@ -91,41 +91,41 @@ public class AdministratorController
     public String showAdmins(@RequestParam(value = AdminService.FormParams.TYPE, required = false) String type,
                              @RequestParam(value = AdminService.FormParams.SORT_ORDER, required = false) String sort,
                              @RequestParam(value = AdminService.FormParams.SEARCH_VALUE, required = false) String value,
-                             @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+                             @RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                              Model model)
     {
-        model.addAttribute("id", id);
+        model.addAttribute("userId", userId);
         return adminService.showAdmins(type, sort, value, model);
     }
 
     @PostMapping("/admins")
     public String updateAdmins(@ModelAttribute("admin") AdminImpl admin,
-                               @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+                               @RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                                Model model)
     {
-        model.addAttribute("id", id);
+        model.addAttribute("userId", userId);
         adminService.updateAdmin(admin.getId(), admin);
-        return "redirect:/admin/admins?sort=none";
+        return adminService.showAdmins(null, "none", null, model);
     }
 
     @PostMapping("/admins/delete")
     public String deleteAdmin(@ModelAttribute("admin") AdminImpl admin,
-                              @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+                              @RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                               Model model)
     {
-        model.addAttribute("id", id);
+        model.addAttribute("userId", userId);
         adminService.deleteAdmin(admin.getId());
-        return "redirect:/admin/admins?sort=none";
+        return adminService.showAdmins(null, "none", null, model);
     }
 
     @PostMapping("/admins/create")
     public String createAdmin(@ModelAttribute("admin") AdminImpl admin,
-                              @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+                              @RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                               Model model)
     {
-        model.addAttribute("id", id);
+        model.addAttribute("userId", userId);
         adminService.createAdmin(admin);
-        return "redirect:/admin/admins?sort=none";
+        return adminService.showAdmins(null, "none", null, model);
     }
 
 
@@ -134,44 +134,43 @@ public class AdministratorController
     public String showAreas(@RequestParam(value = AdminService.FormParams.TYPE, required = false) String type,
                             @RequestParam(value = AdminService.FormParams.SORT_ORDER, required = false) String sort,
                             @RequestParam(value = AdminService.FormParams.SEARCH_VALUE, required = false) String value,
-                            @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+                            @RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                             Model model)
     {
         Area area = new AreaImpl();
-        model.addAttribute("id", id);
+        model.addAttribute("userId", userId);
         model.addAttribute("area", area);
         return areaService.showAreas(type, sort, value, model);
     }
 
     @PostMapping("/areas")
     public String updateAreas(@ModelAttribute("area") AreaImpl area,
-                              @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+                              @RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                               Model model)
     {
-        model.addAttribute("id", id);
+        model.addAttribute("userId", userId);
         areaService.updateArea(area.getId(), area);
-        return "redirect:/admin/areas?sort=none";
+        return areaService.showAreas(null, "none", null, model);
     }
 
     @PostMapping("/areas/delete")
     public String deleteArea(@ModelAttribute("area") AreaImpl area,
-                             @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+                             @RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                              Model model)
     {
-        model.addAttribute("id", id);
+        model.addAttribute("userId", userId);
         areaService.deleteArea(area.getId());
-        return "redirect:/admin/areas?sort=none";
+        return areaService.showAreas(null, "none", null, model);
     }
 
     @PostMapping("/areas/create")
     public String createArea(@ModelAttribute("area") AreaImpl area,
-                             @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+                             @RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                              Model model)
     {
-        model.addAttribute("id", id);
+        model.addAttribute("userId", userId);
         areaService.createArea(area);
-        return "redirect:/admin/areas?sort=none";
-    }
+        return areaService.showAreas(null, "none", null, model);    }
 
 
     //SERVICE LOGIC
@@ -179,10 +178,10 @@ public class AdministratorController
     public String showServices(@RequestParam(value = AdminService.FormParams.TYPE, required = false) String type,
                                @RequestParam(value = AdminService.FormParams.SORT_ORDER, required = false) String sort,
                                @RequestParam(value = AdminService.FormParams.SEARCH_VALUE, required = false) String value,
-                               @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+                               @RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                                Model model)
     {
-        model.addAttribute("id", id);
+        model.addAttribute("userId", userId);
         return serviceService.showServices(type, sort, value, model);
     }
 
@@ -191,19 +190,19 @@ public class AdministratorController
                                  @RequestParam(name = "customerId") String customerId,
                                  @RequestParam(name = "templateId") String templateId,
                                  @RequestParam(name = "status") String status,
-                                 @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+                                 @RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                                  Model model)
     {
-        model.addAttribute("id", id);
+        model.addAttribute("userId", userId);
         return serviceService.updateServices(service, customerId, templateId, status, model);
     }
 
     @PostMapping("/services/delete")
     public String deleteService(@ModelAttribute("area") ServiceImpl service,
-                                @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+                                @RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                                 Model model)
     {
-        model.addAttribute("id", id);
+        model.addAttribute("userId", userId);
         serviceService.deleteService(service.getId());
         return "redirect:/admin/services?sort=none";
     }
@@ -213,10 +212,10 @@ public class AdministratorController
                                 @RequestParam(name = "customerId") String customerId,
                                 @RequestParam(name = "templateId") String templateId,
                                 @RequestParam(name = "status") String status,
-                                @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+                                @RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                                 Model model)
     {
-        model.addAttribute("id", id);
+        model.addAttribute("userId", userId);
         return serviceService.createService(service, customerId, templateId, status, model);
     }
 
@@ -226,10 +225,10 @@ public class AdministratorController
     public String showOrders(@RequestParam(value = AdminService.FormParams.TYPE, required = false) String type,
                              @RequestParam(value = AdminService.FormParams.SORT_ORDER, required = false) String sort,
                              @RequestParam(value = AdminService.FormParams.SEARCH_VALUE, required = false) String value,
-                             @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+                             @RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                              Model model)
     {
-        model.addAttribute("id", id);
+        model.addAttribute("userId", userId);
         return orderService.showOrders(type, sort, value, model);
     }
 
@@ -239,19 +238,19 @@ public class AdministratorController
                                @RequestParam(name = "serviceId") String serviceId,
                                @RequestParam(name = "status") String status,
                                @RequestParam(name = "action") String action,
-                               @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+                               @RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                                Model model)
     {
-        model.addAttribute("id", id);
+        model.addAttribute("userId", userId);
         return orderService.updateOrders(order, adminId, serviceId, status, action, model);
     }
 
     @PostMapping("/orders/delete")
     public String deleteOrder(@ModelAttribute("order") OrderImpl order,
-                              @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+                              @RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                               Model model)
     {
-        model.addAttribute("id", id);
+        model.addAttribute("userId", userId);
         orderService.deleteOrder(order.getId());
         return "redirect:/admin/orders?sort=none";
     }
@@ -262,28 +261,28 @@ public class AdministratorController
                               @RequestParam(name = "serviceId") String serviceId,
                               @RequestParam(name = "status") String status,
                               @RequestParam(name = "action") String action,
-                              @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+                              @RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                               Model model)
     {
-        model.addAttribute("id", id);
+        model.addAttribute("userId", userId);
         return orderService.createOrder(order, adminId, serviceId, status, action, model);
     }
 
     @PostMapping("/orders/startorder")
     public String startOrder(@ModelAttribute("order") OrderImpl order,
-                             @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+                             @RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                              Model model)
     {
-        model.addAttribute("id", id);
+        model.addAttribute("userId", userId);
         return orderService.startOrder(order, model);
     }
 
     @PostMapping("/orders/closeorder")
     public String closeOrder(@ModelAttribute("order") OrderImpl order,
-                             @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+                             @RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                              Model model)
     {
-        model.addAttribute("id", id);
+        model.addAttribute("userId", userId);
         return orderService.closeOrder(order, model);
     }
 
@@ -293,29 +292,29 @@ public class AdministratorController
     public String showTemplates(@RequestParam(value = AdminService.FormParams.TYPE, required = false) String type,
                                 @RequestParam(value = AdminService.FormParams.SORT_ORDER, required = false) String sort,
                                 @RequestParam(value = AdminService.FormParams.SEARCH_VALUE, required = false) String value,
-                                @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+                                @RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                                 Model model)
     {
-        model.addAttribute("id", id);
+        model.addAttribute("userId", userId);
         return templateService.showTemplates(type, sort, value, model);
     }
 
     @PostMapping("/templates")
     public String updateTemplates(@ModelAttribute("template") TemplateImpl template,
                                   @RequestParam(name = "areaId") String areaId,
-                                  @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+                                  @RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                                   Model model)
     {
-        model.addAttribute("id", id);
+        model.addAttribute("userId", userId);
         return templateService.updateTemplates(template, areaId, model);
     }
 
     @PostMapping("/templates/delete")
     public String deleteTemplate(@ModelAttribute("template") TemplateImpl template,
-                                 @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+                                 @RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                                  Model model)
     {
-        model.addAttribute("id", id);
+        model.addAttribute("userId", userId);
         templateService.deleteTemplate(template.getId());
         return "redirect:/admin/templates?sort=none";
     }
@@ -323,10 +322,10 @@ public class AdministratorController
     @PostMapping("/templates/create")
     public String createTemplate(@ModelAttribute("template") TemplateImpl template,
                                  @RequestParam(name = "areaId") String areaId,
-                                 @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+                                 @RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                                  Model model)
     {
-        model.addAttribute("id", id);
+        model.addAttribute("userId", userId);
         return templateService.createTemplate(template, areaId, model);
     }
 
@@ -336,11 +335,11 @@ public class AdministratorController
     String showMyOrders(@RequestParam(value = AdminService.FormParams.TYPE, required = false) String type,
                         @RequestParam(value = AdminService.FormParams.SORT_ORDER, required = false) String sort,
                         @RequestParam(value = AdminService.FormParams.SEARCH_VALUE, required = false) String value,
-                        @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+                        @RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                         Model model)
     {
-        model.addAttribute("id", id);
-        return orderService.showMyOrders(type, sort, value, model, id);
+        model.addAttribute("userId", userId);
+        return orderService.showMyOrders(type, sort, value, model, userId);
     }
 
     @PostMapping("/myorders")
@@ -349,60 +348,60 @@ public class AdministratorController
                                  @RequestParam(name = "serviceId") String serviceId,
                                  @RequestParam(name = "status") String status,
                                  @RequestParam(name = "action") String action,
-                                 @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+                                 @RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                                  Model model)
     {
-        model.addAttribute("id", id);
-        return orderService.updateMyOrders(order, adminId, serviceId, status, action, model, id);
+        model.addAttribute("userId", userId);
+        return orderService.updateMyOrders(order, adminId, serviceId, status, action, model, userId);
     }
 
     @PostMapping("/myorders/delete")
     public String deleteMyOrder(@ModelAttribute("order") OrderImpl order,
-                                @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+                                @RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                                 Model model)
     {
-        model.addAttribute("id", id);
+        model.addAttribute("userId", userId);
         orderService.deleteOrder(order.getId());
         return "redirect:/admin/myorders?sort=none";
     }
 
     @PostMapping("/orders/startmyorder")
     public String startMyOrder(@ModelAttribute("order") OrderImpl order,
-                               @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+                               @RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                                Model model)
     {
-        model.addAttribute("id", id);
-        return orderService.startMyOrder(order, model, id);
+        model.addAttribute("userId", userId);
+        return orderService.startMyOrder(order, model, userId);
     }
 
     @PostMapping("/orders/closemyorder")
     public String closeMyOrder(@ModelAttribute("order") OrderImpl order,
-                               @RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+                               @RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                                Model model)
     {
-        model.addAttribute("id", id);
-        return orderService.closeMyOrder(order, model, id);
+        model.addAttribute("userId", userId);
+        return orderService.closeMyOrder(order, model, userId);
     }
 
     //SETTINGS LOGIC
     @GetMapping("/settings")
-    public String settings(@RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+    public String settings(@RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                            Model model)
     {
-        model.addAttribute("self", adminService.getAdmin(id));
-        model.addAttribute("id", id);
+        model.addAttribute("self", adminService.getAdmin(userId));
+        model.addAttribute("userId", userId);
         return "/admin/settings";
     }
 
     @PostMapping("/settings")
-    public String updateUser(@RequestParam(value = AdminService.FormParams.ID, required = false) Integer id,
+    public String updateUser(@RequestParam(value = AdminService.FormParams.ID, required = false) Integer userId,
                            @ModelAttribute("admin") AdminImpl admin,
                            @RequestParam(value = AdminService.FormParams.PASSWORD) String newPassword,
                            @RequestParam(value = AdminService.FormParams.PASSWORD_CONFIRM) String newPasswordConfirm,
                            Model model)
     {
-        model.addAttribute("id", id);
-        return adminService.updateUser(id, admin, model, newPassword, newPasswordConfirm);
+        model.addAttribute("userId", userId);
+        return adminService.updateUser(userId, admin, model, newPassword, newPasswordConfirm);
     }
 
 

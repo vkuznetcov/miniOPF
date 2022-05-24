@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
+import java.util.Objects;
+
 @JsonTypeName("admin")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AdminImpl implements Admin
@@ -73,5 +75,27 @@ public class AdminImpl implements Admin
     public int compareTo(Admin o)
     {
         return this.getLogin().compareTo(o.getLogin());
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+        AdminImpl admin = (AdminImpl) o;
+        return id == admin.id && Objects.equals(password, admin.password) &&
+                Objects.equals(name, admin.name) && Objects.equals(login, admin.login);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(password, name, login, id);
     }
 }
