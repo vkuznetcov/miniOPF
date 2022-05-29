@@ -95,6 +95,7 @@ public class AdminRepo
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM admin WHERE admin_login=?");
         preparedStatement.setString(1, login);
         ResultSet resultSet = preparedStatement.executeQuery();
+        //TODO реализовать получение через stream
         return this.extractAdminsResultSet(resultSet).get(0);
     }
 
@@ -120,6 +121,7 @@ public class AdminRepo
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM admin WHERE admin_id=?");
         preparedStatement.setInt(1, id);
         ResultSet resultSet = preparedStatement.executeQuery();
+        //TODO реализовать получение через stream
         return this.extractAdminsResultSet(resultSet).get(0);
     }
 

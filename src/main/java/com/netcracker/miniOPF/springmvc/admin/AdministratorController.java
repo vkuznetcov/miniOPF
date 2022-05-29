@@ -62,8 +62,7 @@ public class AdministratorController
                                   Model model)
     {
         model.addAttribute("userId", userId);
-        customerService.updateCustomer(customer, areaId, model);
-        return customerService.showCustomers(null, "none", null, model);
+        return customerService.updateCustomer(customer, areaId, model);
     }
 
     @PostMapping("/customers/delete")
@@ -83,8 +82,7 @@ public class AdministratorController
                                  Model model)
     {
         model.addAttribute("userId", userId);
-        customerService.createCustomer(customer, areaId, model);
-        return customerService.showCustomers(null, "none", null, model);
+        return customerService.createCustomer(customer, areaId, model);
     }
 
 
@@ -175,7 +173,15 @@ public class AdministratorController
                               Model model)
     {
         model.addAttribute("userId", userId);
-        areaService.updateArea(area.getId(), area);
+        try
+        {
+            areaService.updateArea(area.getId(), area);
+        }
+        catch (SQLException e)
+        {
+            model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
+            e.printStackTrace();
+        }
         return areaService.showAreas(null, "none", null, model);
     }
 
@@ -185,7 +191,15 @@ public class AdministratorController
                              Model model)
     {
         model.addAttribute("userId", userId);
-        areaService.deleteArea(area.getId());
+        try
+        {
+            areaService.deleteArea(area.getId());
+        }
+        catch (SQLException e)
+        {
+            model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
+            e.printStackTrace();
+        }
         return areaService.showAreas(null, "none", null, model);
     }
 
@@ -195,7 +209,15 @@ public class AdministratorController
                              Model model)
     {
         model.addAttribute("userId", userId);
-        areaService.createArea(area);
+        try
+        {
+            areaService.createArea(area);
+        }
+        catch (SQLException e)
+        {
+            model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
+            e.printStackTrace();
+        }
         return areaService.showAreas(null, "none", null, model);    }
 
 

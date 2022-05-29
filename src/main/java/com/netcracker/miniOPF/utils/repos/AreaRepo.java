@@ -2,9 +2,6 @@ package com.netcracker.miniOPF.utils.repos;
 
 import com.netcracker.miniOPF.model.area.Area;
 import com.netcracker.miniOPF.model.area.AreaImpl;
-import com.netcracker.miniOPF.model.storage.Storage;
-import com.netcracker.miniOPF.utils.storageUtils.AreaUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -41,367 +38,107 @@ public class AreaRepo
         }
     }
 
-    private final Storage storage;
-    private final AreaUtils areaUtils;
-
-    @Autowired
-    public AreaRepo(Storage storage,
-                    AreaUtils areaUtils)
-    {
-        this.storage = storage;
-        this.areaUtils = areaUtils;
-    }
-
-    /* TODO Во всех методах, где создается сущность из resultSet эти строки одинаковые
-     *   нужно вынести эти строки в метод, который на вход принимает resultSet и возвращает
-     *   Area. Это сильно сократит количество кода
-     */
-    public List<Area> sortAreasByID()
+    private List<Area> extractResultSet(ResultSet resultSet) throws SQLException
     {
         List<Area> areas = new ArrayList<>();
-
-        try
+        while (resultSet.next())
         {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM area ORDER BY area_id ASC");
+            Area area = new AreaImpl();
 
-            ResultSet resultSet = preparedStatement.executeQuery();
+            area.setId(resultSet.getInt("area_id"));
+            area.setName(resultSet.getString("area_name"));
+            area.setDescription(resultSet.getString("area_description"));
 
-            while (resultSet.next())
-            {
-                Area area = new AreaImpl();
-
-                area.setId(resultSet.getInt("area_id"));
-                area.setName(resultSet.getString("area_name"));
-                area.setDescription(resultSet.getString("area_description"));
-
-                areas.add(area);
-            }
-        }
-        /* TODO Не очень хорошая практика отлавливать ексепшены без корректной обработки
-         *   нужно либо выше прокидывать ошибку с сообщением, либо решать проблему в catch блоке*/
-        catch (SQLException e)
-        {
-            e.printStackTrace();
+            areas.add(area);
         }
 
         return areas;
     }
 
-    /* TODO Вместо reversed методов добавить в обычный метод параметр в зависимости от которого
-     *   будет обратный порядок или прямой. Например можно добавлять DESC через тернарный оператор */
-    public List<Area> sortAreasByIDReversed()
+    public List<Area> sortAreasByID(boolean reversed) throws SQLException
     {
-        List<Area> areas = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM area ORDER BY area_id DESC");
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Area area = new AreaImpl();
-
-                area.setId(resultSet.getInt("area_id"));
-                area.setName(resultSet.getString("area_name"));
-                area.setDescription(resultSet.getString("area_description"));
-
-                areas.add(area);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return areas;
+        String query = "SELECT * FROM area ORDER BY area_id ";
+        query += reversed ? "DESC" : "ASC";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractResultSet(resultSet);
     }
 
-    public List<Area> sortAreasByName()
+    public List<Area> sortAreasByName(boolean reversed) throws SQLException
     {
-        List<Area> areas = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM area ORDER BY area_name ASC");
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Area area = new AreaImpl();
-
-                area.setId(resultSet.getInt("area_id"));
-                area.setName(resultSet.getString("area_name"));
-                area.setDescription(resultSet.getString("area_description"));
-
-                areas.add(area);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return areas;
+        String query = "SELECT * FROM area ORDER BY area_name ";
+        query += reversed ? "DESC" : "ASC";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractResultSet(resultSet);
     }
 
-    public List<Area> sortAreasByNameReversed()
+    public List<Area> sortAreasByDescription(boolean reversed) throws SQLException
     {
-        List<Area> areas = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM area ORDER BY area_name DESC");
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Area area = new AreaImpl();
-
-                area.setId(resultSet.getInt("area_id"));
-                area.setName(resultSet.getString("area_name"));
-                area.setDescription(resultSet.getString("area_description"));
-
-                areas.add(area);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return areas;
+        String query = "SELECT * FROM area ORDER BY area_description ";
+        query += reversed ? "DESC" : "ASC";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractResultSet(resultSet);
     }
 
-    public List<Area> sortAreasByDescription()
+    public Area searchAreaByName(String name) throws SQLException
     {
-        List<Area> areas = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM area ORDER BY area_description ASC");
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Area area = new AreaImpl();
-
-                area.setId(resultSet.getInt("area_id"));
-                area.setName(resultSet.getString("area_name"));
-                area.setDescription(resultSet.getString("area_description"));
-
-                areas.add(area);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return areas;
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM area WHERE area_name=?");
+        preparedStatement.setString(1, name);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        //TODO реализовать получение через stream
+        return this.extractResultSet(resultSet).get(0);
     }
 
-    public List<Area> sortAreasByDescriptionReversed()
+    public List<Area> searchAreasByDescription(String description) throws SQLException
     {
-        List<Area> areas = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM area ORDER BY area_description DESC");
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Area area = new AreaImpl();
-
-                area.setId(resultSet.getInt("area_id"));
-                area.setName(resultSet.getString("area_name"));
-                area.setDescription(resultSet.getString("area_description"));
-
-                areas.add(area);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return areas;
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "SELECT * FROM area WHERE area_description=?");
+        preparedStatement.setString(1, description);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractResultSet(resultSet);
     }
 
-    public Area searchAreaByName(String name)
+    public Area getArea(int id) throws SQLException
     {
-        Area area = null;
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM area WHERE area_name=?");
-            preparedStatement.setString(1, name);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                area = new AreaImpl();
-
-                area.setId(resultSet.getInt("area_id"));
-                area.setName(resultSet.getString("area_name"));
-                area.setDescription(resultSet.getString("area_description"));
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return area;
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM area WHERE area_id=?");
+        preparedStatement.setInt(1, id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        //TODO реализовать получение через stream
+        return this.extractResultSet(resultSet).get(0);
     }
 
-    public List<Area> searchAreasByDescription(String description)
+    public List<Area> getAreaValues() throws SQLException
     {
-        List<Area> areas = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM area WHERE area_description=?");
-            preparedStatement.setString(1, description);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Area area = new AreaImpl();
-
-                area.setId(resultSet.getInt("area_id"));
-                area.setName(resultSet.getString("area_name"));
-                area.setDescription(resultSet.getString("area_description"));
-
-                areas.add(area);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return areas;
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM area");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractResultSet(resultSet);
     }
 
-    public Area getArea(int id)
+    public void createArea(Area area) throws SQLException
     {
-        Area area = null;
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM area WHERE area_id=?");
-            preparedStatement.setInt(1, id);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                area = new AreaImpl();
-
-                area.setId(resultSet.getInt("area_id"));
-                area.setName(resultSet.getString("area_name"));
-                area.setDescription(resultSet.getString("area_description"));
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return area;
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "INSERT INTO area VALUES((select max(area_id)+1 from area), ?, ?)");
+        preparedStatement.setString(1, area.getName());
+        preparedStatement.setString(2, area.getDescription());
+        preparedStatement.executeUpdate();
     }
 
-    public List<Area> getAreaValues()
+    public void updateArea(int id, Area area) throws SQLException
     {
-        List<Area> areas = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM area");
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Area area = new AreaImpl();
-
-                area.setId(resultSet.getInt("area_id"));
-                area.setName(resultSet.getString("area_name"));
-                area.setDescription(resultSet.getString("area_description"));
-
-                areas.add(area);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return areas;
-    }
-
-    public void createArea(Area area)
-    {
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO area VALUES((select max(area_id)+1 from area), ?, ?)");
-            preparedStatement.setString(1, area.getName());
-            preparedStatement.setString(2, area.getDescription());
-            preparedStatement.executeUpdate();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-    }
-
-    public void updateArea(int id, Area area)
-    {
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
+        PreparedStatement preparedStatement = connection.prepareStatement(
                     "UPDATE area SET area_name=?, area_description=? WHERE area_id=?");
-
             preparedStatement.setString(1, area.getName());
             preparedStatement.setString(2, area.getDescription());
             preparedStatement.setInt(3, id);
-
             preparedStatement.executeUpdate();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
     }
 
-    public void deleteArea(int id)
+    public void deleteArea(int id) throws SQLException
     {
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM area WHERE area_id=?");
-            preparedStatement.setInt(1, id);
-
-            preparedStatement.executeUpdate();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
+        PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM area WHERE area_id=?");
+        preparedStatement.setInt(1, id);
+        preparedStatement.executeUpdate();
     }
 }

@@ -759,7 +759,7 @@ public class CustomerRepo
         return customers;
     }
     public List<Customer> searchCustomersByArea(
-            String areaName)
+            String areaName) throws SQLException
     {
         List<Customer> customers = new ArrayList<>();
         int areaID = areaRepo.searchAreaByName(areaName).getId();
