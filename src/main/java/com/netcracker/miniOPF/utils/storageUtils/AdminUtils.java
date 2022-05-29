@@ -3,123 +3,121 @@ package com.netcracker.miniOPF.utils.storageUtils;
 import com.netcracker.miniOPF.model.admin.Admin;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 @Component
 public class AdminUtils
 {
-    public List<Admin> sortAdminsByLogin(List<Admin> values)
+    public List<Admin> sortAdminsByLogin(List<Admin> values, boolean reversed) throws NullPointerException
     {
-        return values.stream().sorted(Comparator.comparing(Admin::getLogin)).toList();
-    }
-
-    public List<Admin> sortAdminsByLoginReversed(List<Admin> values)
-    {
-        return values.stream().sorted((o1, o2) -> o2.getLogin().compareTo(o1.getLogin())).toList();
-    }
-
-    public List<Admin> sortAdminsByPassword(List<Admin> values)
-    {
-        return values.stream().sorted(Comparator.comparing(Admin::getPassword)).toList();
-    }
-
-    public List<Admin> sortAdminsByPasswordReversed(List<Admin> values)
-    {
-        return values
-                .stream()
-                .sorted((o1, o2) -> o2.getPassword().compareTo(o1.getPassword()))
-                .toList();
-    }
-
-    public List<Admin> sortAdminsByID(List<Admin> values)
-    {
-        return values.stream().sorted(Comparator.comparingInt(Admin::getId)).toList();
-    }
-
-    public List<Admin> sortAdminsByIDReversed(List<Admin> values)
-    {
-        return values.stream().sorted((o1, o2) -> o2.getId() - o1.getId()).toList();
-    }
-
-    public List<Admin> sortAdminsByName(List<Admin> values)
-    {
-        return values.stream().sorted(Comparator.comparing(Admin::getName)).toList();
-    }
-
-    public List<Admin> sortAdminsByNameReversed(List<Admin> values)
-    {
-        return values.stream().sorted((o1, o2) -> o2.getName().compareTo(o1.getName())).toList();
-    }
-
-    public Admin searchAdminByLogin(List<Admin> values, String login)
-    {
-//        List<Admin> list = new ArrayList<>();
-//        for (Admin cur : values)
-//        {
-//            if (cur.getLogin().equals(login))
-//            {
-//                list.add(cur);
-//            }
-//        }
-//        return list;
-        // TODO можно сделать короче values.stream().filter()
-        for (Admin cur : values)
+        if (values == null || values.isEmpty())
         {
-            if (cur.getLogin().equals(login))
-            {
-                return cur;
-            }
+            throw new NullPointerException("Sorting empty list");
         }
-        return null;
+
+        if (reversed)
+        {
+            return values.stream().sorted((o1, o2) -> o2.getLogin().compareTo(o1.getLogin())).toList();
+
+        }
+        else
+        {
+            return values.stream().sorted(Comparator.comparing(Admin::getLogin)).toList();
+        }
     }
 
-    public List<Admin> searchAdminsByPassword(List<Admin> values, String password)
+    public List<Admin> sortAdminsByPassword(List<Admin> values, boolean reversed) throws NullPointerException
     {
-        List<Admin> list = new ArrayList<>();
-        for (Admin cur : values)
+        if (values == null || values.isEmpty())
         {
-            if (cur.getPassword().equals(password))
-            {
-                list.add(cur);
-            }
+            throw new NullPointerException("Sorting empty list");
         }
-        return list;
+
+        if (reversed)
+        {
+            return values
+                    .stream()
+                    .sorted((o1, o2) -> o2.getPassword().compareTo(o1.getPassword()))
+                    .toList();
+        }
+        else
+        {
+            return values.stream().sorted(Comparator.comparing(Admin::getPassword)).toList();
+        }
     }
 
-    public Admin searchAdminByID(List<Admin> values, int id)
+    public List<Admin> sortAdminsByID(List<Admin> values, boolean reversed) throws NullPointerException
     {
-//        List<Admin> list = new ArrayList<>();
-//        for (Admin cur : values)
-//        {
-//            if (cur.getID() == id)
-//            {
-//                list.add(cur);
-//            }
-//        }
-//        return list;
-
-        for (Admin cur : values)
+        if (values == null || values.isEmpty())
         {
-            if (cur.getId() == id)
-            {
-                return cur;
-            }
+            throw new NullPointerException("Sorting empty list");
         }
-        return null;
+
+        if (reversed)
+        {
+            return values.stream().sorted((o1, o2) -> o2.getId() - o1.getId()).toList();
+
+        }
+        else
+        {
+            return values.stream().sorted(Comparator.comparingInt(Admin::getId)).toList();
+        }
     }
 
-    public List<Admin> searchAdminsByName(List<Admin> values, String name)
+    public List<Admin> sortAdminsByName(List<Admin> values, boolean reversed) throws NullPointerException
     {
-        List<Admin> list = new ArrayList<>();
-        for (Admin cur : values)
+        if (values == null || values.isEmpty())
         {
-            if (cur.getName().equals(name))
-            {
-                list.add(cur);
-            }
+            throw new NullPointerException("Sorting empty list");
         }
-        return list;
+
+        if (reversed)
+        {
+            return values.stream().sorted((o1, o2) -> o2.getName().compareTo(o1.getName())).toList();
+        }
+        else
+        {
+            return values.stream().sorted(Comparator.comparing(Admin::getName)).toList();
+        }
+    }
+
+    public Admin searchAdminByLogin(List<Admin> values, String login) throws NullPointerException
+    {
+        if (values == null || values.isEmpty())
+        {
+            throw new NullPointerException("Searching in empty list");
+        }
+        return values.stream().filter(i -> i.getLogin().equals(login)).findAny().orElse(null);
+    }
+
+    public List<Admin> searchAdminsByPassword(List<Admin> values, String password) throws NullPointerException
+    {
+        if (values == null || values.isEmpty())
+        {
+            throw new NullPointerException("Searching in empty list");
+        }
+
+        return values.stream().filter(i -> i.getPassword().equals(password)).toList();
+    }
+
+    public Admin searchAdminByID(List<Admin> values, int id) throws NullPointerException
+    {
+        if (values == null || values.isEmpty())
+        {
+            throw new NullPointerException("Searching in empty list");
+        }
+
+        return values.stream().filter(i -> i.getId() == id).findAny().orElse(null);
+    }
+
+    public List<Admin> searchAdminsByName(List<Admin> values, String name) throws NullPointerException
+    {
+        if (values == null || values.isEmpty())
+        {
+            throw new NullPointerException("Searching in empty list");
+        }
+
+        return values.stream().filter(i -> i.getName().equals(name)).toList();
     }
 }
