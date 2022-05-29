@@ -60,9 +60,9 @@ class AdminUtilsTest
         Exception emptyException = Assertions.assertThrows(NullPointerException.class, () ->
                 adminUtils.sortAdminsByLogin(new ArrayList<>(), false));
 
-        Assertions.assertEquals(nullException.getMessage(), emptyException.getMessage());
+        Assertions.assertEquals("List is null", nullException.getMessage());
 
-        Assertions.assertEquals("Sorting empty list", nullException.getMessage());
+        Assertions.assertEquals("List is empty", emptyException.getMessage());
     }
 
     @Test
@@ -81,9 +81,9 @@ class AdminUtilsTest
         Exception emptyException = Assertions.assertThrows(NullPointerException.class, () ->
                 adminUtils.sortAdminsByPassword(new ArrayList<>(), false));
 
-        Assertions.assertEquals(nullException.getMessage(), emptyException.getMessage());
+        Assertions.assertEquals("List is null", nullException.getMessage());
 
-        Assertions.assertEquals("Sorting empty list", nullException.getMessage());
+        Assertions.assertEquals("List is empty", emptyException.getMessage());
     }
 
     @Test
@@ -102,9 +102,9 @@ class AdminUtilsTest
         Exception emptyException = Assertions.assertThrows(NullPointerException.class, () ->
                 adminUtils.sortAdminsByID(new ArrayList<>(), false));
 
-        Assertions.assertEquals(nullException.getMessage(), emptyException.getMessage());
+        Assertions.assertEquals("List is null", nullException.getMessage());
 
-        Assertions.assertEquals("Sorting empty list", nullException.getMessage());
+        Assertions.assertEquals("List is empty", emptyException.getMessage());
     }
 
     @Test
@@ -123,9 +123,9 @@ class AdminUtilsTest
         Exception emptyException = Assertions.assertThrows(NullPointerException.class, () ->
                 adminUtils.sortAdminsByName(new ArrayList<>(), false));
 
-        Assertions.assertEquals(nullException.getMessage(), emptyException.getMessage());
+        Assertions.assertEquals("List is null", nullException.getMessage());
 
-        Assertions.assertEquals("Sorting empty list", nullException.getMessage());
+        Assertions.assertEquals("List is empty", emptyException.getMessage());
     }
 
     @Test
@@ -144,9 +144,9 @@ class AdminUtilsTest
         Exception emptyException = Assertions.assertThrows(NullPointerException.class, () ->
                 adminUtils.searchAdminByLogin(new ArrayList<>(), "admin"));
 
-        Assertions.assertEquals(nullException.getMessage(), emptyException.getMessage());
+        Assertions.assertEquals("List is null", nullException.getMessage());
 
-        Assertions.assertEquals("Searching in empty list", nullException.getMessage());
+        Assertions.assertEquals("List is empty", emptyException.getMessage());
     }
 
     @Test
@@ -166,9 +166,9 @@ class AdminUtilsTest
         Exception emptyException = Assertions.assertThrows(NullPointerException.class, () ->
                 adminUtils.searchAdminsByPassword(new ArrayList<>(), "testPassword"));
 
-        Assertions.assertEquals(nullException.getMessage(), emptyException.getMessage());
+        Assertions.assertEquals("List is null", nullException.getMessage());
 
-        Assertions.assertEquals("Searching in empty list", nullException.getMessage());
+        Assertions.assertEquals("List is empty", emptyException.getMessage());
     }
 
     @Test
@@ -187,9 +187,9 @@ class AdminUtilsTest
         Exception emptyException = Assertions.assertThrows(NullPointerException.class, () ->
                 adminUtils.searchAdminByID(new ArrayList<>(), 1));
 
-        Assertions.assertEquals(nullException.getMessage(), emptyException.getMessage());
+        Assertions.assertEquals("List is null", nullException.getMessage());
 
-        Assertions.assertEquals("Searching in empty list", nullException.getMessage());
+        Assertions.assertEquals("List is empty", emptyException.getMessage());
     }
 
     @Test
@@ -209,8 +209,8 @@ class AdminUtilsTest
         Exception emptyException = Assertions.assertThrows(NullPointerException.class, () ->
                 adminUtils.searchAdminsByName(new ArrayList<>(), "testName"));
 
-        Assertions.assertEquals(nullException.getMessage(), emptyException.getMessage());
+        Assertions.assertEquals("List is null", nullException.getMessage());
 
-        Assertions.assertEquals("Searching in empty list", nullException.getMessage());
+        Assertions.assertEquals("List is empty", emptyException.getMessage());
     }
 }

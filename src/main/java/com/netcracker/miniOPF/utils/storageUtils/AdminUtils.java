@@ -11,10 +11,7 @@ public class AdminUtils
 {
     public List<Admin> sortAdminsByLogin(List<Admin> values, boolean reversed) throws NullPointerException
     {
-        if (values == null || values.isEmpty())
-        {
-            throw new NullPointerException("Sorting empty list");
-        }
+        ListUtils.checkListIsEmptyOrNull(values);
 
         if (reversed)
         {
@@ -29,10 +26,7 @@ public class AdminUtils
 
     public List<Admin> sortAdminsByPassword(List<Admin> values, boolean reversed) throws NullPointerException
     {
-        if (values == null || values.isEmpty())
-        {
-            throw new NullPointerException("Sorting empty list");
-        }
+        ListUtils.checkListIsEmptyOrNull(values);
 
         if (reversed)
         {
@@ -49,10 +43,7 @@ public class AdminUtils
 
     public List<Admin> sortAdminsByID(List<Admin> values, boolean reversed) throws NullPointerException
     {
-        if (values == null || values.isEmpty())
-        {
-            throw new NullPointerException("Sorting empty list");
-        }
+        ListUtils.checkListIsEmptyOrNull(values);
 
         if (reversed)
         {
@@ -67,10 +58,7 @@ public class AdminUtils
 
     public List<Admin> sortAdminsByName(List<Admin> values, boolean reversed) throws NullPointerException
     {
-        if (values == null || values.isEmpty())
-        {
-            throw new NullPointerException("Sorting empty list");
-        }
+        ListUtils.checkListIsEmptyOrNull(values);
 
         if (reversed)
         {
@@ -84,40 +72,25 @@ public class AdminUtils
 
     public Admin searchAdminByLogin(List<Admin> values, String login) throws NullPointerException
     {
-        if (values == null || values.isEmpty())
-        {
-            throw new NullPointerException("Searching in empty list");
-        }
+        ListUtils.checkListIsEmptyOrNull(values);
         return values.stream().filter(i -> i.getLogin().equals(login)).findAny().orElse(null);
     }
 
     public List<Admin> searchAdminsByPassword(List<Admin> values, String password) throws NullPointerException
     {
-        if (values == null || values.isEmpty())
-        {
-            throw new NullPointerException("Searching in empty list");
-        }
-
+        ListUtils.checkListIsEmptyOrNull(values);
         return values.stream().filter(i -> i.getPassword().equals(password)).toList();
     }
 
     public Admin searchAdminByID(List<Admin> values, int id) throws NullPointerException
     {
-        if (values == null || values.isEmpty())
-        {
-            throw new NullPointerException("Searching in empty list");
-        }
-
+        ListUtils.checkListIsEmptyOrNull(values);
         return values.stream().filter(i -> i.getId() == id).findAny().orElse(null);
     }
 
     public List<Admin> searchAdminsByName(List<Admin> values, String name) throws NullPointerException
     {
-        if (values == null || values.isEmpty())
-        {
-            throw new NullPointerException("Searching in empty list");
-        }
-
+        ListUtils.checkListIsEmptyOrNull(values);
         return values.stream().filter(i -> i.getName().equals(name)).toList();
     }
 }
