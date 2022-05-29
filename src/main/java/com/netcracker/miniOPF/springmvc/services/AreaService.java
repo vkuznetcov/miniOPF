@@ -21,9 +21,7 @@ public class AreaService
         this.areaRepo = areaRepo;
     }
 
-    public String showAreas(@RequestParam(value = AdminService.FormParams.TYPE, required = false) String type,
-                            @RequestParam(value = AdminService.FormParams.SORT_ORDER, required = false) String sort,
-                            @RequestParam(value = AdminService.FormParams.SEARCH_VALUE, required = false) String value, Model model)
+    public String showAreas(String type, String sort, String value, Model model)
     {
         if (Objects.nonNull(value))
         {

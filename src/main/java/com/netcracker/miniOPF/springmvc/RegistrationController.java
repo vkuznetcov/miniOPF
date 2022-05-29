@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,7 +73,15 @@ public class RegistrationController
                 admin.setName(name);
                 admin.setLogin(login);
                 admin.setPassword(password);
-                adminRepo.createAdmin(admin);
+                try
+                {
+                    adminRepo.createAdmin(admin);
+                }
+                catch (SQLException e)
+                {
+                    model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
+                    e.printStackTrace();
+                }
                 model.addAttribute("admin", admin);
                 return "redirect:/authorization";
             }

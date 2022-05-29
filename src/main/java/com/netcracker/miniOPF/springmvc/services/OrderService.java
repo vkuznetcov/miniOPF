@@ -11,8 +11,8 @@ import com.netcracker.miniOPF.utils.storageUtils.OrderUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -36,10 +36,7 @@ public class OrderService
     }
 
 
-    public String showOrders(@RequestParam(value = AdminService.FormParams.TYPE, required = false) String type,
-                             @RequestParam(value = AdminService.FormParams.SORT_ORDER, required = false) String sort,
-                             @RequestParam(value = AdminService.FormParams.SEARCH_VALUE, required = false) String value,
-                             Model model)
+    public String showOrders(String type, String sort, String value, Model model)
     {
         List<String> actions = new ArrayList<>();
         actions.add("CONNECT");
@@ -111,7 +108,7 @@ public class OrderService
 
     private boolean checkParams(String adminId,
                                 String serviceId,
-                                StringBuilder errorMessage)
+                                StringBuilder errorMessage) throws SQLException
     {
 
         boolean error = false;
@@ -135,20 +132,27 @@ public class OrderService
                                String action,
                                Model model)
     {
-        String errorMessage = "";
-        StringBuilder stringBuilder = new StringBuilder(errorMessage);
-        if (checkParams(adminId, serviceId, stringBuilder))
+        try
         {
-            stringBuilder.append("Error index: ").append(order.getId());
-            model.addAttribute("errorMessage", stringBuilder.toString());
+            String errorMessage = "";
+            StringBuilder stringBuilder = new StringBuilder(errorMessage);
+            if (checkParams(adminId, serviceId, stringBuilder))
+            {
+                stringBuilder.append("Error index: ").append(order.getId());
+                model.addAttribute("errorMessage", stringBuilder.toString());
+            }
+            else
+            {
+                order.setAdmin(adminRepo.getAdmin(Integer.parseInt(adminId)));
+                order.setService(serviceService.getService(Integer.parseInt(serviceId)));
+                order.setAction(OrderAction.valueOf(action.toUpperCase(Locale.ROOT)));
+                order.setStatus(OrderStatus.valueOf(status.toUpperCase(Locale.ROOT)));
+                orderRepo.updateOrder(order.getId(), order);
+            }
         }
-        else
-        {
-            order.setAdmin(adminRepo.getAdmin(Integer.parseInt(adminId)));
-            order.setService(serviceService.getService(Integer.parseInt(serviceId)));
-            order.setAction(OrderAction.valueOf(action.toUpperCase(Locale.ROOT)));
-            order.setStatus(OrderStatus.valueOf(status.toUpperCase(Locale.ROOT)));
-            orderRepo.updateOrder(order.getId(), order);
+        catch(SQLException e){
+            model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
+            e.printStackTrace();
         }
         return this.showOrders(null, "none", null, model);
     }
@@ -160,20 +164,27 @@ public class OrderService
                               String action,
                               Model model)
     {
-        String errorMessage = "";
-        StringBuilder stringBuilder = new StringBuilder(errorMessage);
-        if (checkParams(adminId, serviceId, stringBuilder))
+        try
         {
-            stringBuilder.append("Error index: new object creation");
-            model.addAttribute("errorMessage", stringBuilder.toString());
+            String errorMessage = "";
+            StringBuilder stringBuilder = new StringBuilder(errorMessage);
+            if (checkParams(adminId, serviceId, stringBuilder))
+            {
+                stringBuilder.append("Error index: new object creation");
+                model.addAttribute("errorMessage", stringBuilder.toString());
+            }
+            else
+            {
+                order.setAdmin(adminRepo.getAdmin(Integer.parseInt(adminId)));
+                order.setService(serviceService.getService(Integer.parseInt(serviceId)));
+                order.setAction(OrderAction.valueOf(action.toUpperCase(Locale.ROOT)));
+                order.setStatus(OrderStatus.valueOf(status.toUpperCase(Locale.ROOT)));
+                orderRepo.createOrder(order);
+            }
         }
-        else
-        {
-            order.setAdmin(adminRepo.getAdmin(Integer.parseInt(adminId)));
-            order.setService(serviceService.getService(Integer.parseInt(serviceId)));
-            order.setAction(OrderAction.valueOf(action.toUpperCase(Locale.ROOT)));
-            order.setStatus(OrderStatus.valueOf(status.toUpperCase(Locale.ROOT)));
-            orderRepo.createOrder(order);
+        catch(SQLException e){
+            model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
+            e.printStackTrace();
         }
         return this.showOrders(null, "none", null, model);
     }
@@ -194,13 +205,13 @@ public class OrderService
         }
         model.addAttribute("errorMessage", errorMessage.toString());
 
-        return error;
+        return !error;
     }
 
     public String startOrder(Order order, Model model)
     {
         Order newOrder = orderRepo.getOrder(order.getId());
-        if(!checkStart(newOrder, new StringBuilder(""), model)){
+        if(checkStart(newOrder, new StringBuilder(), model)){
             newOrder.setStatus(OrderStatus.IN_PROGRESS);
             this.updateOrderWithCheck(order.getId(), newOrder);
         }
@@ -223,12 +234,12 @@ public class OrderService
         }
         model.addAttribute("errorMessage", errorMessage.toString());
 
-        return error;
+        return !error;
     }
 
     public String closeOrder(Order order, Model model){
         Order newOrder = orderRepo.getOrder(order.getId());
-        if(!checkClose(newOrder, new StringBuilder(""), model)) {
+        if(checkClose(newOrder, new StringBuilder(), model)) {
             com.netcracker.miniOPF.model.service.Service service = orderRepo.getOrder(order.getId()).getService();
             newOrder.setStatus(OrderStatus.COMPLETED);
             switch (newOrder.getAction()){
@@ -243,11 +254,7 @@ public class OrderService
         return this.showOrders(null, "none", null, model);
     }
 
-    public String showMyOrders(@RequestParam(value = AdminService.FormParams.TYPE, required = false) String type,
-                               @RequestParam(value = AdminService.FormParams.SORT_ORDER, required = false) String sort,
-                               @RequestParam(value = AdminService.FormParams.SEARCH_VALUE, required = false) String value,
-                               Model model,
-                               int userID)
+    public String showMyOrders(String type, String sort, String value, Model model, int userID)
     {
         List<String> actions = new ArrayList<>();
         actions.add("CONNECT");
@@ -329,20 +336,27 @@ public class OrderService
                                  String action,
                                  Model model, int userID)
     {
-        String errorMessage = "";
-        StringBuilder stringBuilder = new StringBuilder(errorMessage);
-        if (checkParams(adminId, serviceId, stringBuilder))
+        try
         {
-            stringBuilder.append("Error index: ").append(order.getId());
-            model.addAttribute("errorMessage", stringBuilder.toString());
+            String errorMessage = "";
+            StringBuilder stringBuilder = new StringBuilder(errorMessage);
+            if (checkParams(adminId, serviceId, stringBuilder))
+            {
+                stringBuilder.append("Error index: ").append(order.getId());
+                model.addAttribute("errorMessage", stringBuilder.toString());
+            }
+            else
+            {
+                order.setAdmin(adminRepo.getAdmin(Integer.parseInt(adminId)));
+                order.setService(serviceService.getService(Integer.parseInt(serviceId)));
+                order.setAction(OrderAction.valueOf(action.toUpperCase(Locale.ROOT)));
+                order.setStatus(OrderStatus.valueOf(status.toUpperCase(Locale.ROOT)));
+                orderRepo.updateOrder(order.getId(), order);
+            }
         }
-        else
-        {
-            order.setAdmin(adminRepo.getAdmin(Integer.parseInt(adminId)));
-            order.setService(serviceService.getService(Integer.parseInt(serviceId)));
-            order.setAction(OrderAction.valueOf(action.toUpperCase(Locale.ROOT)));
-            order.setStatus(OrderStatus.valueOf(status.toUpperCase(Locale.ROOT)));
-            orderRepo.updateOrder(order.getId(), order);
+        catch (SQLException e){
+            model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
+            e.printStackTrace();
         }
         return this.showMyOrders(null, "none", null, model, userID);
     }
@@ -350,7 +364,7 @@ public class OrderService
     public String startMyOrder(Order order, Model model, int userId)
     {
         Order newOrder = orderRepo.getOrder(order.getId());
-        if(!checkStart(newOrder, new StringBuilder(""), model)){
+        if(checkStart(newOrder, new StringBuilder(), model)){
             newOrder.setStatus(OrderStatus.IN_PROGRESS);
             this.updateOrderWithCheck(order.getId(), newOrder);
         }
@@ -359,7 +373,7 @@ public class OrderService
 
     public String closeMyOrder(Order order, Model model, int userId){
         Order newOrder = orderRepo.getOrder(order.getId());
-        if(!checkClose(newOrder, new StringBuilder(""), model)) {
+        if(checkClose(newOrder, new StringBuilder(), model)) {
             com.netcracker.miniOPF.model.service.Service service = orderRepo.getOrder(order.getId()).getService();
             newOrder.setStatus(OrderStatus.COMPLETED);
             switch (newOrder.getAction()){

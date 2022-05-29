@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.sql.SQLException;
+
 @Controller
 public class AuthorizationController
 {
@@ -39,7 +41,16 @@ public class AuthorizationController
                             @RequestParam(name = "password") String password)
     {
         Customer customer = customerRepo.searchCustomerByLogin(login);
-        Admin admin = adminRepo.searchAdminByLogin(login);
+        Admin admin = null;
+        try
+        {
+            admin = adminRepo.searchAdminByLogin(login);
+        }
+        catch (SQLException e)
+        {
+            model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
+            e.printStackTrace();
+        }
         // TODO логины должны быть различные у всех пользователей, поменять логику в соответствии с этим
         if (customer == null && admin == null)
         {
