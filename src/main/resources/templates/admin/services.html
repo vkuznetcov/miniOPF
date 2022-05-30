@@ -50,7 +50,7 @@
             <form>
                 <label>
                     ID to search: <input type="text" name="valueToSearch"/>
-                    <input type="hidden" name="type" value="userId"/>
+                    <input type="hidden" name="type" value="id"/>
                     <input type="hidden" name="userId" th:value="${userId}"/>
                     <input type="submit" value="Search"/>
                 </label>
@@ -124,12 +124,12 @@
                     index
                 </li>
                 <li style="display: inline">
-                    <a th:href="@{/admin/services(userId=${userId}, sort='asc', type='userId')}">
+                    <a th:href="@{/admin/services(userId=${userId}, sort='asc', type='id')}">
                         <img src="../../static/images/arrowUp.png" th:src="@{/images/arrowUp.png}" alt="index"/>
                     </a>
                 </li>
                 <li style="display: inline">
-                    <a th:href="@{/admin/services(userId=${userId}, sort='desc', type='userId')}">
+                    <a th:href="@{/admin/services(userId=${userId}, sort='desc', type='id')}">
                         <img src="../../static/images/arrowDown.png" th:src="@{/images/arrowDown.png}" alt="index"/>
                     </a>
                 </li>

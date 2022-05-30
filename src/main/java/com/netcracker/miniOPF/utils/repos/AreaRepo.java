@@ -87,7 +87,7 @@ public class AreaRepo
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM area WHERE area_name=?");
         preparedStatement.setString(1, name);
         ResultSet resultSet = preparedStatement.executeQuery();
-        return this.extractResultSet(resultSet).stream().filter(i -> i.getName().equals(name)).findAny().orElse(null);
+        return this.extractResultSet(resultSet).stream().findFirst().orElse(null);
     }
 
     public List<Area> searchAreasByDescription(String description) throws SQLException
@@ -104,7 +104,7 @@ public class AreaRepo
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM area WHERE area_id=?");
         preparedStatement.setInt(1, id);
         ResultSet resultSet = preparedStatement.executeQuery();
-        return this.extractResultSet(resultSet).stream().filter(i -> i.getId() == id).findAny().orElse(null);
+        return this.extractResultSet(resultSet).stream().findFirst().orElse(null);
     }
 
     public List<Area> getAreaValues() throws SQLException

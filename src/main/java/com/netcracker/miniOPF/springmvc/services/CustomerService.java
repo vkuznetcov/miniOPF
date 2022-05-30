@@ -55,24 +55,24 @@ public class CustomerService
                 case "asc" -> {
                     switch (type)
                     {
-                        case "id" -> model.addAttribute("table", customerRepo.sortCustomersByID());
-                        case "name" -> model.addAttribute("table", customerRepo.sortCustomersByName());
-                        case "login" -> model.addAttribute("table", customerRepo.sortCustomersByLogin());
-                        case "password" -> model.addAttribute("table", customerRepo.sortCustomersByPassword());
-                        case "balance" -> model.addAttribute("table", customerRepo.sortCustomersByBalance());
-                        case "area" -> model.addAttribute("table", customerRepo.sortCustomersByArea());
+                        case "id" -> model.addAttribute("table", customerRepo.sortCustomersByID(false));
+                        case "name" -> model.addAttribute("table", customerRepo.sortCustomersByName(false));
+                        case "login" -> model.addAttribute("table", customerRepo.sortCustomersByLogin(false));
+                        case "password" -> model.addAttribute("table", customerRepo.sortCustomersByPassword(false));
+                        case "balance" -> model.addAttribute("table", customerRepo.sortCustomersByBalance(false));
+                        case "area" -> model.addAttribute("table", customerRepo.sortCustomersByArea(false));
                     }
                 }
                 case "desc" -> {
                     switch (type)
                     {
-                        case "id" -> model.addAttribute("table", customerRepo.sortCustomersByIDReversed());
-                        case "name" -> model.addAttribute("table", customerRepo.sortCustomersByNameReversed());
-                        case "login" -> model.addAttribute("table", customerRepo.sortCustomersByLoginReversed());
+                        case "id" -> model.addAttribute("table", customerRepo.sortCustomersByID(true));
+                        case "name" -> model.addAttribute("table", customerRepo.sortCustomersByName(true));
+                        case "login" -> model.addAttribute("table", customerRepo.sortCustomersByLogin(true));
                         case "password" -> model.addAttribute("table",
-                                                              customerRepo.sortCustomersByPasswordReversed());
-                        case "balance" -> model.addAttribute("table", customerRepo.sortCustomersByBalanceReversed());
-                        case "area" -> model.addAttribute("table", customerRepo.sortCustomersByAreaReversed());
+                                                              customerRepo.sortCustomersByPassword(true));
+                        case "balance" -> model.addAttribute("table", customerRepo.sortCustomersByBalance(true));
+                        case "area" -> model.addAttribute("table", customerRepo.sortCustomersByArea(true));
                     }
                 }
             }
@@ -150,97 +150,82 @@ public class CustomerService
         return this.showCustomers(null, "none", null, model);
     }
 
-    public List<Customer> sortCustomersByLogin()
+    public List<Customer> sortCustomersByLogin(boolean reversed) throws SQLException
     {
-        return customerRepo.sortCustomersByLogin();
+        return customerRepo.sortCustomersByLogin(reversed);
     }
 
-    public List<Customer> sortCustomersByLoginReversed()
+    public List<Customer> sortCustomersByPassword(boolean reversed) throws SQLException
     {
-        return customerRepo.sortCustomersByLoginReversed();
+        return customerRepo.sortCustomersByPassword(reversed);
     }
 
-    public List<Customer> sortCustomersByPassword()
+    public List<Customer> sortCustomersByBalance(boolean reversed) throws SQLException
     {
-        return customerRepo.sortCustomersByPassword();
+        return customerRepo.sortCustomersByBalance(reversed);
     }
 
-    public List<Customer> sortCustomersByPasswordReversed()
+    public List<Customer> sortCustomersByName(boolean reversed) throws SQLException
     {
-        return customerRepo.sortCustomersByPasswordReversed();
+        return customerRepo.sortCustomersByName(reversed);
     }
 
-    public List<Customer> sortCustomersByBalance()
+    public List<Customer> sortCustomersByID(boolean reversed) throws SQLException
     {
-        return customerRepo.sortCustomersByBalance();
+        return customerRepo.sortCustomersByID(reversed);
     }
 
-    public List<Customer> sortCustomersByBalanceReversed()
+    public List<Customer> sortCustomersByArea(boolean reversed) throws SQLException
     {
-        return customerRepo.sortCustomersByBalanceReversed();
+        return customerRepo.sortCustomersByArea(reversed);
     }
 
-    public List<Customer> sortCustomersByName()
-    {
-        return customerRepo.sortCustomersByName();
-    }
-
-    public List<Customer> sortCustomersByNameReversed()
-    {
-        return customerRepo.sortCustomersByNameReversed();
-    }
-
-    public List<Customer> sortCustomersByID()
-    {
-        return customerRepo.sortCustomersByID();
-    }
-
-    public List<Customer> sortCustomersByIDReversed()
-    {
-        return customerRepo.sortCustomersByIDReversed();
-    }
-
-    public Customer searchCustomerByLogin(String login)
+    public Customer searchCustomerByLogin(String login) throws SQLException
     {
         return customerRepo.searchCustomerByLogin(login);
     }
 
-    public List<Customer> searchCustomersByPassword(String password)
+    public List<Customer> searchCustomersByPassword(String password) throws SQLException
     {
         return customerRepo.searchCustomersByPassword(password);
     }
 
-    public List<Customer> searchCustomersByBalance(double balance)
+    public List<Customer> searchCustomersByBalance(double balance) throws SQLException
     {
         return customerRepo.searchCustomersByBalance(balance);
     }
 
-    public List<Customer> searchCustomersByName(String name)
+    public List<Customer> searchCustomersByName(String name) throws SQLException
     {
         return customerRepo.searchCustomersByName(name);
     }
 
-    public Customer getCustomer(int id)
+    public List<Customer> searchCustomersByArea(String areaName) throws SQLException
+    {
+        return customerRepo.searchCustomersByArea(areaName);
+    }
+
+    public Customer getCustomer(int id) throws SQLException
     {
         return customerRepo.getCustomer(id);
     }
 
-    public List<Customer> getCustomerValues()
+    public List<Customer> getCustomerValues() throws SQLException
     {
         return customerRepo.getCustomerValues();
     }
 
-    public void createCustomer(Customer customer)
+    public void createCustomer(Customer customer) throws SQLException
     {
         customerRepo.createCustomer(customer);
     }
 
-    public void deleteCustomer(int id)
+    public void deleteCustomer(int id) throws SQLException
     {
         customerRepo.deleteCustomer(id);
     }
 
-    public void updateCustomer(int id, Customer customer)
+    public void updateCustomer(int id, Customer customer) throws SQLException
     {
         customerRepo.updateCustomer(id, customer);
     }

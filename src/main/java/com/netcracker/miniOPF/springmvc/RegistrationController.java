@@ -104,13 +104,13 @@ public class RegistrationController
                 try
                 {
                     customer.setArea(areaRepo.searchAreaByName(area));
+                    customerRepo.createCustomer(customer);
                 }
                 catch (SQLException e)
                 {
                     model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
                     e.printStackTrace();
                 }
-                customerRepo.createCustomer(customer);
                 model.addAttribute("customer", customer);
                 return "redirect:/authorization";
             }

@@ -1,9 +1,9 @@
 package com.netcracker.miniOPF.springmvc;
 
 import com.netcracker.miniOPF.model.admin.Admin;
+import com.netcracker.miniOPF.model.customer.Customer;
 import com.netcracker.miniOPF.utils.repos.AdminRepo;
 import com.netcracker.miniOPF.utils.repos.CustomerRepo;
-import com.netcracker.miniOPF.model.customer.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,10 +40,11 @@ public class AuthorizationController
                             @RequestParam(name = "login") String login,
                             @RequestParam(name = "password") String password)
     {
-        Customer customer = customerRepo.searchCustomerByLogin(login);
+        Customer customer = null;
         Admin admin = null;
         try
         {
+            customer = customerRepo.searchCustomerByLogin(login);
             admin = adminRepo.searchAdminByLogin(login);
         }
         catch (SQLException e)
@@ -64,7 +65,7 @@ public class AuthorizationController
                 model.addAttribute("name", customer.getName());
                 model.addAttribute("customer", customer);
 
-                return "redirect:/customer/customerpage?id="+customer.getId();
+                return "redirect:/customer/customerpage?id=" + customer.getId();
             }
             else
             {
