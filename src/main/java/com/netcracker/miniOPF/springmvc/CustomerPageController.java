@@ -53,9 +53,17 @@ public class CustomerPageController
     @GetMapping("/customerpage")
     public String greeting(@RequestParam(value = FormParams.ID, required = false) Integer id, Model model)
     {
-        model.addAttribute("name", customerRepo.getCustomer(id).getName());
-        model.addAttribute("id", id);
-        model.addAttribute("balance", customerRepo.getCustomer(id).getBalance());
+        try
+        {
+            model.addAttribute("name", customerRepo.getCustomer(id).getName());
+            model.addAttribute("id", id);
+            model.addAttribute("balance", customerRepo.getCustomer(id).getBalance());
+        }
+        catch (SQLException e)
+        {
+            model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
+            e.printStackTrace();
+        }
         return "customer/customerpage";
     }
 
@@ -93,21 +101,29 @@ public class CustomerPageController
     public String showActiveServices
             (@RequestParam(value = FormParams.ID, required = false) Integer id, Model model)
     {
-        model.addAttribute("name", customerRepo.getCustomer(id).getName());
-        model.addAttribute("balance", customerRepo.getCustomer(id).getBalance());
-        // TODO на Service уже есть кастомер. Pair выглядит как кастыль. Если нужен id кастомера лучше с сервиса брать
-        List<Pair<Integer, Service>> list = serviceRepo.searchServicesByCustomerID(id);
-        List<Service> servicelist = new ArrayList<>();
-
-        for (Pair<Integer, Service> serv : list)
+        try
         {
-            if (serv.getRightValue().getStatus() != ServiceStatus.DISCONNECTED)
+            model.addAttribute("name", customerRepo.getCustomer(id).getName());
+            model.addAttribute("balance", customerRepo.getCustomer(id).getBalance());
+            // TODO на Service уже есть кастомер. Pair выглядит как кастыль. Если нужен id кастомера лучше с сервиса брать
+            List<Pair<Integer, Service>> list = serviceRepo.searchServicesByCustomerID(id);
+            List<Service> servicelist = new ArrayList<>();
+
+            for (Pair<Integer, Service> serv : list)
             {
-                servicelist.add(serv.getRightValue());
+                if (serv.getRightValue().getStatus() != ServiceStatus.DISCONNECTED)
+                {
+                    servicelist.add(serv.getRightValue());
+                }
             }
+            model.addAttribute("table", servicelist);
+            model.addAttribute("id", id);
         }
-        model.addAttribute("table", servicelist);
-        model.addAttribute("id", id);
+        catch (SQLException e)
+        {
+            model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
+            e.printStackTrace();
+        }
         return "customer/activeservices";
     }
 
@@ -180,26 +196,26 @@ public class CustomerPageController
     public String addActiveServices(@RequestParam(value = FormParams.ID, required = false) Integer id,
                                     @RequestParam(value = "service", required = false) Integer serviceid, Model model)
     {
-        Order order = new OrderImpl();
-        order.setService(serviceRepo.getService(serviceid).getRightValue());
-        order.setStatus(OrderStatus.ENTERING);
-        order.setAction(OrderAction.DISCONNECT);
-        Service service = serviceRepo.getService(serviceid).getRightValue();
-        service.setStatus(ServiceStatus.SUSPENDED);
-        service.setCustomer(customerRepo.getCustomer(id));
-        serviceRepo.updateService(serviceid, service);
         try
         {
+            Order order = new OrderImpl();
+            order.setService(serviceRepo.getService(serviceid).getRightValue());
+            order.setStatus(OrderStatus.ENTERING);
+            order.setAction(OrderAction.DISCONNECT);
+            Service service = serviceRepo.getService(serviceid).getRightValue();
+            service.setStatus(ServiceStatus.SUSPENDED);
+            service.setCustomer(customerRepo.getCustomer(id));
+            serviceRepo.updateService(serviceid, service);
             orderRepo.createOrder(order);
+            model.addAttribute("name", customerRepo.getCustomer(id).getName());
+            model.addAttribute("balance", customerRepo.getCustomer(id).getBalance());
+            model.addAttribute("id", id);
         }
         catch (SQLException e)
         {
             model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
             e.printStackTrace();
         }
-        model.addAttribute("name", customerRepo.getCustomer(id).getName());
-        model.addAttribute("balance", customerRepo.getCustomer(id).getBalance());
-        model.addAttribute("id", id);
         return showActiveServices(id, model);
     }
 
@@ -207,12 +223,20 @@ public class CustomerPageController
     public String setNewBalance(@RequestParam(value = FormParams.ID, required = false) Integer id,
                                 @RequestParam(name = "balance") Double balance, Model model)
     {
-        Customer customer = customerRepo.getCustomer(id);
-        customer.setBalance(balance);
-        customerRepo.updateCustomer(id, customer);
-        model.addAttribute("name", customerRepo.getCustomer(id).getName());
-        model.addAttribute("balance", customerRepo.getCustomer(id).getBalance());
-        model.addAttribute("id", id);
+        try
+        {
+            Customer customer = customerRepo.getCustomer(id);
+            customer.setBalance(balance);
+            customerRepo.updateCustomer(id, customer);
+            model.addAttribute("name", customerRepo.getCustomer(id).getName());
+            model.addAttribute("balance", customerRepo.getCustomer(id).getBalance());
+            model.addAttribute("id", id);
+        }
+        catch (SQLException e)
+        {
+            model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
+            e.printStackTrace();
+        }
         return greeting(id, model);
     }
 

@@ -71,7 +71,15 @@ public class AdministratorController
                                  Model model)
     {
         model.addAttribute("userId", userId);
-        customerService.deleteCustomer(customer.getId());
+        try
+        {
+            customerService.deleteCustomer(customer.getId());
+        }
+        catch (SQLException e)
+        {
+            model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
+            e.printStackTrace();
+        }
         return customerService.showCustomers(null, "none", null, model);
     }
 
