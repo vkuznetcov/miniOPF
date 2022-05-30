@@ -252,7 +252,7 @@ public class AdministratorController
     {
         model.addAttribute("userId", userId);
         serviceService.deleteService(service.getId());
-        return "redirect:/admin/services?sort=none";
+        return serviceService.showServices(null, "none", null, model);
     }
 
     @PostMapping("/services/create")
@@ -308,7 +308,7 @@ public class AdministratorController
             model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
             e.printStackTrace();
         }
-        return "redirect:/admin/orders?sort=none";
+        return orderService.showOrders(null, "none", null, model);
     }
 
     @PostMapping("/orders/create")
@@ -371,8 +371,16 @@ public class AdministratorController
                                  Model model)
     {
         model.addAttribute("userId", userId);
-        templateService.deleteTemplate(template.getId());
-        return "redirect:/admin/templates?sort=none";
+        try
+        {
+            templateService.deleteTemplate(template.getId());
+        }
+        catch (SQLException e)
+        {
+            model.addAttribute("DataBase error: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return templateService.showTemplates(null, "none", null, model);
     }
 
     @PostMapping("/templates/create")
@@ -426,7 +434,7 @@ public class AdministratorController
             model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
             e.printStackTrace();
         }
-        return "redirect:/admin/myorders?sort=none";
+        return orderService.showMyOrders(null, "none", null, model, userId);
     }
 
     @PostMapping("/orders/startmyorder")

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -97,7 +98,7 @@ public class ServiceService
         return "admin/services";
     }
 
-    private boolean checkService(String customerId, String templateId, StringBuilder errorMessage)
+    private boolean checkService(String customerId, String templateId, StringBuilder errorMessage) throws SQLException
     {
         boolean error = false;
         if (customerRepo.getCustomer(Integer.parseInt(customerId)) == null)
@@ -115,38 +116,52 @@ public class ServiceService
 
     public String updateServices(ServiceImpl service, String customerId, String templateId, String status, Model model)
     {
-        String errorMessage = "";
-        StringBuilder stringBuilder = new StringBuilder(errorMessage);
-        if (checkService(customerId, templateId, stringBuilder))
+        try
         {
-            stringBuilder.append("Error index: ").append(service.getId());
-            model.addAttribute("errorMessage", stringBuilder.toString());
+            String errorMessage = "";
+            StringBuilder stringBuilder = new StringBuilder(errorMessage);
+            if (checkService(customerId, templateId, stringBuilder))
+            {
+                stringBuilder.append("Error index: ").append(service.getId());
+                model.addAttribute("errorMessage", stringBuilder.toString());
+            }
+            else
+            {
+                service.setCustomer(customerRepo.getCustomer(Integer.parseInt(customerId)));
+                service.setTemplate(templateRepo.getTemplate(Integer.parseInt(templateId)));
+                service.setStatus(ServiceStatus.valueOf(status));
+                serviceRepo.updateService(service.getId(), service);
+            }
         }
-        else
-        {
-            service.setCustomer(customerRepo.getCustomer(Integer.parseInt(customerId)));
-            service.setTemplate(templateRepo.getTemplate(Integer.parseInt(templateId)));
-            service.setStatus(ServiceStatus.valueOf(status));
-            serviceRepo.updateService(service.getId(), service);
+        catch (SQLException e){
+            model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
+            e.printStackTrace();
         }
         return this.showServices(null, "none", null, model);
     }
 
     public String createService(ServiceImpl service, String customerId, String templateId, String status, Model model)
     {
-        String errorMessage = "";
-        StringBuilder stringBuilder = new StringBuilder(errorMessage);
-        if (checkService(customerId, templateId, stringBuilder))
+        try
         {
-            stringBuilder.append("Error index: new object creation");
-            model.addAttribute("errorMessage", stringBuilder.toString());
+            String errorMessage = "";
+            StringBuilder stringBuilder = new StringBuilder(errorMessage);
+            if (checkService(customerId, templateId, stringBuilder))
+            {
+                stringBuilder.append("Error index: new object creation");
+                model.addAttribute("errorMessage", stringBuilder.toString());
+            }
+            else
+            {
+                service.setCustomer(customerRepo.getCustomer(Integer.parseInt(customerId)));
+                service.setTemplate(templateRepo.getTemplate(Integer.parseInt(templateId)));
+                service.setStatus(ServiceStatus.valueOf(status));
+                serviceRepo.createService(service);
+            }
         }
-        else
-        {
-            service.setCustomer(customerRepo.getCustomer(Integer.parseInt(customerId)));
-            service.setTemplate(templateRepo.getTemplate(Integer.parseInt(templateId)));
-            service.setStatus(ServiceStatus.valueOf(status));
-            serviceRepo.createService(service);
+        catch (SQLException e){
+            model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
+            e.printStackTrace();
         }
         return this.showServices(null, "none", null, model);
     }
@@ -175,6 +190,12 @@ public class ServiceService
     {
         List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
         List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByID();
+        return fillServices(services, pairs);
+    }
+
+    private List<com.netcracker.miniOPF.model.service.Service> fillServices(List<com.netcracker.miniOPF.model.service.Service> services,
+                                                                            List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs)
+    {
         for (Pair<Integer, com.netcracker.miniOPF.model.service.Service> pair : pairs)
         {
             com.netcracker.miniOPF.model.service.Service service = pair.getRightValue();
@@ -188,182 +209,98 @@ public class ServiceService
     {
         List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
         List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByIDReversed();
-        for (Pair<Integer, com.netcracker.miniOPF.model.service.Service> pair : pairs)
-        {
-            com.netcracker.miniOPF.model.service.Service service = pair.getRightValue();
-            service.setCustomer(customerRepo.getCustomer(pair.getLeftValue()));
-            services.add(service);
-        }
-        return services;
+        return fillServices(services, pairs);
     }
 
     public List<com.netcracker.miniOPF.model.service.Service> sortServicesByName()
     {
         List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
         List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByName();
-        for (Pair<Integer, com.netcracker.miniOPF.model.service.Service> pair : pairs)
-        {
-            com.netcracker.miniOPF.model.service.Service service = pair.getRightValue();
-            service.setCustomer(customerRepo.getCustomer(pair.getLeftValue()));
-            services.add(service);
-        }
-        return services;
+        return fillServices(services, pairs);
     }
 
     public List<com.netcracker.miniOPF.model.service.Service> sortServicesByNameReversed()
     {
         List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
         List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByNameReversed();
-        for (Pair<Integer, com.netcracker.miniOPF.model.service.Service> pair : pairs)
-        {
-            com.netcracker.miniOPF.model.service.Service service = pair.getRightValue();
-            service.setCustomer(customerRepo.getCustomer(pair.getLeftValue()));
-            services.add(service);
-        }
-        return services;
+        return fillServices(services, pairs);
     }
 
     public List<com.netcracker.miniOPF.model.service.Service> sortServicesByDescription()
     {
         List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
         List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByDescription();
-        for (Pair<Integer, com.netcracker.miniOPF.model.service.Service> pair : pairs)
-        {
-            com.netcracker.miniOPF.model.service.Service service = pair.getRightValue();
-            service.setCustomer(customerRepo.getCustomer(pair.getLeftValue()));
-            services.add(service);
-        }
-        return services;
+        return fillServices(services, pairs);
     }
 
     public List<com.netcracker.miniOPF.model.service.Service> sortServicesByDescriptionReversed()
     {
         List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
         List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByDescriptionReversed();
-        for (Pair<Integer, com.netcracker.miniOPF.model.service.Service> pair : pairs)
-        {
-            com.netcracker.miniOPF.model.service.Service service = pair.getRightValue();
-            service.setCustomer(customerRepo.getCustomer(pair.getLeftValue()));
-            services.add(service);
-        }
-        return services;
+        return fillServices(services, pairs);
     }
 
     public List<com.netcracker.miniOPF.model.service.Service> sortServicesByPrice()
     {
         List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
         List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByPrice();
-        for (Pair<Integer, com.netcracker.miniOPF.model.service.Service> pair : pairs)
-        {
-            com.netcracker.miniOPF.model.service.Service service = pair.getRightValue();
-            service.setCustomer(customerRepo.getCustomer(pair.getLeftValue()));
-            services.add(service);
-        }
-        return services;
+        return fillServices(services, pairs);
     }
 
     public List<com.netcracker.miniOPF.model.service.Service> sortServicesByPriceReversed()
     {
         List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
         List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByPriceReversed();
-        for (Pair<Integer, com.netcracker.miniOPF.model.service.Service> pair : pairs)
-        {
-            com.netcracker.miniOPF.model.service.Service service = pair.getRightValue();
-            service.setCustomer(customerRepo.getCustomer(pair.getLeftValue()));
-            services.add(service);
-        }
-        return services;
+        return fillServices(services, pairs);
     }
 
     public List<com.netcracker.miniOPF.model.service.Service> sortServicesByTemplateID()
     {
         List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
         List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByTemplateID();
-        for (Pair<Integer, com.netcracker.miniOPF.model.service.Service> pair : pairs)
-        {
-            com.netcracker.miniOPF.model.service.Service service = pair.getRightValue();
-            service.setCustomer(customerRepo.getCustomer(pair.getLeftValue()));
-            services.add(service);
-        }
-        return services;
+        return fillServices(services, pairs);
     }
 
     public List<com.netcracker.miniOPF.model.service.Service> sortServicesByTemplateIDReversed()
     {
         List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
         List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByTemplateIDReversed();
-        for (Pair<Integer, com.netcracker.miniOPF.model.service.Service> pair : pairs)
-        {
-            com.netcracker.miniOPF.model.service.Service service = pair.getRightValue();
-            service.setCustomer(customerRepo.getCustomer(pair.getLeftValue()));
-            services.add(service);
-        }
-        return services;
+        return fillServices(services, pairs);
     }
 
     public List<com.netcracker.miniOPF.model.service.Service> sortServicesByCustomerID()
     {
         List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
         List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByCustomerID();
-        for (Pair<Integer, com.netcracker.miniOPF.model.service.Service> pair : pairs)
-        {
-            com.netcracker.miniOPF.model.service.Service service = pair.getRightValue();
-            service.setCustomer(customerRepo.getCustomer(pair.getLeftValue()));
-            services.add(service);
-        }
-        return services;
+        return fillServices(services, pairs);
     }
 
     public List<com.netcracker.miniOPF.model.service.Service> sortServicesByCustomerIDReversed()
     {
         List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
         List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByCustomerIDReversed();
-        for (Pair<Integer, com.netcracker.miniOPF.model.service.Service> pair : pairs)
-        {
-            com.netcracker.miniOPF.model.service.Service service = pair.getRightValue();
-            service.setCustomer(customerRepo.getCustomer(pair.getLeftValue()));
-            services.add(service);
-        }
-        return services;
+        return fillServices(services, pairs);
     }
 
     public List<com.netcracker.miniOPF.model.service.Service> sortServicesByStatus()
     {
         List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
         List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByStatus();
-        for (Pair<Integer, com.netcracker.miniOPF.model.service.Service> pair : pairs)
-        {
-            com.netcracker.miniOPF.model.service.Service service = pair.getRightValue();
-            service.setCustomer(customerRepo.getCustomer(pair.getLeftValue()));
-            services.add(service);
-        }
-        return services;
+        return fillServices(services, pairs);
     }
 
     public List<com.netcracker.miniOPF.model.service.Service> sortServicesByStatusReversed()
     {
         List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
         List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByStatusReversed();
-        for (Pair<Integer, com.netcracker.miniOPF.model.service.Service> pair : pairs)
-        {
-            com.netcracker.miniOPF.model.service.Service service = pair.getRightValue();
-            service.setCustomer(customerRepo.getCustomer(pair.getLeftValue()));
-            services.add(service);
-        }
-        return services;
+        return fillServices(services, pairs);
     }
 
     public List<com.netcracker.miniOPF.model.service.Service> searchServicesByName(String name)
     {
         List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
         List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.searchServicesByName(name);
-        for (Pair<Integer, com.netcracker.miniOPF.model.service.Service> pair : pairs)
-        {
-            com.netcracker.miniOPF.model.service.Service service = pair.getRightValue();
-            service.setCustomer(customerRepo.getCustomer(pair.getLeftValue()));
-            services.add(service);
-        }
-        return services;
+        return fillServices(services, pairs);
     }
 
     public List<com.netcracker.miniOPF.model.service.Service> searchServicesByDescription(String description)
@@ -371,13 +308,7 @@ public class ServiceService
         List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
         List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.searchServicesByDescription(
                 description);
-        for (Pair<Integer, com.netcracker.miniOPF.model.service.Service> pair : pairs)
-        {
-            com.netcracker.miniOPF.model.service.Service service = pair.getRightValue();
-            service.setCustomer(customerRepo.getCustomer(pair.getLeftValue()));
-            services.add(service);
-        }
-        return services;
+        return fillServices(services, pairs);
     }
 
     public List<com.netcracker.miniOPF.model.service.Service> searchServicesByPrice(double price)
@@ -385,13 +316,7 @@ public class ServiceService
         List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
         List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.searchServicesByPrice(
                 price);
-        for (Pair<Integer, com.netcracker.miniOPF.model.service.Service> pair : pairs)
-        {
-            com.netcracker.miniOPF.model.service.Service service = pair.getRightValue();
-            service.setCustomer(customerRepo.getCustomer(pair.getLeftValue()));
-            services.add(service);
-        }
-        return services;
+        return fillServices(services, pairs);
     }
 
     public List<com.netcracker.miniOPF.model.service.Service> searchServiceByTemplateID(int templateID)
@@ -399,13 +324,7 @@ public class ServiceService
         List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
         List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.searchServiceByTemplateID(
                 templateID);
-        for (Pair<Integer, com.netcracker.miniOPF.model.service.Service> pair : pairs)
-        {
-            com.netcracker.miniOPF.model.service.Service service = pair.getRightValue();
-            service.setCustomer(customerRepo.getCustomer(pair.getLeftValue()));
-            services.add(service);
-        }
-        return services;
+        return fillServices(services, pairs);
     }
 
     public List<com.netcracker.miniOPF.model.service.Service> searchServicesByCustomerID(int customerID)
@@ -413,13 +332,7 @@ public class ServiceService
         List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
         List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.searchServicesByCustomerID(
                 customerID);
-        for (Pair<Integer, com.netcracker.miniOPF.model.service.Service> pair : pairs)
-        {
-            com.netcracker.miniOPF.model.service.Service service = pair.getRightValue();
-            service.setCustomer(customerRepo.getCustomer(pair.getLeftValue()));
-            services.add(service);
-        }
-        return services;
+        return fillServices(services, pairs);
     }
 
     public List<com.netcracker.miniOPF.model.service.Service> searchServicesByStatus(String status)
@@ -427,13 +340,7 @@ public class ServiceService
         List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
         List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.searchServicesByStatus(
                 status);
-        for (Pair<Integer, com.netcracker.miniOPF.model.service.Service> pair : pairs)
-        {
-            com.netcracker.miniOPF.model.service.Service service = pair.getRightValue();
-            service.setCustomer(customerRepo.getCustomer(pair.getLeftValue()));
-            services.add(service);
-        }
-        return services;
+        return fillServices(services, pairs);
     }
 
     public com.netcracker.miniOPF.model.service.Service getService(int id)
@@ -453,13 +360,7 @@ public class ServiceService
     {
         List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
         List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.getServiceValues();
-        for (Pair<Integer, com.netcracker.miniOPF.model.service.Service> pair : pairs)
-        {
-            com.netcracker.miniOPF.model.service.Service service = pair.getRightValue();
-            service.setCustomer(customerRepo.getCustomer(pair.getLeftValue()));
-            services.add(service);
-        }
-        return services;
+        return fillServices(services, pairs);
     }
 
     public void updateService(int serviceID, com.netcracker.miniOPF.model.service.Service service)

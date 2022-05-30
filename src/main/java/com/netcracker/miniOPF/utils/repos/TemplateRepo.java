@@ -1,9 +1,7 @@
 package com.netcracker.miniOPF.utils.repos;
 
-import com.netcracker.miniOPF.model.storage.Storage;
 import com.netcracker.miniOPF.model.template.Template;
 import com.netcracker.miniOPF.model.template.TemplateImpl;
-import com.netcracker.miniOPF.utils.storageUtils.TemplateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -24,7 +22,7 @@ public class TemplateRepo
     static
     {
         /* TODO получение коннекшена нужно вынести в отдельный класс
-        *   подумать про Connection Pool https://www.baeldung.com/java-connection-pooling */
+         *   подумать про Connection Pool https://www.baeldung.com/java-connection-pooling */
         try
         {
             Class.forName("org.postgresql.Driver");
@@ -39,567 +37,166 @@ public class TemplateRepo
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         }
         /* TODO Не очень хорошая практика отлавливать ексепшены без корректной обработки
-        *   нужно либо выше прокидывать ошибку с сообщением, либо решать проблему в catch блоке*/
+         *   нужно либо выше прокидывать ошибку с сообщением, либо решать проблему в catch блоке*/
         catch (SQLException e)
         {
             e.printStackTrace();
         }
     }
 
-    private final Storage storage;
-    private final TemplateUtils templateUtils;
     AreaRepo areaRepo;
 
     @Autowired
-    public TemplateRepo(Storage storage,
-                        TemplateUtils templateUtils,
-                        AreaRepo areaRepo)
+    public TemplateRepo(AreaRepo areaRepo)
     {
         this.areaRepo = areaRepo;
-        this.storage = storage;
-        this.templateUtils = templateUtils;
+    }
+
+    private List<Template> extractResultSet(ResultSet resultSet) throws SQLException
+    {
+        List<Template> templates = new ArrayList<>();
+        while (resultSet.next())
+        {
+            Template template = new TemplateImpl();
+
+            template.setId(resultSet.getInt("template_id"));
+            template.setName(resultSet.getString("template_name"));
+            template.setDescription(resultSet.getString("template_description"));
+            template.setPrice(resultSet.getDouble("template_price"));
+            template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
+
+            templates.add(template);
+        }
+        return templates;
     }
 
     /* TODO Во всех методах, где создается сущность из resultSet эти строки одинаковые
      *   нужно вынести эти строки в метод, который на вход принимает resultSet и возвращает
      *   Template. Это сильно сократит количество кода
      */
-    public List<Template> sortTemplatesByID()
+    public List<Template> sortTemplatesByID(boolean reversed) throws SQLException
     {
-        List<Template> templates = new ArrayList<>();
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM template ORDER BY template_id ASC");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Template template = new TemplateImpl();
-
-                template.setId(resultSet.getInt("template_id"));
-                template.setName(resultSet.getString("template_name"));
-                template.setDescription(resultSet.getString("template_description"));
-                template.setPrice(resultSet.getDouble("template_price"));
-                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
-
-                templates.add(template);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return templates;
+        String query = "SELECT * FROM template ORDER BY template_id ";
+        query += reversed ? "DESC" : "ASC";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractResultSet(resultSet);
     }
 
-    /* TODO Вместо reversed методов добавить в обычный метод параметр в зависимости от которого
-     *   будет обратный порядок или прямой. Например можно добавлять DESC через тернарный оператор */
-    public List<Template> sortTemplatesByIDReversed()
+    public List<Template> sortTemplatesByName(boolean reversed) throws SQLException
     {
-        List<Template> templates = new ArrayList<>();
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM template ORDER BY template_id DESC");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Template template = new TemplateImpl();
-
-                template.setId(resultSet.getInt("template_id"));
-                template.setName(resultSet.getString("template_name"));
-                template.setDescription(resultSet.getString("template_description"));
-                template.setPrice(resultSet.getDouble("template_price"));
-                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
-
-                templates.add(template);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return templates;
+        String query = "SELECT * FROM template ORDER BY template_name ";
+        query += reversed ? "DESC" : "ASC";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractResultSet(resultSet);
     }
 
-    public List<Template> sortTemplatesByName()
+    public List<Template> sortTemplatesByDescription(boolean reversed) throws SQLException
     {
-        List<Template> templates = new ArrayList<>();
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM template ORDER BY template_name ASC");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Template template = new TemplateImpl();
-
-                template.setId(resultSet.getInt("template_id"));
-                template.setName(resultSet.getString("template_name"));
-                template.setDescription(resultSet.getString("template_description"));
-                template.setPrice(resultSet.getDouble("template_price"));
-                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
-
-                templates.add(template);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return templates;
+        String query = "SELECT * FROM template ORDER BY template_description ";
+        query += reversed ? "DESC" : "ASC";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractResultSet(resultSet);
     }
 
-    public List<Template> sortTemplatesByNameReversed()
+    public List<Template> sortTemplatesByPrice(boolean reversed) throws SQLException
     {
-        List<Template> templates = new ArrayList<>();
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM template ORDER BY template_name DESC");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Template template = new TemplateImpl();
-
-                template.setId(resultSet.getInt("template_id"));
-                template.setName(resultSet.getString("template_name"));
-                template.setDescription(resultSet.getString("template_description"));
-                template.setPrice(resultSet.getDouble("template_price"));
-                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
-
-                templates.add(template);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return templates;
+        String query = "SELECT * FROM template ORDER BY template_price ";
+        query += reversed ? "DESC" : "ASC";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractResultSet(resultSet);
     }
 
-    public List<Template> sortTemplatesByDescription()
+    public List<Template> sortTemplatesByAreaID(boolean reversed) throws SQLException
     {
-        List<Template> templates = new ArrayList<>();
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM template ORDER BY template_description ASC");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Template template = new TemplateImpl();
-
-                template.setId(resultSet.getInt("template_id"));
-                template.setName(resultSet.getString("template_name"));
-                template.setDescription(resultSet.getString("template_description"));
-                template.setPrice(resultSet.getDouble("template_price"));
-                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
-
-                templates.add(template);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return templates;
+        String query = "SELECT * FROM template ORDER BY area_id ";
+        query += reversed ? "DESC" : "ASC";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractResultSet(resultSet);
     }
 
-    public List<Template> sortTemplatesByDescriptionReversed()
+    public Template searchTemplateByName(String name) throws SQLException
     {
-        List<Template> templates = new ArrayList<>();
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM template ORDER BY template_description DESC");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Template template = new TemplateImpl();
-
-                template.setId(resultSet.getInt("template_id"));
-                template.setName(resultSet.getString("template_name"));
-                template.setDescription(resultSet.getString("template_description"));
-                template.setPrice(resultSet.getDouble("template_price"));
-                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
-
-                templates.add(template);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return templates;
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "SELECT * FROM template WHERE template_name=?");
+        preparedStatement.setString(1, name);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractResultSet(resultSet).stream().filter(i -> i.getName().equals(name)).findAny().orElse(null);
     }
 
-    public List<Template> sortTemplatesByPrice()
+    public List<Template> searchTemplatesByDescription(String description) throws SQLException
     {
-        List<Template> templates = new ArrayList<>();
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM template ORDER BY template_price ASC");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Template template = new TemplateImpl();
-
-                template.setId(resultSet.getInt("template_id"));
-                template.setName(resultSet.getString("template_name"));
-                template.setDescription(resultSet.getString("template_description"));
-                template.setPrice(resultSet.getDouble("template_price"));
-                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
-
-                templates.add(template);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return templates;
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "SELECT * FROM template WHERE template_description=?");
+        preparedStatement.setString(1, description);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractResultSet(resultSet);
     }
 
-    public List<Template> sortTemplatesByPriceReversed()
+    public List<Template> searchTemplatesByPrice(double price) throws SQLException
     {
-        List<Template> templates = new ArrayList<>();
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM template ORDER BY template_price DESC");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Template template = new TemplateImpl();
-
-                template.setId(resultSet.getInt("template_id"));
-                template.setName(resultSet.getString("template_name"));
-                template.setDescription(resultSet.getString("template_description"));
-                template.setPrice(resultSet.getDouble("template_price"));
-                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
-
-                templates.add(template);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return templates;
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "SELECT * FROM template WHERE template_price=?");
+        preparedStatement.setDouble(1, price);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractResultSet(resultSet);
     }
 
-    public List<Template> sortTemplatesByAreaID()
+    public List<Template> searchTemplatesByArea(int areaID) throws SQLException
     {
-        List<Template> templates = new ArrayList<>();
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM template ORDER BY area_id ASC");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Template template = new TemplateImpl();
-
-                template.setId(resultSet.getInt("template_id"));
-                template.setName(resultSet.getString("template_name"));
-                template.setDescription(resultSet.getString("template_description"));
-                template.setPrice(resultSet.getDouble("template_price"));
-                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
-
-                templates.add(template);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return templates;
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM template WHERE area_id=?");
+        preparedStatement.setInt(1, areaID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractResultSet(resultSet);
     }
 
-    public List<Template> sortTemplatesByAreaIDReversed()
+    public Template getTemplate(int id) throws SQLException
     {
-        List<Template> templates = new ArrayList<>();
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM template ORDER BY area_id DESC");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Template template = new TemplateImpl();
-
-                template.setId(resultSet.getInt("template_id"));
-                template.setName(resultSet.getString("template_name"));
-                template.setDescription(resultSet.getString("template_description"));
-                template.setPrice(resultSet.getDouble("template_price"));
-                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
-
-                templates.add(template);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return templates;
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "SELECT * FROM template WHERE template_id=?");
+        preparedStatement.setInt(1, id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractResultSet(resultSet).stream().findFirst().orElse(null);
     }
 
-    public Template searchTemplateByName(
-            String name)
+    public List<Template> getTemplateValues() throws SQLException
     {
-        Template template = null;
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM template WHERE template_name=?");
-            preparedStatement.setString(1, name);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                template = new TemplateImpl();
-
-                template.setId(resultSet.getInt("template_id"));
-                template.setName(resultSet.getString("template_name"));
-                template.setDescription(resultSet.getString("template_description"));
-                template.setPrice(resultSet.getDouble("template_price"));
-                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return template;
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM template");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractResultSet(resultSet);
     }
 
-    public List<Template> searchTemplatesByDescription(
-            String description)
+    public void updateTemplate(int id, Template template) throws SQLException
     {
-        List<Template> templates = new ArrayList<>();
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM template WHERE template_description=?");
-            preparedStatement.setString(1, description);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Template template = new TemplateImpl();
-
-                template.setId(resultSet.getInt("template_id"));
-                template.setName(resultSet.getString("template_name"));
-                template.setDescription(resultSet.getString("template_description"));
-                template.setPrice(resultSet.getDouble("template_price"));
-                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
-
-                templates.add(template);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return templates;
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "UPDATE template SET template_name=?, template_description=?, template_price=?, area_id=? WHERE template_id=?");
+        preparedStatement.setString(1, template.getName());
+        preparedStatement.setString(2, template.getDescription());
+        preparedStatement.setDouble(3, template.getPrice());
+        preparedStatement.setInt(4, template.getArea().getId());
+        preparedStatement.setInt(5, id);
+        preparedStatement.executeUpdate();
     }
 
-    public List<Template> searchTemplatesByPrice(
-            double price)
+    public void deleteTemplate(int id) throws SQLException
     {
-        List<Template> templates = new ArrayList<>();
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM template WHERE template_price=?");
-            preparedStatement.setDouble(1, price);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Template template = new TemplateImpl();
-
-                template.setId(resultSet.getInt("template_id"));
-                template.setName(resultSet.getString("template_name"));
-                template.setDescription(resultSet.getString("template_description"));
-                template.setPrice(resultSet.getDouble("template_price"));
-                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
-
-                templates.add(template);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return templates;
+        PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM template WHERE template_id=?");
+        preparedStatement.setInt(1, id);
+        preparedStatement.executeUpdate();
     }
 
-    public List<Template> searchTemplatesByArea(
-            int areaID)
+    public void createTemplate(Template template) throws SQLException
     {
-        List<Template> templates = new ArrayList<>();
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM template WHERE area_id=?");
-            preparedStatement.setInt(1, areaID);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Template template = new TemplateImpl();
-
-                template.setId(resultSet.getInt("template_id"));
-                template.setName(resultSet.getString("template_name"));
-                template.setDescription(resultSet.getString("template_description"));
-                template.setPrice(resultSet.getDouble("template_price"));
-                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
-
-                templates.add(template);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return templates;
-    }
-
-    public Template getTemplate(int id)
-    {
-        Template template = null;
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM template WHERE template_id=?");
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                template = new TemplateImpl();
-
-                template.setId(resultSet.getInt("template_id"));
-                template.setName(resultSet.getString("template_name"));
-                template.setDescription(resultSet.getString("template_description"));
-                template.setPrice(resultSet.getDouble("template_price"));
-                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return template;
-    }
-
-    public List<Template> getTemplateValues()
-    {
-        List<Template> templates = new ArrayList<>();
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM template");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Template template = new TemplateImpl();
-
-                template.setId(resultSet.getInt("template_id"));
-                template.setName(resultSet.getString("template_name"));
-                template.setDescription(resultSet.getString("template_description"));
-                template.setPrice(resultSet.getDouble("template_price"));
-                template.setArea(areaRepo.getArea(resultSet.getInt("area_id")));
-
-                templates.add(template);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return templates;
-    }
-
-    public void updateTemplate(int id, Template template)
-    {
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "UPDATE template SET template_name=?, template_description=?, template_price=?, area_id=? WHERE template_id=?");
-            preparedStatement.setString(1, template.getName());
-            preparedStatement.setString(2, template.getDescription());
-            preparedStatement.setDouble(3, template.getPrice());
-            preparedStatement.setInt(4, template.getArea().getId());
-            preparedStatement.setInt(5, id);
-
-            preparedStatement.executeUpdate();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public void deleteTemplate(int id)
-    {
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM template WHERE template_id=?");
-            preparedStatement.setInt(1, id);
-
-            preparedStatement.executeUpdate();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-    }
-
-    public void createTemplate(Template template){
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO template VALUES((SELECT max(template_id)+1 from template), ?, ?, ?, ?)");
-            preparedStatement.setString(1, template.getName());
-            preparedStatement.setString(2, template.getDescription());
-            preparedStatement.setDouble(3, template.getPrice());
-            preparedStatement.setInt(4, template.getArea().getId());
-
-            preparedStatement.executeUpdate();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "INSERT INTO template VALUES((SELECT max(template_id)+1 from template), ?, ?, ?, ?)");
+        preparedStatement.setString(1, template.getName());
+        preparedStatement.setString(2, template.getDescription());
+        preparedStatement.setDouble(3, template.getPrice());
+        preparedStatement.setInt(4, template.getArea().getId());
+        preparedStatement.executeUpdate();
     }
 }
