@@ -87,8 +87,7 @@ public class AreaRepo
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM area WHERE area_name=?");
         preparedStatement.setString(1, name);
         ResultSet resultSet = preparedStatement.executeQuery();
-        //TODO реализовать получение через stream
-        return this.extractResultSet(resultSet).get(0);
+        return this.extractResultSet(resultSet).stream().filter(i -> i.getName().equals(name)).findAny().orElse(null);
     }
 
     public List<Area> searchAreasByDescription(String description) throws SQLException
@@ -105,8 +104,7 @@ public class AreaRepo
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM area WHERE area_id=?");
         preparedStatement.setInt(1, id);
         ResultSet resultSet = preparedStatement.executeQuery();
-        //TODO реализовать получение через stream
-        return this.extractResultSet(resultSet).get(0);
+        return this.extractResultSet(resultSet).stream().filter(i -> i.getId() == id).findAny().orElse(null);
     }
 
     public List<Area> getAreaValues() throws SQLException
@@ -128,11 +126,11 @@ public class AreaRepo
     public void updateArea(int id, Area area) throws SQLException
     {
         PreparedStatement preparedStatement = connection.prepareStatement(
-                    "UPDATE area SET area_name=?, area_description=? WHERE area_id=?");
-            preparedStatement.setString(1, area.getName());
-            preparedStatement.setString(2, area.getDescription());
-            preparedStatement.setInt(3, id);
-            preparedStatement.executeUpdate();
+                "UPDATE area SET area_name=?, area_description=? WHERE area_id=?");
+        preparedStatement.setString(1, area.getName());
+        preparedStatement.setString(2, area.getDescription());
+        preparedStatement.setInt(3, id);
+        preparedStatement.executeUpdate();
     }
 
     public void deleteArea(int id) throws SQLException

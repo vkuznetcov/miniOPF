@@ -95,8 +95,11 @@ public class AdminRepo
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM admin WHERE admin_login=?");
         preparedStatement.setString(1, login);
         ResultSet resultSet = preparedStatement.executeQuery();
-        //TODO реализовать получение через stream
-        return this.extractAdminsResultSet(resultSet).get(0);
+        return this.extractAdminsResultSet(resultSet)
+                   .stream()
+                   .filter(i -> i.getLogin().equals(login))
+                   .findAny()
+                   .orElse(null);
     }
 
     public List<Admin> searchAdminsByName(String name) throws SQLException
@@ -121,8 +124,7 @@ public class AdminRepo
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM admin WHERE admin_id=?");
         preparedStatement.setInt(1, id);
         ResultSet resultSet = preparedStatement.executeQuery();
-        //TODO реализовать получение через stream
-        return this.extractAdminsResultSet(resultSet).get(0);
+        return this.extractAdminsResultSet(resultSet).stream().filter(i -> i.getId() == id).findAny().orElse(null);
     }
 
     public void deleteAdmin(int id) throws SQLException
