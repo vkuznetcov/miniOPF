@@ -299,7 +299,15 @@ public class AdministratorController
                               Model model)
     {
         model.addAttribute("userId", userId);
-        orderService.deleteOrder(order.getId());
+        try
+        {
+            orderService.deleteOrder(order.getId());
+        }
+        catch (SQLException e)
+        {
+            model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
+            e.printStackTrace();
+        }
         return "redirect:/admin/orders?sort=none";
     }
 
@@ -409,7 +417,15 @@ public class AdministratorController
                                 Model model)
     {
         model.addAttribute("userId", userId);
-        orderService.deleteOrder(order.getId());
+        try
+        {
+            orderService.deleteOrder(order.getId());
+        }
+        catch (SQLException e)
+        {
+            model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
+            e.printStackTrace();
+        }
         return "redirect:/admin/myorders?sort=none";
     }
 
