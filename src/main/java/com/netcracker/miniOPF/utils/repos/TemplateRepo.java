@@ -70,10 +70,6 @@ public class TemplateRepo
         return templates;
     }
 
-    /* TODO Во всех методах, где создается сущность из resultSet эти строки одинаковые
-     *   нужно вынести эти строки в метод, который на вход принимает resultSet и возвращает
-     *   Template. Это сильно сократит количество кода
-     */
     public List<Template> sortTemplatesByID(boolean reversed) throws SQLException
     {
         String query = "SELECT * FROM template ORDER BY template_id ";
