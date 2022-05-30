@@ -52,10 +52,6 @@ public class CustomerRepo
         this.serviceRepo = serviceRepo;
     }
 
-    /* TODO Во всех методах, где создается сущность из resultSet эти строки одинаковые
-     *   нужно вынести эти строки в метод, который на вход принимает resultSet и возвращает
-     *   Customer. Это сильно сократит количество кода
-     */
     private List<Customer> extractResultSet(ResultSet resultSet) throws SQLException
     {
         List<Customer> customers = new ArrayList<>();
