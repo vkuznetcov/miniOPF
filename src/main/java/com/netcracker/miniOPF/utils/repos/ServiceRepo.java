@@ -3,14 +3,14 @@ package com.netcracker.miniOPF.utils.repos;
 import com.netcracker.miniOPF.model.service.Service;
 import com.netcracker.miniOPF.model.service.ServiceImpl;
 import com.netcracker.miniOPF.model.service.enums.ServiceStatus;
-import com.netcracker.miniOPF.model.storage.Storage;
 import com.netcracker.miniOPF.utils.storageUtils.Pair;
-import com.netcracker.miniOPF.utils.storageUtils.ServiceUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 @Repository
 public class ServiceRepo
@@ -42,998 +42,213 @@ public class ServiceRepo
         }
     }
 
-//    private final CustomerRepo customerRepo;
     private final TemplateRepo templateRepo;
-    private Storage storage;
-    private ServiceUtils serviceUtils;
+
 
     @Autowired
-    public ServiceRepo(Storage storage,
-                       ServiceUtils serviceUtils,
-//                       CustomerRepo customerRepo,
-                       TemplateRepo templateRepo
-                      )
+    public ServiceRepo(TemplateRepo templateRepo)
     {
-        this.storage = storage;
-        this.serviceUtils = serviceUtils;
-//        this.customerRepo = customerRepo;
         this.templateRepo = templateRepo;
     }
 
-    public void suspendService(int id)
-    {
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "UPDATE service SET service_status='SUSPENDED' WHERE service_id=?");
-            preparedStatement.setInt(1, id);
-
-            preparedStatement.executeUpdate();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public void resumeService(int id)
-    {
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "UPDATE service SET service_status='ACTIVE' WHERE service_id=?");
-            preparedStatement.setInt(1, id);
-
-            preparedStatement.executeUpdate();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public void disconnectService(int id)
-    {
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "UPDATE service SET service_status='DISCONNECTED' WHERE service_id=?");
-            preparedStatement.setInt(1, id);
-
-            preparedStatement.executeUpdate();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public void connectService(int templateID, int customerID)
-    {
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO service VALUES((SELECT MAX(service_id)+1 FROM service)," +
-                            " (SELECT template_name from template WHERE template_id=?)," +
-                            " (SELECT template_description from template WHERE template_id=?)," +
-                            " (SELECT template_price from template WHERE template_id=?), 'CONNECTED', ?)");
-
-            PreparedStatement preparedStatement1 = connection.prepareStatement(
-                    "INSERT INTO customer_service VALUES(?," +
-                            " (SELECT MAX(service_id) FROM service))");
-
-            preparedStatement.setInt(1, templateID);
-            preparedStatement.setInt(2, templateID);
-            preparedStatement.setInt(3, templateID);
-            preparedStatement.setInt(4, templateID);
-
-            preparedStatement1.setInt(1, customerID);
-
-
-            preparedStatement.executeUpdate();
-            preparedStatement1.executeUpdate();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    /* TODO Во всех методах, где создается сущность из resultSet эти строки одинаковые
-     *   нужно вынести эти строки в метод, который на вход принимает resultSet и возвращает
-     *   Service. Это сильно сократит количество кода
-     */
-    public List<Pair<Integer, Service>> sortServicesByID()
+    private List<Pair<Integer, Service>> extractResultSet(ResultSet resultSet) throws SQLException
     {
         List<Pair<Integer, Service>> services = new ArrayList<>();
 
-        try
+        while (resultSet.next())
         {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM service ORDER BY service_id ASC");
-            ResultSet resultSet = preparedStatement.executeQuery();
+            Service service = new ServiceImpl();
 
-            while (resultSet.next())
-            {
-                Service service = new ServiceImpl();
+            service.setId(resultSet.getInt("service_id"));
+            service.setName(resultSet.getString("service_name"));
+            service.setDescription(resultSet.getString("service_description"));
+            service.setPrice(resultSet.getDouble("service_price"));
+            service.setStatus(ServiceStatus.valueOf(resultSet.getString("service_status")
+                                                             .toUpperCase(Locale.ROOT)));
+            service.setTemplate(templateRepo.getTemplate(resultSet.getInt("template_id")));
 
-                service.setId(resultSet.getInt("service_id"));
-                service.setName(resultSet.getString("service_name"));
-                service.setDescription(resultSet.getString("service_description"));
-                service.setPrice(resultSet.getDouble("service_price"));
-                service.setStatus(ServiceStatus.valueOf(resultSet.getString("service_status")
-                                                                 .toUpperCase(Locale.ROOT)));
-//                service.setCustomer(customerRepo.getCustomer(resultSet.getInt("customer_id")));
-                service.setTemplate(templateRepo.getTemplate(resultSet.getInt("template_id")));
-
-                Pair<Integer, Service> pair = new Pair<>();
-                pair.setRightValue(service);
-                pair.setLeftValue(resultSet.getInt("customer_id"));
-                services.add(pair);
-            }
+            Pair<Integer, Service> pair = new Pair<>();
+            pair.setRightValue(service);
+            pair.setLeftValue(resultSet.getInt("customer_id"));
+            services.add(pair);
         }
-        /* TODO Не очень хорошая практика отлавливать ексепшены без корректной обработки
-         *   нужно либо выше прокидывать ошибку с сообщением, либо решать проблему в catch блоке*/
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
         return services;
     }
 
-    /* TODO Вместо reversed методов добавить в обычный метод параметр в зависимости от которого
-     *   будет обратный порядок или прямой. Например можно добавлять DESC через тернарный оператор */
-    public List<Pair<Integer,Service>> sortServicesByIDReversed()
+    public List<Pair<Integer, Service>> sortServicesByID(boolean reversed) throws SQLException
     {
-        List<Pair<Integer, Service>> services = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM service ORDER BY service_id DESC");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Service service = new ServiceImpl();
-
-                service.setId(resultSet.getInt("service_id"));
-                service.setName(resultSet.getString("service_name"));
-                service.setDescription(resultSet.getString("service_description"));
-                service.setPrice(resultSet.getDouble("service_price"));
-                service.setStatus(ServiceStatus.valueOf(resultSet.getString("service_status")
-                                                                 .toUpperCase(Locale.ROOT)));
-//                service.setCustomer(customerRepo.getCustomer(resultSet.getInt("customer_id")));
-                service.setTemplate(templateRepo.getTemplate(resultSet.getInt("template_id")));
-
-                Pair<Integer, Service> pair = new Pair<>();
-                pair.setLeftValue(resultSet.getInt("customer_id"));
-                pair.setRightValue(service);
-                services.add(pair);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return services;
+        String query = "SELECT * FROM service ORDER BY service_id ";
+        query += reversed ? "DESC" : "ASC";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractResultSet(resultSet);
     }
 
-    public List<Pair<Integer, Service>> sortServicesByName()
+    public List<Pair<Integer, Service>> sortServicesByName(boolean reversed) throws SQLException
     {
-        List<Pair<Integer, Service>> services = new ArrayList<>();
+        String query = "SELECT * FROM service ORDER BY service_name ";
+        query += reversed ? "DESC" : "ASC";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractResultSet(resultSet);
 
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM service ORDER BY service_name ASC");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Service service = new ServiceImpl();
-
-                service.setId(resultSet.getInt("service_id"));
-                service.setName(resultSet.getString("service_name"));
-                service.setDescription(resultSet.getString("service_description"));
-                service.setPrice(resultSet.getDouble("service_price"));
-                service.setStatus(ServiceStatus.valueOf(resultSet.getString("service_status")
-                                                                 .toUpperCase(Locale.ROOT)));
-//                service.setCustomer(customerRepo.getCustomer(resultSet.getInt("customer_id")));
-                service.setTemplate(templateRepo.getTemplate(resultSet.getInt("template_id")));
-
-                Pair<Integer, Service> pair = new Pair<>();
-                pair.setLeftValue(resultSet.getInt("customer_id"));
-                pair.setRightValue(service);
-                services.add(pair);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return services;
     }
 
-    public List<Pair<Integer, Service>> sortServicesByNameReversed()
+    public List<Pair<Integer, Service>> sortServicesByDescription(boolean reversed) throws SQLException
     {
-        List<Pair<Integer, Service>> services = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM service ORDER BY service_name DESC");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Service service = new ServiceImpl();
-
-                service.setId(resultSet.getInt("service_id"));
-                service.setName(resultSet.getString("service_name"));
-                service.setDescription(resultSet.getString("service_description"));
-                service.setPrice(resultSet.getDouble("service_price"));
-                service.setStatus(ServiceStatus.valueOf(resultSet.getString("service_status")
-                                                                 .toUpperCase(Locale.ROOT)));
-//                service.setCustomer(customerRepo.getCustomer(resultSet.getInt("customer_id")));
-                service.setTemplate(templateRepo.getTemplate(resultSet.getInt("template_id")));
-
-                Pair<Integer, Service> pair = new Pair<>();
-                pair.setLeftValue(resultSet.getInt("customer_id"));
-                pair.setRightValue(service);
-                services.add(pair);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return services;
+        String query = "SELECT * FROM service ORDER BY service_description ";
+        query += reversed ? "DESC" : "ASC";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractResultSet(resultSet);
     }
 
-    public List<Pair<Integer, Service>> sortServicesByDescription()
+    public List<Pair<Integer, Service>> sortServicesByPrice(boolean reversed) throws SQLException
     {
-        List<Pair<Integer, Service>> services = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM service ORDER BY service_description ASC");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Service service = new ServiceImpl();
-
-                service.setId(resultSet.getInt("service_id"));
-                service.setName(resultSet.getString("service_name"));
-                service.setDescription(resultSet.getString("service_description"));
-                service.setPrice(resultSet.getDouble("service_price"));
-                service.setStatus(ServiceStatus.valueOf(resultSet.getString("service_status")
-                                                                 .toUpperCase(Locale.ROOT)));
-//                service.setCustomer(customerRepo.getCustomer(resultSet.getInt("customer_id")));
-                service.setTemplate(templateRepo.getTemplate(resultSet.getInt("template_id")));
-
-                Pair<Integer, Service> pair = new Pair<>();
-                pair.setLeftValue(resultSet.getInt("customer_id"));
-                pair.setRightValue(service);
-                services.add(pair);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return services;
+        String query = "SELECT * FROM service ORDER BY service_price ";
+        query += reversed ? "DESC" : "ASC";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractResultSet(resultSet);
     }
 
-    public List<Pair<Integer, Service>> sortServicesByDescriptionReversed()
+    public List<Pair<Integer, Service>> sortServicesByTemplateID(boolean reversed) throws SQLException
     {
-        List<Pair<Integer, Service>> services = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM service ORDER BY service_description DESC");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Service service = new ServiceImpl();
-
-                service.setId(resultSet.getInt("service_id"));
-                service.setName(resultSet.getString("service_name"));
-                service.setDescription(resultSet.getString("service_description"));
-                service.setPrice(resultSet.getDouble("service_price"));
-                service.setStatus(ServiceStatus.valueOf(resultSet.getString("service_status")
-                                                                 .toUpperCase(Locale.ROOT)));
-//                service.setCustomer(customerRepo.getCustomer(resultSet.getInt("customer_id")));
-                service.setTemplate(templateRepo.getTemplate(resultSet.getInt("template_id")));
-
-                Pair<Integer, Service> pair = new Pair<>();
-                pair.setLeftValue(resultSet.getInt("customer_id"));
-                pair.setRightValue(service);
-                services.add(pair);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return services;
+        String query = "SELECT * FROM service ORDER BY template_id ";
+        query += reversed ? "DESC" : "ASC";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractResultSet(resultSet);
     }
 
-    public List<Pair<Integer, Service>> sortServicesByPrice()
+    public List<Pair<Integer, Service>> sortServicesByCustomerID(boolean reversed) throws SQLException
     {
-        List<Pair<Integer, Service>> services = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM service ORDER BY service_price ASC");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Service service = new ServiceImpl();
-
-                service.setId(resultSet.getInt("service_id"));
-                service.setName(resultSet.getString("service_name"));
-                service.setDescription(resultSet.getString("service_description"));
-                service.setPrice(resultSet.getDouble("service_price"));
-                service.setStatus(ServiceStatus.valueOf(resultSet.getString("service_status")
-                                                                 .toUpperCase(Locale.ROOT)));
-//                service.setCustomer(customerRepo.getCustomer(resultSet.getInt("customer_id")));
-                service.setTemplate(templateRepo.getTemplate(resultSet.getInt("template_id")));
-
-                Pair<Integer, Service> pair = new Pair<>();
-                pair.setLeftValue(resultSet.getInt("customer_id"));
-                pair.setRightValue(service);
-                services.add(pair);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return services;
+        String query = "SELECT * FROM service ORDER BY customer_id ";
+        query += reversed ? "DESC" : "ASC";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractResultSet(resultSet);
     }
 
-    public List<Pair<Integer, Service>> sortServicesByPriceReversed()
+    public List<Pair<Integer, Service>> sortServicesByStatus(boolean reversed) throws SQLException
     {
-        List<Pair<Integer, Service>> services = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM service ORDER BY service_price DESC");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Service service = new ServiceImpl();
-
-                service.setId(resultSet.getInt("service_id"));
-                service.setName(resultSet.getString("service_name"));
-                service.setDescription(resultSet.getString("service_description"));
-                service.setPrice(resultSet.getDouble("service_price"));
-                service.setStatus(ServiceStatus.valueOf(resultSet.getString("service_status")
-                                                                 .toUpperCase(Locale.ROOT)));
-//                service.setCustomer(customerRepo.getCustomer(resultSet.getInt("customer_id")));
-                service.setTemplate(templateRepo.getTemplate(resultSet.getInt("template_id")));
-
-                Pair<Integer, Service> pair = new Pair<>();
-                pair.setLeftValue(resultSet.getInt("customer_id"));
-                pair.setRightValue(service);
-                services.add(pair);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return services;
+        String query = "SELECT * FROM service ORDER BY service_status ";
+        query += reversed ? "DESC" : "ASC";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractResultSet(resultSet);
     }
 
-    public List<Pair<Integer, Service>> sortServicesByTemplateID()
+    public List<Pair<Integer, Service>> searchServicesByName(String name) throws SQLException
     {
-        List<Pair<Integer, Service>> services = new ArrayList<>();
 
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM service ORDER BY template_id ASC");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Service service = new ServiceImpl();
-
-                service.setId(resultSet.getInt("service_id"));
-                service.setName(resultSet.getString("service_name"));
-                service.setDescription(resultSet.getString("service_description"));
-                service.setPrice(resultSet.getDouble("service_price"));
-                service.setStatus(ServiceStatus.valueOf(resultSet.getString("service_status")
-                                                                 .toUpperCase(Locale.ROOT)));
-//                service.setCustomer(customerRepo.getCustomer(resultSet.getInt("customer_id")));
-                service.setTemplate(templateRepo.getTemplate(resultSet.getInt("template_id")));
-
-                Pair<Integer, Service> pair = new Pair<>();
-                pair.setLeftValue(resultSet.getInt("customer_id"));
-                pair.setRightValue(service);
-                services.add(pair);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return services;
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "SELECT * FROM service WHERE service_name=?");
+        preparedStatement.setString(1, name);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractResultSet(resultSet);
     }
 
-    public List<Pair<Integer, Service>> sortServicesByTemplateIDReversed()
+    public List<Pair<Integer, Service>> searchServicesByDescription(String description) throws SQLException
     {
-        List<Pair<Integer, Service>> services = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM service ORDER BY template_id DESC");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Service service = new ServiceImpl();
-
-                service.setId(resultSet.getInt("service_id"));
-                service.setName(resultSet.getString("service_name"));
-                service.setDescription(resultSet.getString("service_description"));
-                service.setPrice(resultSet.getDouble("service_price"));
-                service.setStatus(ServiceStatus.valueOf(resultSet.getString("service_status")
-                                                                 .toUpperCase(Locale.ROOT)));
-//                service.setCustomer(customerRepo.getCustomer(resultSet.getInt("customer_id")));
-                service.setTemplate(templateRepo.getTemplate(resultSet.getInt("template_id")));
-
-                Pair<Integer, Service> pair = new Pair<>();
-                pair.setLeftValue(resultSet.getInt("customer_id"));
-                pair.setRightValue(service);
-                services.add(pair);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return services;
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "SELECT * FROM service WHERE service_description=?");
+        preparedStatement.setString(1, description);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractResultSet(resultSet);
     }
 
-    public List<Pair<Integer, Service>> sortServicesByCustomerID()
+    public List<Pair<Integer, Service>> searchServicesByPrice(double price) throws SQLException
     {
-        List<Pair<Integer, Service>> services = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM service ORDER BY customer_id ASC");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Service service = new ServiceImpl();
-
-                service.setId(resultSet.getInt("service_id"));
-                service.setName(resultSet.getString("service_name"));
-                service.setDescription(resultSet.getString("service_description"));
-                service.setPrice(resultSet.getDouble("service_price"));
-                service.setStatus(ServiceStatus.valueOf(resultSet.getString("service_status")
-                                                                 .toUpperCase(Locale.ROOT)));
-//                service.setCustomer(customerRepo.getCustomer(resultSet.getInt("customer_id")));
-                service.setTemplate(templateRepo.getTemplate(resultSet.getInt("template_id")));
-
-                Pair<Integer, Service> pair = new Pair<>();
-                pair.setLeftValue(resultSet.getInt("customer_id"));
-                pair.setRightValue(service);
-                services.add(pair);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return services;
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "SELECT * FROM service WHERE service_price=?");
+        preparedStatement.setDouble(1, price);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractResultSet(resultSet);
     }
 
-    public List<Pair<Integer, Service>> sortServicesByCustomerIDReversed()
+    public List<Pair<Integer, Service>> searchServiceByTemplateID(int templateID) throws SQLException
     {
-        List<Pair<Integer, Service>> services = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM service ORDER BY customer_id DESC");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Service service = new ServiceImpl();
-
-                service.setId(resultSet.getInt("service_id"));
-                service.setName(resultSet.getString("service_name"));
-                service.setDescription(resultSet.getString("service_description"));
-                service.setPrice(resultSet.getDouble("service_price"));
-                service.setStatus(ServiceStatus.valueOf(resultSet.getString("service_status")
-                                                                 .toUpperCase(Locale.ROOT)));
-//                service.setCustomer(customerRepo.getCustomer(resultSet.getInt("customer_id")));
-                service.setTemplate(templateRepo.getTemplate(resultSet.getInt("template_id")));
-
-                Pair<Integer, Service> pair = new Pair<>();
-                pair.setLeftValue(resultSet.getInt("customer_id"));
-                pair.setRightValue(service);
-                services.add(pair);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return services;
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "SELECT * FROM service WHERE template_id=?");
+        preparedStatement.setInt(1, templateID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractResultSet(resultSet);
     }
 
-    public List<Pair<Integer, Service>> sortServicesByStatus()
+    public List<Pair<Integer, Service>> searchServicesByCustomerID(int customerID) throws SQLException
     {
-        List<Pair<Integer, Service>> services = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM service ORDER BY service_status ASC");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Service service = new ServiceImpl();
-
-                service.setId(resultSet.getInt("service_id"));
-                service.setName(resultSet.getString("service_name"));
-                service.setDescription(resultSet.getString("service_description"));
-                service.setPrice(resultSet.getDouble("service_price"));
-                service.setStatus(ServiceStatus.valueOf(resultSet.getString("service_status")
-                                                                 .toUpperCase(Locale.ROOT)));
-//                service.setCustomer(customerRepo.getCustomer(resultSet.getInt("customer_id")));
-                service.setTemplate(templateRepo.getTemplate(resultSet.getInt("template_id")));
-
-                Pair<Integer, Service> pair = new Pair<>();
-                pair.setLeftValue(resultSet.getInt("customer_id"));
-                pair.setRightValue(service);
-                services.add(pair);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return services;
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "SELECT * FROM service WHERE customer_id=?");
+        preparedStatement.setInt(1, customerID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractResultSet(resultSet);
     }
 
-    public List<Pair<Integer, Service>> sortServicesByStatusReversed()
+    public List<Pair<Integer, Service>> searchServicesByStatus(String status) throws SQLException
     {
-        List<Pair<Integer, Service>> services = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM service ORDER BY service_status DESC");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Service service = new ServiceImpl();
-
-                service.setId(resultSet.getInt("service_id"));
-                service.setName(resultSet.getString("service_name"));
-                service.setDescription(resultSet.getString("service_description"));
-                service.setPrice(resultSet.getDouble("service_price"));
-                service.setStatus(ServiceStatus.valueOf(resultSet.getString("service_status")
-                                                                 .toUpperCase(Locale.ROOT)));
-//                service.setCustomer(customerRepo.getCustomer(resultSet.getInt("customer_id")));
-                service.setTemplate(templateRepo.getTemplate(resultSet.getInt("template_id")));
-
-                Pair<Integer, Service> pair = new Pair<>();
-                pair.setLeftValue(resultSet.getInt("customer_id"));
-                pair.setRightValue(service);
-                services.add(pair);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return services;
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "SELECT * FROM service WHERE service_status=?");
+        preparedStatement.setString(1, status);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractResultSet(resultSet);
     }
 
-    public List<Pair<Integer, Service>> searchServicesByName(
-            String name)
+    public Pair<Integer, Service> getService(int id) throws SQLException
     {
-        List<Pair<Integer, Service>> services = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM service WHERE service_name=?");
-            preparedStatement.setString(1, name);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Service service = new ServiceImpl();
-
-                service.setId(resultSet.getInt("service_id"));
-                service.setName(resultSet.getString("service_name"));
-                service.setDescription(resultSet.getString("service_description"));
-                service.setPrice(resultSet.getDouble("service_price"));
-                service.setStatus(ServiceStatus.valueOf(resultSet.getString("service_status")
-                                                                 .toUpperCase(Locale.ROOT)));
-//                service.setCustomer(customerRepo.getCustomer(resultSet.getInt("customer_id")));
-                service.setTemplate(templateRepo.getTemplate(resultSet.getInt("template_id")));
-
-                Pair<Integer, Service> pair = new Pair<>();
-                pair.setLeftValue(resultSet.getInt("customer_id"));
-                pair.setRightValue(service);
-                services.add(pair);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return services;
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM service WHERE service_id=?");
+        preparedStatement.setInt(1, id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractResultSet(resultSet).stream().findFirst().orElse(null);
     }
 
-    public List<Pair<Integer, Service>> searchServicesByDescription(
-            String description)
+    public List<Pair<Integer, Service>> getServiceValues() throws SQLException
     {
-        List<Pair<Integer, Service>> services = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM service WHERE service_description=?");
-            preparedStatement.setString(1, description);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Service service = new ServiceImpl();
-
-                service.setId(resultSet.getInt("service_id"));
-                service.setName(resultSet.getString("service_name"));
-                service.setDescription(resultSet.getString("service_description"));
-                service.setPrice(resultSet.getDouble("service_price"));
-                service.setStatus(ServiceStatus.valueOf(resultSet.getString("service_status")
-                                                                 .toUpperCase(Locale.ROOT)));
-//                service.setCustomer(customerRepo.getCustomer(resultSet.getInt("customer_id")));
-                service.setTemplate(templateRepo.getTemplate(resultSet.getInt("template_id")));
-
-                Pair<Integer, Service> pair = new Pair<>();
-                pair.setLeftValue(resultSet.getInt("customer_id"));
-                pair.setRightValue(service);
-                services.add(pair);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return services;
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM service");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractResultSet(resultSet);
     }
 
-    public List<Pair<Integer, Service>> searchServicesByPrice(
-            double price)
+    private void prepareStatement(Service service, PreparedStatement preparedStatement) throws SQLException
     {
-        List<Pair<Integer, Service>> services = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM service WHERE service_price=?");
-            preparedStatement.setDouble(1, price);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Service service = new ServiceImpl();
-
-                service.setId(resultSet.getInt("service_id"));
-                service.setName(resultSet.getString("service_name"));
-                service.setDescription(resultSet.getString("service_description"));
-                service.setPrice(resultSet.getDouble("service_price"));
-                service.setStatus(ServiceStatus.valueOf(resultSet.getString("service_status")
-                                                                 .toUpperCase(Locale.ROOT)));
-//                service.setCustomer(customerRepo.getCustomer(resultSet.getInt("customer_id")));
-                service.setTemplate(templateRepo.getTemplate(resultSet.getInt("template_id")));
-
-                Pair<Integer, Service> pair = new Pair<>();
-                pair.setLeftValue(resultSet.getInt("customer_id"));
-                pair.setRightValue(service);
-                services.add(pair);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return services;
+        preparedStatement.setInt(1, service.getTemplate().getId());
+        preparedStatement.setInt(2, service.getTemplate().getId());
+        preparedStatement.setInt(3, service.getTemplate().getId());
+        preparedStatement.setString(4, service.getStatus().toString());
+        preparedStatement.setInt(5, service.getTemplate().getId());
+        preparedStatement.setInt(6, service.getCustomer().getId());
     }
 
-    public List<Pair<Integer, Service>> searchServiceByTemplateID(int templateID)
+    public void createService(Service service) throws SQLException
     {
-        List<Pair<Integer, Service>> services = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM service WHERE template_id=?");
-            preparedStatement.setInt(1, templateID);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Service service = new ServiceImpl();
-
-                service.setId(resultSet.getInt("service_id"));
-                service.setName(resultSet.getString("service_name"));
-                service.setDescription(resultSet.getString("service_description"));
-                service.setPrice(resultSet.getDouble("service_price"));
-                service.setStatus(ServiceStatus.valueOf(resultSet.getString("service_status")
-                                                                 .toUpperCase(Locale.ROOT)));
-//                service.setCustomer(customerRepo.getCustomer(resultSet.getInt("customer_id")));
-                service.setTemplate(templateRepo.getTemplate(resultSet.getInt("template_id")));
-
-                Pair<Integer, Service> pair = new Pair<>();
-                pair.setLeftValue(resultSet.getInt("customer_id"));
-                pair.setRightValue(service);
-                services.add(pair);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return services;
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "INSERT INTO service VALUES((select coalesce(max(order_id) + 1, 1) from \"order\"), " +
+                        "(select template_name from \"template\" where template_id = ?)," +
+                        " (select template_description from \"template\" where template_id = ?)," +
+                        " (select template_price from \"template\" where template_id = ?), ?, ?, ?)");
+        prepareStatement(service, preparedStatement);
+        preparedStatement.executeUpdate();
     }
 
-    public List<Pair<Integer, Service>> searchServicesByCustomerID(
-            int customerID)
+    public void updateService(int serviceID, Service service) throws SQLException
     {
-        List<Pair<Integer, Service>> services = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM service WHERE customer_id=?");
-            preparedStatement.setInt(1, customerID);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Service service = new ServiceImpl();
-
-                service.setId(resultSet.getInt("service_id"));
-                service.setName(resultSet.getString("service_name"));
-                service.setDescription(resultSet.getString("service_description"));
-                service.setPrice(resultSet.getDouble("service_price"));
-                service.setStatus(ServiceStatus.valueOf(resultSet.getString("service_status")
-                                                                 .toUpperCase(Locale.ROOT)));
-//                service.setCustomer(customerRepo.getCustomer(resultSet.getInt("customer_id")));
-                service.setTemplate(templateRepo.getTemplate(resultSet.getInt("template_id")));
-
-                Pair<Integer, Service> pair = new Pair<>();
-                pair.setLeftValue(resultSet.getInt("customer_id"));
-                pair.setRightValue(service);
-                services.add(pair);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return services;
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "UPDATE service SET service_name=(select template_name from \"template\" where template_id = ?)," +
+                        " service_description=(select template_description from \"template\" where template_id = ?)," +
+                        " service_price= (select template_price from \"template\" where template_id = ?)," +
+                        " service_status=?," +
+                        " template_id=?," +
+                        " customer_id=? WHERE service_id=?");
+        prepareStatement(service, preparedStatement);
+        preparedStatement.setInt(7, serviceID);
+        preparedStatement.executeUpdate();
     }
 
-    public List<Pair<Integer, Service>> searchServicesByStatus(
-            String status)
+    public void deleteService(int id) throws SQLException
     {
-        List<Pair<Integer, Service>> services = new ArrayList<>();
+        PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM service WHERE service_id=?");
+        preparedStatement.setInt(1, id);
 
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM service WHERE service_status=?");
-            preparedStatement.setString(1, status);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Service service = new ServiceImpl();
-
-                service.setId(resultSet.getInt("service_id"));
-                service.setName(resultSet.getString("service_name"));
-                service.setDescription(resultSet.getString("service_description"));
-                service.setPrice(resultSet.getDouble("service_price"));
-                service.setStatus(ServiceStatus.valueOf(resultSet.getString("service_status")
-                                                                 .toUpperCase(Locale.ROOT)));
-//                service.setCustomer(customerRepo.getCustomer(resultSet.getInt("customer_id")));
-                service.setTemplate(templateRepo.getTemplate(resultSet.getInt("template_id")));
-
-                Pair<Integer, Service> pair = new Pair<>();
-                pair.setLeftValue(resultSet.getInt("customer_id"));
-                pair.setRightValue(service);
-                services.add(pair);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return services;
-    }
-
-    public Pair<Integer, Service> getService(int id)
-    {
-        Pair<Integer, Service> pair = null;
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM service WHERE service_id=?");
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Service service = new ServiceImpl();
-
-                service.setId(resultSet.getInt("service_id"));
-                service.setName(resultSet.getString("service_name"));
-                service.setDescription(resultSet.getString("service_description"));
-                service.setPrice(resultSet.getDouble("service_price"));
-                service.setStatus(ServiceStatus.valueOf(resultSet.getString("service_status")
-                                                                 .toUpperCase(Locale.ROOT)));
-//                service.setCustomer(customerRepo.getCustomer(resultSet.getInt("customer_id")));
-                service.setTemplate(templateRepo.getTemplate(resultSet.getInt("template_id")));
-
-                pair = new Pair<>();
-                pair.setLeftValue(resultSet.getInt("customer_id"));
-                pair.setRightValue(service);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return pair;
-    }
-
-    public List<Pair<Integer, Service>> getServiceValues()
-    {
-        List<Pair<Integer, Service>> services = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM service");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Service service = new ServiceImpl();
-
-                service.setId(resultSet.getInt("service_id"));
-                service.setName(resultSet.getString("service_name"));
-                service.setDescription(resultSet.getString("service_description"));
-                service.setPrice(resultSet.getDouble("service_price"));
-                service.setStatus(ServiceStatus.valueOf(resultSet.getString("service_status")
-                                                                 .toUpperCase(Locale.ROOT)));
-//                service.setCustomer(customerRepo.getCustomer(resultSet.getInt("customer_id")));
-                service.setTemplate(templateRepo.getTemplate(resultSet.getInt("template_id")));
-
-                Pair<Integer, Service> pair = new Pair<>();
-                pair.setLeftValue(resultSet.getInt("customer_id"));
-                pair.setRightValue(service);
-                services.add(pair);            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return services;
-    }
-
-    public void createService(Service service){
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO service VALUES((select max(service_id)+1 from service), " +
-                            "(select template_name from \"template\" where template_id = ?)," +
-                            " (select template_description from \"template\" where template_id = ?)," +
-                            " (select template_price from \"template\" where template_id = ?), ?, ?, ?)");
-            preparedStatement.setInt(1, service.getTemplate().getId());
-            preparedStatement.setInt(2, service.getTemplate().getId());
-            preparedStatement.setInt(3, service.getTemplate().getId());
-            preparedStatement.setString(4, service.getStatus().toString());
-            preparedStatement.setInt(5, service.getTemplate().getId());
-            preparedStatement.setInt(6, service.getCustomer().getId());
-
-            preparedStatement.executeUpdate();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-    }
-
-    public void updateService(int serviceID, Service service)
-    {
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "UPDATE service SET service_name=(select template_name from \"template\" where template_id = ?)," +
-                            " service_description=(select template_description from \"template\" where template_id = ?)," +
-                            " service_price= (select template_price from \"template\" where template_id = ?)," +
-                            " service_status=?," +
-                            " template_id=?," +
-                            " customer_id=? WHERE service_id=?");
-            preparedStatement.setInt(1, service.getTemplate().getId());
-            preparedStatement.setInt(2, service.getTemplate().getId());
-            preparedStatement.setInt(3, service.getTemplate().getId());
-            preparedStatement.setString(4, service.getStatus().toString());
-            preparedStatement.setInt(5, service.getTemplate().getId());
-            preparedStatement.setInt(6, service.getCustomer().getId());
-            preparedStatement.setInt(7, service.getId());
-
-            preparedStatement.executeUpdate();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-    }
-
-    public void deleteService(int id){
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM service WHERE service_id=?");
-            preparedStatement.setInt(1, id);
-
-            preparedStatement.executeUpdate();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
+        preparedStatement.executeUpdate();
     }
 }

@@ -9,7 +9,6 @@ import com.netcracker.miniOPF.utils.storageUtils.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -70,33 +69,34 @@ public class ServiceService
                 case "asc" -> {
                     switch (type)
                     {
-                        case "id" -> model.addAttribute("table", this.sortServicesByID());
-                        case "name" -> model.addAttribute("table", this.sortServicesByName());
-                        case "description" -> model.addAttribute("table", this.sortServicesByDescription());
-                        case "price" -> model.addAttribute("table", this.sortServicesByPrice());
-                        case "template" -> model.addAttribute("table", this.sortServicesByTemplateID());
-                        case "customer" -> model.addAttribute("table", this.sortServicesByCustomerID());
-                        case "status" -> model.addAttribute("table", this.sortServicesByStatus());
+                        case "id" -> model.addAttribute("table", this.sortServicesByID(false));
+                        case "name" -> model.addAttribute("table", this.sortServicesByName(false));
+                        case "description" -> model.addAttribute("table", this.sortServicesByDescription(false));
+                        case "price" -> model.addAttribute("table", this.sortServicesByPrice(false));
+                        case "template" -> model.addAttribute("table", this.sortServicesByTemplateID(false));
+                        case "customer" -> model.addAttribute("table", this.sortServicesByCustomerID(false));
+                        case "status" -> model.addAttribute("table", this.sortServicesByStatus(false));
                     }
                 }
                 case "desc" -> {
                     switch (type)
                     {
-                        case "id" -> model.addAttribute("table", this.sortServicesByIDReversed());
-                        case "name" -> model.addAttribute("table", this.sortServicesByNameReversed());
+                        case "id" -> model.addAttribute("table", this.sortServicesByID(true));
+                        case "name" -> model.addAttribute("table", this.sortServicesByName(true));
                         case "description" -> model.addAttribute("table",
-                                                                 this.sortServicesByDescriptionReversed());
-                        case "price" -> model.addAttribute("table", this.sortServicesByPriceReversed());
+                                                                 this.sortServicesByDescription(true));
+                        case "price" -> model.addAttribute("table", this.sortServicesByPrice(true));
                         case "template" -> model.addAttribute("table",
-                                                              this.sortServicesByTemplateIDReversed());
+                                                              this.sortServicesByTemplateID(true));
                         case "customer" -> model.addAttribute("table",
-                                                              this.sortServicesByCustomerIDReversed());
-                        case "status" -> model.addAttribute("table", this.sortServicesByStatusReversed());
+                                                              this.sortServicesByCustomerID(true));
+                        case "status" -> model.addAttribute("table", this.sortServicesByStatus(true));
                     }
                 }
             }
         }
-        catch (SQLException e){
+        catch (SQLException e)
+        {
             model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
             e.printStackTrace();
         }
@@ -138,7 +138,8 @@ public class ServiceService
                 serviceRepo.updateService(service.getId(), service);
             }
         }
-        catch (SQLException e){
+        catch (SQLException e)
+        {
             model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
             e.printStackTrace();
         }
@@ -164,37 +165,18 @@ public class ServiceService
                 serviceRepo.createService(service);
             }
         }
-        catch (SQLException e){
+        catch (SQLException e)
+        {
             model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
             e.printStackTrace();
         }
         return this.showServices(null, "none", null, model);
     }
 
-    public void suspendService(int id)
-    {
-        serviceRepo.suspendService(id);
-    }
-
-    public void resumeService(int id)
-    {
-        serviceRepo.resumeService(id);
-    }
-
-    public void disconnectService(int id)
-    {
-        serviceRepo.disconnectService(id);
-    }
-
-    public void connectService(int templateID, int customerID)
-    {
-        serviceRepo.connectService(templateID, customerID);
-    }
-
-    public List<com.netcracker.miniOPF.model.service.Service> sortServicesByID() throws SQLException
+    public List<com.netcracker.miniOPF.model.service.Service> sortServicesByID(boolean reversed) throws SQLException
     {
         List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
-        List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByID();
+        List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByID(reversed);
         return fillServices(services, pairs);
     }
 
@@ -211,94 +193,54 @@ public class ServiceService
         return services;
     }
 
-    public List<com.netcracker.miniOPF.model.service.Service> sortServicesByIDReversed() throws SQLException
+    public List<com.netcracker.miniOPF.model.service.Service> sortServicesByName(boolean reversed) throws SQLException
     {
         List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
-        List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByIDReversed();
+        List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByName(
+                reversed);
         return fillServices(services, pairs);
     }
 
-    public List<com.netcracker.miniOPF.model.service.Service> sortServicesByName() throws SQLException
+    public List<com.netcracker.miniOPF.model.service.Service> sortServicesByDescription(boolean reversed)
+            throws SQLException
     {
         List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
-        List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByName();
+        List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByDescription(
+                reversed);
         return fillServices(services, pairs);
     }
 
-    public List<com.netcracker.miniOPF.model.service.Service> sortServicesByNameReversed() throws SQLException
+    public List<com.netcracker.miniOPF.model.service.Service> sortServicesByPrice(boolean reversed) throws SQLException
     {
         List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
-        List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByNameReversed();
+        List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByPrice(
+                reversed);
         return fillServices(services, pairs);
     }
 
-    public List<com.netcracker.miniOPF.model.service.Service> sortServicesByDescription() throws SQLException
+    public List<com.netcracker.miniOPF.model.service.Service> sortServicesByTemplateID(boolean reversed)
+            throws SQLException
     {
         List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
-        List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByDescription();
+        List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByTemplateID(
+                reversed);
         return fillServices(services, pairs);
     }
 
-    public List<com.netcracker.miniOPF.model.service.Service> sortServicesByDescriptionReversed() throws SQLException
+    public List<com.netcracker.miniOPF.model.service.Service> sortServicesByCustomerID(boolean reversed)
+            throws SQLException
     {
         List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
-        List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByDescriptionReversed();
+        List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByCustomerID(
+                reversed);
         return fillServices(services, pairs);
     }
 
-    public List<com.netcracker.miniOPF.model.service.Service> sortServicesByPrice() throws SQLException
+    public List<com.netcracker.miniOPF.model.service.Service> sortServicesByStatus(boolean reversed) throws SQLException
     {
         List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
-        List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByPrice();
-        return fillServices(services, pairs);
-    }
-
-    public List<com.netcracker.miniOPF.model.service.Service> sortServicesByPriceReversed() throws SQLException
-    {
-        List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
-        List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByPriceReversed();
-        return fillServices(services, pairs);
-    }
-
-    public List<com.netcracker.miniOPF.model.service.Service> sortServicesByTemplateID() throws SQLException
-    {
-        List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
-        List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByTemplateID();
-        return fillServices(services, pairs);
-    }
-
-    public List<com.netcracker.miniOPF.model.service.Service> sortServicesByTemplateIDReversed() throws SQLException
-    {
-        List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
-        List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByTemplateIDReversed();
-        return fillServices(services, pairs);
-    }
-
-    public List<com.netcracker.miniOPF.model.service.Service> sortServicesByCustomerID() throws SQLException
-    {
-        List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
-        List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByCustomerID();
-        return fillServices(services, pairs);
-    }
-
-    public List<com.netcracker.miniOPF.model.service.Service> sortServicesByCustomerIDReversed() throws SQLException
-    {
-        List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
-        List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByCustomerIDReversed();
-        return fillServices(services, pairs);
-    }
-
-    public List<com.netcracker.miniOPF.model.service.Service> sortServicesByStatus() throws SQLException
-    {
-        List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
-        List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByStatus();
-        return fillServices(services, pairs);
-    }
-
-    public List<com.netcracker.miniOPF.model.service.Service> sortServicesByStatusReversed() throws SQLException
-    {
-        List<com.netcracker.miniOPF.model.service.Service> services = new ArrayList<>();
-        List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByStatusReversed();
+        List<Pair<Integer, com.netcracker.miniOPF.model.service.Service>> pairs = serviceRepo.sortServicesByStatus(
+                reversed);
         return fillServices(services, pairs);
     }
 
@@ -372,17 +314,17 @@ public class ServiceService
         return fillServices(services, pairs);
     }
 
-    public void updateService(int serviceID, com.netcracker.miniOPF.model.service.Service service)
+    public void updateService(int serviceID, com.netcracker.miniOPF.model.service.Service service) throws SQLException
     {
         serviceRepo.updateService(serviceID, service);
     }
 
-    public void deleteService(int id)
+    public void deleteService(int id) throws SQLException
     {
         serviceRepo.deleteService(id);
     }
 
-    public void createService(com.netcracker.miniOPF.model.service.Service service)
+    public void createService(com.netcracker.miniOPF.model.service.Service service) throws SQLException
     {
         serviceRepo.createService(service);
     }

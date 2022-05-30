@@ -259,7 +259,15 @@ public class AdministratorController
                                 Model model)
     {
         model.addAttribute("userId", userId);
-        serviceService.deleteService(service.getId());
+        try
+        {
+            serviceService.deleteService(service.getId());
+        }
+        catch (SQLException e)
+        {
+            model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
+            e.printStackTrace();
+        }
         return serviceService.showServices(null, "none", null, model);
     }
 
