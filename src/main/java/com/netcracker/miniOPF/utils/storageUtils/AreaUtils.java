@@ -3,100 +3,70 @@ package com.netcracker.miniOPF.utils.storageUtils;
 import com.netcracker.miniOPF.model.area.Area;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 @Component
 public class AreaUtils
 {
-    public List<Area> sortAreasByID(List<Area> values)
+    public List<Area> sortAreasByID(List<Area> values, boolean reversed)
+            throws NullPointerException
     {
-        return values.stream().sorted(Comparator.comparingInt(Area::getId)).toList();
-    }
-
-    public List<Area> sortAreasByIDReversed(List<Area> values)
-    {
-        return values.stream().sorted((o1, o2) -> o2.getId() - o1.getId()).toList();
-    }
-
-    public List<Area> sortAreasByName(List<Area> values)
-    {
-        return values.stream().sorted(Comparator.comparing(Area::getName)).toList();
-    }
-
-    public List<Area> sortAreasByNameReversed(List<Area> values)
-    {
-        return values.stream().sorted((o1, o2) -> o2.getName().compareTo(o1.getName())).toList();
-    }
-
-    public List<Area> sortAreasByDescription(List<Area> values)
-    {
-        return values.stream().sorted(Comparator.comparing(Area::getDescription)).toList();
-    }
-
-    public List<Area> sortAreasByDescriptionReversed(List<Area> values)
-    {
-        return values
-                .stream()
-                .sorted((o1, o2) -> o2.getDescription().compareTo(o1.getDescription()))
-                .toList();
-    }
-
-    public Area searchAreaByID(List<Area> values, int id)
-    {
-//        List<Area> list = new ArrayList<>();
-//        for (Area cur : values)
-//        {
-//            if (cur.getID() == id)
-//            {
-//                list.add(cur);
-//            }
-//        }
-//        return list;
-// TODO можно сделать короче values.stream().filter()
-        for (Area cur : values)
+        ListUtils.checkListIsEmptyOrNull(values);
+        if (reversed)
         {
-            if (cur.getId() == id)
-            {
-                return cur;
-            }
+            return values.stream().sorted((o1, o2) -> o2.getId() - o1.getId()).toList();
         }
-        return null;
+        else
+        {
+            return values.stream().sorted(Comparator.comparingInt(Area::getId)).toList();
+        }
     }
 
-    public Area searchAreaByName(List<Area> values, String name)
+    public List<Area> sortAreasByName(List<Area> values, boolean reversed) throws NullPointerException
     {
-//        List<Area> list = new ArrayList<>();
-//        for (Area cur : values)
-//        {
-//            if (cur.getName().equals(name))
-//            {
-//                list.add(cur);
-//            }
-//        }
-//        return list;
-
-        for (Area cur : values)
+        ListUtils.checkListIsEmptyOrNull(values);
+        if (reversed)
         {
-            if (cur.getName().equals(name))
-            {
-                return cur;
-            }
+            return values.stream().sorted((o1, o2) -> o2.getName().compareTo(o1.getName())).toList();
         }
-        return null;
+        else
+        {
+            return values.stream().sorted(Comparator.comparing(Area::getName)).toList();
+        }
     }
 
-    public List<Area> searchAreasByDescription(List<Area> values, String description)
+    public List<Area> sortAreasByDescription(List<Area> values, boolean reversed) throws NullPointerException
     {
-        List<Area> list = new ArrayList<>();
-        for (Area cur : values)
+        ListUtils.checkListIsEmptyOrNull(values);
+        if (reversed)
         {
-            if (cur.getDescription().equals(description))
-            {
-                list.add(cur);
-            }
+            return values
+                    .stream()
+                    .sorted((o1, o2) -> o2.getDescription().compareTo(o1.getDescription()))
+                    .toList();
         }
-        return list;
+        else
+        {
+            return values.stream().sorted(Comparator.comparing(Area::getDescription)).toList();
+        }
+    }
+
+    public Area searchAreaByID(List<Area> values, int id) throws NullPointerException
+    {
+        ListUtils.checkListIsEmptyOrNull(values);
+        return values.stream().filter(i -> i.getId() == id).findAny().orElse(null);
+    }
+
+    public Area searchAreaByName(List<Area> values, String name) throws NullPointerException
+    {
+        ListUtils.checkListIsEmptyOrNull(values);
+        return values.stream().filter(i -> i.getName().equals(name)).findAny().orElse(null);
+    }
+
+    public List<Area> searchAreasByDescription(List<Area> values, String description) throws NullPointerException
+    {
+        ListUtils.checkListIsEmptyOrNull(values);
+        return values.stream().filter(i -> i.getDescription().equals(description)).toList();
     }
 }

@@ -3,11 +3,15 @@ package com.netcracker.miniOPF.model.admin;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 import java.util.Objects;
 
 @JsonTypeName("admin")
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Builder
+@AllArgsConstructor
 public class AdminImpl implements Admin
 {
     @JsonProperty("password")
@@ -97,5 +101,16 @@ public class AdminImpl implements Admin
     public int hashCode()
     {
         return Objects.hash(password, name, login, id);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "AdminImpl{" +
+                "password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", login='" + login + '\'' +
+                ", id=" + id +
+                '}';
     }
 }

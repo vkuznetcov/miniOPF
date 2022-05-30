@@ -24,6 +24,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -125,7 +126,15 @@ public class CustomerPageController {
         order.setService(service);
         order.setStatus(OrderStatus.ENTERING);
         order.setAction(OrderAction.CONNECT);
-        orderRepo.createOrder(order);
+     try
+     {
+         orderRepo.createOrder(order);
+     }
+     catch (SQLException e)
+     {
+         model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
+         e.printStackTrace();
+     }
  }
  else{model.addAttribute("errorMessage", "not enough money");}
         model.addAttribute("name", customerRepo.getCustomer(id).getName());
@@ -144,7 +153,15 @@ public class CustomerPageController {
         service.setStatus(ServiceStatus.SUSPENDED);
         service.setCustomer(customerRepo.getCustomer(id));
         serviceRepo.updateService(serviceid,service);
-        orderRepo.createOrder(order);
+        try
+        {
+            orderRepo.createOrder(order);
+        }
+        catch (SQLException e)
+        {
+            model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
+            e.printStackTrace();
+        }
         model.addAttribute("name", customerRepo.getCustomer(id).getName());
         model.addAttribute("balance",customerRepo.getCustomer(id).getBalance());
         model.addAttribute("id", id);

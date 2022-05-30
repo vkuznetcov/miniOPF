@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
@@ -84,9 +85,11 @@ public class TemplateService
         return "admin/templates";
     }
 
-    private boolean checkParams(TemplateImpl template, String areaId, StringBuilder errorMessage){
+    private boolean checkParams(TemplateImpl template, String areaId, StringBuilder errorMessage) throws SQLException
+    {
         boolean error = false;
-        if(areaRepo.getArea(Integer.parseInt(areaId)) == null){
+        if (areaRepo.getArea(Integer.parseInt(areaId)) == null)
+        {
             errorMessage.append("There is no such area! ");
             error = true;
         }
@@ -95,32 +98,52 @@ public class TemplateService
 
     public String updateTemplates(TemplateImpl template, String areaId, Model model)
     {
-        String errorMessage = "";
-        StringBuilder stringBuilder = new StringBuilder(errorMessage);
-        if(checkParams(template, areaId, stringBuilder)){
-            stringBuilder.append("Error index: ").append(template.getId());
-            model.addAttribute("errorMessage", stringBuilder.toString());
+        try
+        {
+            String errorMessage = "";
+            StringBuilder stringBuilder = new StringBuilder(errorMessage);
+            if (checkParams(template, areaId, stringBuilder))
+            {
+                stringBuilder.append("Error index: ").append(template.getId());
+                model.addAttribute("errorMessage", stringBuilder.toString());
+            }
+            else
+            {
+                template.setArea(areaRepo.getArea(Integer.parseInt(areaId)));
+                templateRepo.updateTemplate(template.getId(), template);
+            }
         }
-        else{
-            template.setArea(areaRepo.getArea(Integer.parseInt(areaId)));
-            templateRepo.updateTemplate(template.getId(), template);
+        catch (SQLException e)
+        {
+            model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
+            e.printStackTrace();
         }
         return this.showTemplates(null, "none", null, model);
     }
 
     public String createTemplate(@ModelAttribute("template") TemplateImpl template,
-                                  @RequestParam(name = "areaId")String areaId,
-                                  Model model)
+                                 @RequestParam(name = "areaId") String areaId,
+                                 Model model)
     {
-        String errorMessage = "";
-        StringBuilder stringBuilder = new StringBuilder(errorMessage);
-        if(checkParams(template, areaId, stringBuilder)){
-            stringBuilder.append("Error index: new object creation");
-            model.addAttribute("errorMessage", stringBuilder.toString());
+        try
+        {
+            String errorMessage = "";
+            StringBuilder stringBuilder = new StringBuilder(errorMessage);
+            if (checkParams(template, areaId, stringBuilder))
+            {
+                stringBuilder.append("Error index: new object creation");
+                model.addAttribute("errorMessage", stringBuilder.toString());
+            }
+            else
+            {
+                template.setArea(areaRepo.getArea(Integer.parseInt(areaId)));
+                templateRepo.createTemplate(template);
+            }
         }
-        else{
-            template.setArea(areaRepo.getArea(Integer.parseInt(areaId)));
-            templateRepo.createTemplate(template);
+        catch (SQLException e)
+        {
+            model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
+            e.printStackTrace();
         }
         return this.showTemplates(null, "none", null, model);
     }

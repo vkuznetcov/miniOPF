@@ -2,9 +2,6 @@ package com.netcracker.miniOPF.utils.repos;
 
 import com.netcracker.miniOPF.model.admin.Admin;
 import com.netcracker.miniOPF.model.admin.AdminImpl;
-import com.netcracker.miniOPF.model.storage.Storage;
-import com.netcracker.miniOPF.utils.storageUtils.AdminUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -40,450 +37,129 @@ public class AdminRepo
         }
     }
 
-    private final Storage storage;
-    private final AdminUtils adminUtils;
-
-    @Autowired
-    public AdminRepo(Storage storage,
-                     AdminUtils adminUtils
-                    )
+    private List<Admin> extractAdminsResultSet(ResultSet resultSet) throws SQLException
     {
-        this.storage = storage;
-        this.adminUtils = adminUtils;
-    }
-
-    /* TODO Во всех методах, где создается сущность из resultSet эти строки одинаковые
-     *   нужно вынести эти строки в метод, который на вход принимает resultSet и возвращает
-     *   Admin. Это сильно сократит количество кода
-     */
-    public List<Admin> sortAdminsByID()
-    {
-        List<Admin> admins = new ArrayList<>();
-
-        try
+        List<Admin> result = new ArrayList<>();
+        while (resultSet.next())
         {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM admin ORDER BY admin_id ASC");
-            ResultSet resultSet = preparedStatement.executeQuery();
+            Admin admin = new AdminImpl();
 
-            while (resultSet.next())
-            {
-                Admin admin = new AdminImpl();
-
-                admin.setId(resultSet.getInt("admin_id"));
-                admin.setLogin(resultSet.getString("admin_login"));
-                admin.setName(resultSet.getString("admin_name"));
-                admin.setPassword(resultSet.getString("admin_password"));
-
-                admins.add(admin);
-            }
-        }
-        /* TODO Не очень хорошая практика отлавливать ексепшены без корректной обработки
-         *   нужно либо выше прокидывать ошибку с сообщением, либо решать проблему в catch блоке*/
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return admins;
-    }
-
-
-    public List<Admin> sortAdminsByIDReversed()
-    {
-        List<Admin> admins = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM admin ORDER BY admin_id DESC");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Admin admin = new AdminImpl();
-
-                admin.setId(resultSet.getInt("admin_id"));
-                admin.setLogin(resultSet.getString("admin_login"));
-                admin.setName(resultSet.getString("admin_name"));
-                admin.setPassword(resultSet.getString("admin_password"));
-                admins.add(admin);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return admins;
-    }
-
-    public List<Admin> sortAdminsByLogin()
-    {
-        List<Admin> admins = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM admin ORDER BY admin_login ASC");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Admin admin = new AdminImpl();
-
-                admin.setId(resultSet.getInt("admin_id"));
-                admin.setLogin(resultSet.getString("admin_login"));
-                admin.setName(resultSet.getString("admin_name"));
-                admin.setPassword(resultSet.getString("admin_password"));
-                admins.add(admin);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return admins;
-    }
-
-    public List<Admin> sortAdminsByLoginReversed()
-    {
-        List<Admin> admins = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM admin ORDER BY admin_login DESC");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Admin admin = new AdminImpl();
-
-                admin.setId(resultSet.getInt("admin_id"));
-                admin.setLogin(resultSet.getString("admin_login"));
-                admin.setName(resultSet.getString("admin_name"));
-                admin.setPassword(resultSet.getString("admin_password"));
-                admins.add(admin);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return admins;
-    }
-
-    public List<Admin> sortAdminsByName()
-    {
-        List<Admin> admins = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM admin ORDER BY admin_name ASC");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Admin admin = new AdminImpl();
-
-                admin.setId(resultSet.getInt("admin_id"));
-                admin.setLogin(resultSet.getString("admin_login"));
-                admin.setName(resultSet.getString("admin_name"));
-                admin.setPassword(resultSet.getString("admin_password"));
-                admins.add(admin);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return admins;
-    }
-
-    public List<Admin> sortAdminsByNameReversed()
-    {
-        List<Admin> admins = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM admin ORDER BY admin_name DESC");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Admin admin = new AdminImpl();
-
-                admin.setId(resultSet.getInt("admin_id"));
-                admin.setLogin(resultSet.getString("admin_login"));
-                admin.setName(resultSet.getString("admin_name"));
-                admin.setPassword(resultSet.getString("admin_password"));
-                admins.add(admin);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return admins;
-    }
-
-    public List<Admin> sortAdminsByPassword()
-    {
-        List<Admin> admins = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM admin ORDER BY admin_password ASC");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Admin admin = new AdminImpl();
-
-                admin.setId(resultSet.getInt("admin_id"));
-                admin.setLogin(resultSet.getString("admin_login"));
-                admin.setName(resultSet.getString("admin_name"));
-                admin.setPassword(resultSet.getString("admin_password"));
-
-                admins.add(admin);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return admins;
-    }
-
-    public List<Admin> sortAdminsByPasswordReversed()
-    {
-        List<Admin> admins = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM admin ORDER BY admin_password DESC");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Admin admin = new AdminImpl();
-
-                admin.setId(resultSet.getInt("admin_id"));
-                admin.setLogin(resultSet.getString("admin_login"));
-                admin.setName(resultSet.getString("admin_name"));
-                admin.setPassword(resultSet.getString("admin_password"));
-                admins.add(admin);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return admins;
-    }
-
-    public Admin searchAdminByLogin(String login)
-    {
-        Admin admin = null;
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM admin WHERE admin_login=?");
-            preparedStatement.setString(1, login);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            resultSet.next();
-
-            admin = new AdminImpl();
             admin.setId(resultSet.getInt("admin_id"));
             admin.setLogin(resultSet.getString("admin_login"));
             admin.setName(resultSet.getString("admin_name"));
             admin.setPassword(resultSet.getString("admin_password"));
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
 
-        return admin;
+            result.add(admin);
+        }
+        return result;
     }
 
-    public List<Admin> searchAdminsByName(String name)
+    public List<Admin> sortAdminsByID(boolean reversed) throws SQLException
     {
-        List<Admin> admins = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM admin WHERE admin_name=?");
-            preparedStatement.setString(1, name);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Admin admin = new AdminImpl();
-
-                admin.setId(resultSet.getInt("admin_id"));
-                admin.setLogin(resultSet.getString("admin_login"));
-                admin.setName(resultSet.getString("admin_name"));
-                admin.setPassword(resultSet.getString("admin_password"));
-                admins.add(admin);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return admins;
+        String query = "SELECT * FROM admin ORDER BY admin_id ";
+        query += reversed ? "DESC" : "ASC";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractAdminsResultSet(resultSet);
     }
 
-    public List<Admin> searchAdminsByPassword(String password)
+    public List<Admin> sortAdminsByLogin(boolean reversed) throws SQLException
     {
-        List<Admin> admins = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM admin WHERE admin_password=?");
-            preparedStatement.setString(1, password);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Admin admin = new AdminImpl();
-
-                admin.setId(resultSet.getInt("admin_id"));
-                admin.setLogin(resultSet.getString("admin_login"));
-                admin.setName(resultSet.getString("admin_name"));
-                admin.setPassword(resultSet.getString("admin_password"));
-                admins.add(admin);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return admins;
+        String query = "SELECT * FROM admin ORDER BY admin_login ";
+        query += reversed ? "DESC" : "ASC";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractAdminsResultSet(resultSet);
     }
 
-    public Admin getAdmin(int id)
+    public List<Admin> sortAdminsByName(boolean reversed) throws SQLException
     {
-        Admin admin = null;
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM admin WHERE admin_id=?");
-            preparedStatement.setInt(1, id);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-           while(resultSet.next())
-           {
-
-               admin = new AdminImpl();
-               admin.setId(resultSet.getInt("admin_id"));
-               admin.setLogin(resultSet.getString("admin_login"));
-               admin.setName(resultSet.getString("admin_name"));
-               admin.setPassword(resultSet.getString("admin_password"));
-           }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-        return admin;
+        String query = "SELECT * FROM admin ORDER BY admin_name ";
+        query += reversed ? "DESC" : "ASC";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractAdminsResultSet(resultSet);
     }
 
-    public void deleteAdmin(int id)
+    public List<Admin> sortAdminsByPassword(boolean reversed) throws SQLException
     {
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM admin WHERE admin_id=?");
-            preparedStatement.setInt(1, id);
-
-            preparedStatement.executeUpdate();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
+        String query = "SELECT * FROM admin ORDER BY admin_password ";
+        query += reversed ? "DESC" : "ASC";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractAdminsResultSet(resultSet);
     }
 
-    public List<Admin> getAdminValues()
+    public Admin searchAdminByLogin(String login) throws SQLException
     {
-        List<Admin> admins = new ArrayList<>();
-
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM admin");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next())
-            {
-                Admin admin = new AdminImpl();
-
-                admin.setId(resultSet.getInt("admin_id"));
-                admin.setLogin(resultSet.getString("admin_login"));
-                admin.setName(resultSet.getString("admin_name"));
-                admin.setPassword(resultSet.getString("admin_password"));
-                admins.add(admin);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return admins;
-//        return adminMap.values().stream().toList();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM admin WHERE admin_login=?");
+        preparedStatement.setString(1, login);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractAdminsResultSet(resultSet)
+                   .stream()
+                   .filter(i -> i.getLogin().equals(login))
+                   .findAny()
+                   .orElse(null);
     }
 
-    public void createAdmin(Admin admin)
+    public List<Admin> searchAdminsByName(String name) throws SQLException
     {
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO admin VALUES((select max(admin_id)+1 from admin), ?, ?, ?)");
-            preparedStatement.setString(1, admin.getLogin());
-            preparedStatement.setString(2, admin.getPassword());
-            preparedStatement.setString(3, admin.getName());
-
-            preparedStatement.executeUpdate();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM admin WHERE admin_name=?");
+        preparedStatement.setString(1, name);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractAdminsResultSet(resultSet);
     }
 
-    public void updateAdmin(int id, Admin admin)
+    public List<Admin> searchAdminsByPassword(String password) throws SQLException
     {
-        try
-        {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "UPDATE admin SET admin_name=?, admin_login=?, admin_password=? WHERE admin_id=?");
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "SELECT * FROM admin WHERE admin_password=?");
+        preparedStatement.setString(1, password);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractAdminsResultSet(resultSet);
+    }
 
-            preparedStatement.setString(1, admin.getName());
-            preparedStatement.setString(2, admin.getLogin());
-            preparedStatement.setString(3, admin.getPassword());
-            preparedStatement.setInt(4, id);
+    public Admin getAdmin(int id) throws SQLException
+    {
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM admin WHERE admin_id=?");
+        preparedStatement.setInt(1, id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractAdminsResultSet(resultSet).stream().filter(i -> i.getId() == id).findAny().orElse(null);
+    }
 
-            preparedStatement.executeUpdate();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
+    public void deleteAdmin(int id) throws SQLException
+    {
+        PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM admin WHERE admin_id=?");
+        preparedStatement.setInt(1, id);
+        preparedStatement.executeUpdate();
+    }
+
+    public List<Admin> getAdminValues() throws SQLException
+    {
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM admin");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return this.extractAdminsResultSet(resultSet);
+    }
+
+    public void createAdmin(Admin admin) throws SQLException
+    {
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "INSERT INTO admin VALUES((select max(admin_id)+1 from admin), ?, ?, ?)");
+        preparedStatement.setString(1, admin.getLogin());
+        preparedStatement.setString(2, admin.getPassword());
+        preparedStatement.setString(3, admin.getName());
+        preparedStatement.executeUpdate();
+    }
+
+    public void updateAdmin(int id, Admin admin) throws SQLException
+    {
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "UPDATE admin SET admin_name=?, admin_login=?, admin_password=? WHERE admin_id=?");
+
+        preparedStatement.setString(1, admin.getName());
+        preparedStatement.setString(2, admin.getLogin());
+        preparedStatement.setString(3, admin.getPassword());
+        preparedStatement.setInt(4, id);
+        preparedStatement.executeUpdate();
     }
 }

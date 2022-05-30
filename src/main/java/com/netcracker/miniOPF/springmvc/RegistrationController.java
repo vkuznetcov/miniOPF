@@ -3,11 +3,11 @@ package com.netcracker.miniOPF.springmvc;
 import com.netcracker.miniOPF.model.admin.Admin;
 import com.netcracker.miniOPF.model.admin.AdminImpl;
 import com.netcracker.miniOPF.model.area.Area;
+import com.netcracker.miniOPF.model.customer.Customer;
+import com.netcracker.miniOPF.model.customer.CustomerImpl;
 import com.netcracker.miniOPF.utils.repos.AdminRepo;
 import com.netcracker.miniOPF.utils.repos.AreaRepo;
 import com.netcracker.miniOPF.utils.repos.CustomerRepo;
-import com.netcracker.miniOPF.model.customer.Customer;
-import com.netcracker.miniOPF.model.customer.CustomerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,17 +40,24 @@ public class RegistrationController
     @GetMapping("/registration")
     public String showRegister(Model model)
     {
-        model.addAttribute("username", "");
-        model.addAttribute("area", "");
-        model.addAttribute("login", "");
-        List<String> arealist = new ArrayList<>();
-        for(Area area: areaRepo.getAreaValues())
+        try
         {
-            arealist.add(area.getName());
+            model.addAttribute("username", "");
+            model.addAttribute("area", "");
+            model.addAttribute("login", "");
+            List<String> arealist = new ArrayList<>();
+            for (Area area : areaRepo.getAreaValues())
+            {
+                arealist.add(area.getName());
+            }
+            model.addAttribute("areas", arealist);
+            model.addAttribute("errorMessage", "");
         }
-        model.addAttribute("areas", arealist);
-        model.addAttribute("errorMessage", "");
-
+        catch (SQLException e)
+        {
+            model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
+            e.printStackTrace();
+        }
         return "registration";
     }
 
@@ -72,7 +80,15 @@ public class RegistrationController
                 admin.setName(name);
                 admin.setLogin(login);
                 admin.setPassword(password);
-                adminRepo.createAdmin(admin);
+                try
+                {
+                    adminRepo.createAdmin(admin);
+                }
+                catch (SQLException e)
+                {
+                    model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
+                    e.printStackTrace();
+                }
                 model.addAttribute("admin", admin);
                 return "redirect:/authorization";
             }
@@ -85,7 +101,15 @@ public class RegistrationController
                 customer.setName(name);
                 customer.setLogin(login);
                 customer.setPassword(password);
-                customer.setArea(areaRepo.searchAreaByName(area));
+                try
+                {
+                    customer.setArea(areaRepo.searchAreaByName(area));
+                }
+                catch (SQLException e)
+                {
+                    model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
+                    e.printStackTrace();
+                }
                 customerRepo.createCustomer(customer);
                 model.addAttribute("customer", customer);
                 return "redirect:/authorization";
