@@ -60,38 +60,22 @@ public class ServiceService
                 }
                 return "admin/services";
             }
-            switch (sort)
+            boolean reversed = sort.equals("desc");
+            model.addAttribute("table", this.sortServicesByID(reversed));
+            if (Objects.nonNull(type))
             {
-                case "none" -> {
-                    model.addAttribute("table", this.getServiceValues());
-                    return "admin/services";
-                }
-                case "asc" -> {
-                    switch (type)
-                    {
-                        case "id" -> model.addAttribute("table", this.sortServicesByID(false));
-                        case "name" -> model.addAttribute("table", this.sortServicesByName(false));
-                        case "description" -> model.addAttribute("table", this.sortServicesByDescription(false));
-                        case "price" -> model.addAttribute("table", this.sortServicesByPrice(false));
-                        case "template" -> model.addAttribute("table", this.sortServicesByTemplateID(false));
-                        case "customer" -> model.addAttribute("table", this.sortServicesByCustomerID(false));
-                        case "status" -> model.addAttribute("table", this.sortServicesByStatus(false));
-                    }
-                }
-                case "desc" -> {
-                    switch (type)
-                    {
-                        case "id" -> model.addAttribute("table", this.sortServicesByID(true));
-                        case "name" -> model.addAttribute("table", this.sortServicesByName(true));
-                        case "description" -> model.addAttribute("table",
-                                                                 this.sortServicesByDescription(true));
-                        case "price" -> model.addAttribute("table", this.sortServicesByPrice(true));
-                        case "template" -> model.addAttribute("table",
-                                                              this.sortServicesByTemplateID(true));
-                        case "customer" -> model.addAttribute("table",
-                                                              this.sortServicesByCustomerID(true));
-                        case "status" -> model.addAttribute("table", this.sortServicesByStatus(true));
-                    }
+                switch (type)
+                {
+                    case "id" -> model.addAttribute("table", this.sortServicesByID(reversed));
+                    case "name" -> model.addAttribute("table", this.sortServicesByName(reversed));
+                    case "description" -> model.addAttribute("table",
+                                                             this.sortServicesByDescription(reversed));
+                    case "price" -> model.addAttribute("table", this.sortServicesByPrice(reversed));
+                    case "template" -> model.addAttribute("table",
+                                                          this.sortServicesByTemplateID(reversed));
+                    case "customer" -> model.addAttribute("table",
+                                                          this.sortServicesByCustomerID(reversed));
+                    case "status" -> model.addAttribute("table", this.sortServicesByStatus(reversed));
                 }
             }
         }

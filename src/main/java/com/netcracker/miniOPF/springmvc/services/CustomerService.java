@@ -46,34 +46,19 @@ public class CustomerService
                 }
                 return "admin/customers";
             }
-            switch (sort)
+            boolean reversed = sort.equals("desc");
+            model.addAttribute("table", customerRepo.sortCustomersByID(reversed));
+            if (Objects.nonNull(type))
             {
-                case "none" -> {
-                    model.addAttribute("table", customerRepo.getCustomerValues());
-                    return "admin/customers";
-                }
-                case "asc" -> {
-                    switch (type)
-                    {
-                        case "id" -> model.addAttribute("table", customerRepo.sortCustomersByID(false));
-                        case "name" -> model.addAttribute("table", customerRepo.sortCustomersByName(false));
-                        case "login" -> model.addAttribute("table", customerRepo.sortCustomersByLogin(false));
-                        case "password" -> model.addAttribute("table", customerRepo.sortCustomersByPassword(false));
-                        case "balance" -> model.addAttribute("table", customerRepo.sortCustomersByBalance(false));
-                        case "area" -> model.addAttribute("table", customerRepo.sortCustomersByArea(false));
-                    }
-                }
-                case "desc" -> {
-                    switch (type)
-                    {
-                        case "id" -> model.addAttribute("table", customerRepo.sortCustomersByID(true));
-                        case "name" -> model.addAttribute("table", customerRepo.sortCustomersByName(true));
-                        case "login" -> model.addAttribute("table", customerRepo.sortCustomersByLogin(true));
-                        case "password" -> model.addAttribute("table",
-                                                              customerRepo.sortCustomersByPassword(true));
-                        case "balance" -> model.addAttribute("table", customerRepo.sortCustomersByBalance(true));
-                        case "area" -> model.addAttribute("table", customerRepo.sortCustomersByArea(true));
-                    }
+                switch (type)
+                {
+                    case "id" -> model.addAttribute("table", customerRepo.sortCustomersByID(reversed));
+                    case "name" -> model.addAttribute("table", customerRepo.sortCustomersByName(reversed));
+                    case "login" -> model.addAttribute("table", customerRepo.sortCustomersByLogin(reversed));
+                    case "password" -> model.addAttribute("table",
+                                                          customerRepo.sortCustomersByPassword(reversed));
+                    case "balance" -> model.addAttribute("table", customerRepo.sortCustomersByBalance(reversed));
+                    case "area" -> model.addAttribute("table", customerRepo.sortCustomersByArea(reversed));
                 }
             }
         }

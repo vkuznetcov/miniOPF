@@ -7,8 +7,6 @@ import com.netcracker.miniOPF.utils.repos.TemplateRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -48,43 +46,26 @@ public class TemplateService
                 }
                 return "admin/templates";
             }
-            switch (sort)
+            boolean reversed = sort.equals("desc");
+            model.addAttribute("table", templateRepo.sortTemplatesByID(reversed));
+            if (Objects.nonNull(type))
             {
-                case "none" -> {
-                    model.addAttribute("table", templateRepo.getTemplateValues());
-                    return "admin/templates";
-                }
-                case "asc" -> {
-                    switch (type)
-                    {
-                        case "id" -> model.addAttribute("table", templateRepo.sortTemplatesByID(false));
-                        case "name" -> model.addAttribute("table",
-                                                          templateRepo.sortTemplatesByName(false));
-                        case "description" -> model.addAttribute("table",
-                                                                 templateRepo.sortTemplatesByDescription(false));
-                        case "price" -> model.addAttribute("table",
-                                                           templateRepo.sortTemplatesByPrice(false));
-                        case "area" -> model.addAttribute("table",
-                                                          templateRepo.sortTemplatesByAreaID(false));
-                    }
-                }
-                case "desc" -> {
-                    switch (type)
-                    {
-                        case "id" -> model.addAttribute("table", templateRepo.sortTemplatesByID(true));
-                        case "name" -> model.addAttribute("table",
-                                                          templateRepo.sortTemplatesByName(true));
-                        case "description" -> model.addAttribute("table",
-                                                                 templateRepo.sortTemplatesByDescription(true));
-                        case "price" -> model.addAttribute("table",
-                                                           templateRepo.sortTemplatesByPrice(true));
-                        case "area" -> model.addAttribute("table",
-                                                          templateRepo.sortTemplatesByAreaID(true));
-                    }
+                switch (type)
+                {
+                    case "id" -> model.addAttribute("table", templateRepo.sortTemplatesByID(reversed));
+                    case "name" -> model.addAttribute("table",
+                                                      templateRepo.sortTemplatesByName(reversed));
+                    case "description" -> model.addAttribute("table",
+                                                             templateRepo.sortTemplatesByDescription(reversed));
+                    case "price" -> model.addAttribute("table",
+                                                       templateRepo.sortTemplatesByPrice(reversed));
+                    case "area" -> model.addAttribute("table",
+                                                      templateRepo.sortTemplatesByAreaID(reversed));
                 }
             }
         }
-        catch (SQLException e){
+        catch (SQLException e)
+        {
             model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
             e.printStackTrace();
         }

@@ -9,7 +9,6 @@ import com.netcracker.miniOPF.utils.repos.TemplateRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -38,7 +37,7 @@ public class AdminService
     public String showAdmins(String type, String sort, String value, Model model)
     {
         /* TODO добавить возможность одновременно сортировки и поиска. Можно через sql одновременно искать и сортировать
-        *   либо сначала искать через sql и потом уже сортить*/
+         *   либо сначала искать через sql и потом уже сортить*/
         try
         {
             if (Objects.nonNull(value))
@@ -52,33 +51,23 @@ public class AdminService
                 }
                 return "admin/admins";
             }
-            switch (sort)
+
+            boolean reversed = sort.equals("desc");
+            model.addAttribute("table", adminRepo.sortAdminsByID(reversed));
+            if(Objects.nonNull(type))
             {
-                case "none" -> {
-                    model.addAttribute("table", adminRepo.getAdminValues());
-                    return "admin/admins";
-                }
-                case "asc" -> {
-                    switch (type)
-                    {
-                        case "id" -> model.addAttribute("table", adminRepo.sortAdminsByID(false));
-                        case "name" -> model.addAttribute("table", adminRepo.sortAdminsByName(false));
-                        case "login" -> model.addAttribute("table", adminRepo.sortAdminsByLogin(false));
-                        case "password" -> model.addAttribute("table", adminRepo.sortAdminsByPassword(false));
-                    }
-                }
-                case "desc" -> {
-                    switch (type)
-                    {
-                        case "id" -> model.addAttribute("table", adminRepo.sortAdminsByID(true));
-                        case "name" -> model.addAttribute("table", adminRepo.sortAdminsByName(true));
-                        case "login" -> model.addAttribute("table", adminRepo.sortAdminsByLogin(true));
-                        case "password" -> model.addAttribute("table", adminRepo.sortAdminsByPassword(true));
-                    }
+                switch (type)
+                {
+                    case "id" -> model.addAttribute("table", adminRepo.sortAdminsByID(reversed));
+                    case "name" -> model.addAttribute("table", adminRepo.sortAdminsByName(reversed));
+                    case "login" -> model.addAttribute("table", adminRepo.sortAdminsByLogin(reversed));
+                    case "password" -> model.addAttribute("table", adminRepo.sortAdminsByPassword(reversed));
                 }
             }
+
         }
-        catch(SQLException e){
+        catch (SQLException e)
+        {
             model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
             e.printStackTrace();
         }
@@ -115,7 +104,8 @@ public class AdminService
             user.setLogin(admin.getLogin());
             adminRepo.updateAdmin(user.getId(), user);
         }
-        catch (SQLException e){
+        catch (SQLException e)
+        {
             model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
             e.printStackTrace();
         }

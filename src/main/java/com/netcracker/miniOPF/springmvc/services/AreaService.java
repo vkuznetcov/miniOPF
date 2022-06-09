@@ -5,7 +5,6 @@ import com.netcracker.miniOPF.utils.repos.AreaRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -36,31 +35,20 @@ public class AreaService
                 }
                 return "admin/areas";
             }
-            switch (sort)
+            boolean reversed = sort.equals("desc");
+            model.addAttribute("table", areaRepo.sortAreasByID(reversed));
+            if (Objects.nonNull(type))
             {
-                case "none" -> {
-                    model.addAttribute("table", areaRepo.getAreaValues());
-                    return "admin/areas";
-                }
-                case "asc" -> {
-                    switch (type)
-                    {
-                        case "id" -> model.addAttribute("table", areaRepo.sortAreasByID(false));
-                        case "name" -> model.addAttribute("table", areaRepo.sortAreasByName(false));
-                        case "description" -> model.addAttribute("table", areaRepo.sortAreasByDescription(false));
-                    }
-                }
-                case "desc" -> {
-                    switch (type)
-                    {
-                        case "id" -> model.addAttribute("table", areaRepo.sortAreasByID(true));
-                        case "name" -> model.addAttribute("table", areaRepo.sortAreasByName(true));
-                        case "description" -> model.addAttribute("table", areaRepo.sortAreasByDescription(true));
-                    }
+                switch (type)
+                {
+                    case "id" -> model.addAttribute("table", areaRepo.sortAreasByID(reversed));
+                    case "name" -> model.addAttribute("table", areaRepo.sortAreasByName(reversed));
+                    case "description" -> model.addAttribute("table", areaRepo.sortAreasByDescription(reversed));
                 }
             }
         }
-        catch(SQLException e){
+        catch (SQLException e)
+        {
             model.addAttribute("errorMessage", "DataBase error: " + e.getMessage());
             e.printStackTrace();
         }

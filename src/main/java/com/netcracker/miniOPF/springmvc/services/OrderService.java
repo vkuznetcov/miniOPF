@@ -57,39 +57,21 @@ public class OrderService
                 }
                 return "admin/orders";
             }
-            switch (sort)
+            boolean reversed = sort.equals("desc");
+            model.addAttribute("table", orderRepo.sortOrdersByID(reversed));
+            if (Objects.nonNull(type))
             {
-                case "none" -> {
-                    model.addAttribute("table", orderRepo.getOrderValues());
-                    return "admin/orders";
-                }
-                case "asc" -> {
-                    switch (type)
-                    {
-                        case "id" -> model.addAttribute("table", orderRepo.sortOrdersByID(false));
-                        case "admin" -> model.addAttribute("table",
-                                                           orderRepo.sortOrdersByAdminID(false));
-                        case "service" -> model.addAttribute("table",
-                                                             orderRepo.sortOrdersByServiceID(false));
-                        case "status" -> model.addAttribute("table",
-                                                            orderRepo.sortOrdersByStatus(false));
-                        case "action" -> model.addAttribute("table",
-                                                            orderRepo.sortOrdersByAction(false));
-                    }
-                }
-                case "desc" -> {
-                    switch (type)
-                    {
-                        case "id" -> model.addAttribute("table", orderRepo.sortOrdersByID(true));
-                        case "admin" -> model.addAttribute("table",
-                                                           orderRepo.sortOrdersByAdminID(true));
-                        case "service" -> model.addAttribute("table",
-                                                             orderRepo.sortOrdersByServiceID(true));
-                        case "status" -> model.addAttribute("table",
-                                                            orderRepo.sortOrdersByStatus(true));
-                        case "action" -> model.addAttribute("table",
-                                                            orderRepo.sortOrdersByAction(true));
-                    }
+                switch (type)
+                {
+                    case "id" -> model.addAttribute("table", orderRepo.sortOrdersByID(reversed));
+                    case "admin" -> model.addAttribute("table",
+                                                       orderRepo.sortOrdersByAdminID(reversed));
+                    case "service" -> model.addAttribute("table",
+                                                         orderRepo.sortOrdersByServiceID(reversed));
+                    case "status" -> model.addAttribute("table",
+                                                        orderRepo.sortOrdersByStatus(reversed));
+                    case "action" -> model.addAttribute("table",
+                                                        orderRepo.sortOrdersByAction(reversed));
                 }
             }
         }
@@ -289,42 +271,22 @@ public class OrderService
                 }
                 return "admin/adminorders";
             }
-            switch (sort)
+            boolean reversed = sort.equals("desc");
+            model.addAttribute("table", orderUtils.sortOrdersByID(myOrders, reversed));
+            if (Objects.nonNull(type))
             {
-                case "none" -> {
-                    model.addAttribute("table", myOrders);
-                    return "admin/adminorders";
-                }
-                case "asc" -> {
-                    switch (type)
-                    {
-
-                        case "id" -> model.addAttribute("table",
-                                                        orderUtils.sortOrdersByID(myOrders));
-                        case "admin" -> model.addAttribute("table",
-                                                           orderUtils.sortOrdersByAdminID(myOrders));
-                        case "service" -> model.addAttribute("table",
-                                                             orderUtils.sortOrdersByServiceID(myOrders));
-                        case "status" -> model.addAttribute("table",
-                                                            orderUtils.sortOrdersByStatus(myOrders));
-                        case "action" -> model.addAttribute("table",
-                                                            orderUtils.sortOrdersByAction(myOrders));
-                    }
-                }
-                case "desc" -> {
-                    switch (type)
-                    {
-                        case "id" -> model.addAttribute("table",
-                                                        orderUtils.sortOrdersByIDReversed(myOrders));
-                        case "admin" -> model.addAttribute("table",
-                                                           orderUtils.sortOrdersByAdminIDReversed(myOrders));
-                        case "service" -> model.addAttribute("table",
-                                                             orderUtils.sortOrdersByServiceIDReversed(myOrders));
-                        case "status" -> model.addAttribute("table",
-                                                            orderUtils.sortOrdersByStatusReversed(myOrders));
-                        case "action" -> model.addAttribute("table",
-                                                            orderUtils.sortOrdersByActionReversed(myOrders));
-                    }
+                switch (type)
+                {
+                    case "id" -> model.addAttribute("table",
+                                                    orderUtils.sortOrdersByID(myOrders, reversed));
+                    case "admin" -> model.addAttribute("table",
+                                                       orderUtils.sortOrdersByAdminID(myOrders, reversed));
+                    case "service" -> model.addAttribute("table",
+                                                         orderUtils.sortOrdersByServiceID(myOrders, reversed));
+                    case "status" -> model.addAttribute("table",
+                                                        orderUtils.sortOrdersByStatus(myOrders, reversed));
+                    case "action" -> model.addAttribute("table",
+                                                        orderUtils.sortOrdersByAction(myOrders, reversed));
                 }
             }
         }
