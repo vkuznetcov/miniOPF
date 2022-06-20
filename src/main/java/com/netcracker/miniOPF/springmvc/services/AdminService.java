@@ -110,7 +110,7 @@ public class AdminService
                 model.addAttribute("errorMessage", errorMessage.toString());
                 return "/admin/settings";
             }
-            user.setPassword(admin.getPassword());
+            user.setPassword(newPassword);
             user.setName(admin.getName());
             user.setLogin(admin.getLogin());
             adminRepo.updateAdmin(user.getId(), user);
